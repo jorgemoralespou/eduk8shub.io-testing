@@ -1,0 +1,19 @@
+baseurl = "http://eduk8s-hub.io/"
+languageCode = "en-us"
+title = "eduk8s Hub - Kubernetes workshops/labs"
+theme = "eduk8shub"
+paginate = 12
+
+[params]
+  img = "eduk8s.png"
+  defaultImage = "eduk8s.png"
+
+  twitter = "http://twitter.com/eduk8sio"
+  github = "http://github.com/eduk8s"
+
+  analytics = ""
+
+  [params.copyright]
+     name = "eduk8s"
+     link = "https://eduk8s.io"
+
