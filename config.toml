@@ -1,7 +1,6 @@
 baseurl = "http://eduk8s-hub.io/"
 languageCode = "en-us"
 title = "eduk8s Hub - Kubernetes workshops/labs"
-theme = "eduk8shub"
 paginate = 12
 
 [params]

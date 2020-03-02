@@ -6,7 +6,8 @@ categories: [two]
 date: "2020-02-28"
 githuburl: https://github.com/eduk8s-tests/lab-octant-testing
 duration: "1 hour"
-test: true
+description: Client side UI to manage Kubernetes clusters
+type: test
 author: "Graham Dumpleton"
 ---
 

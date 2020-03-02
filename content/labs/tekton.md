@@ -4,6 +4,7 @@ title:  "Tekton - Cloud Native CD"
 date:   2020-02-28 12:00:00 +0100
 img: "tekton.png"
 categories: [lab]
+description: Cloud Native Continuous Delivery using Kubernetes primitives
 author: "Daniel Helfand"
 githuburl: TO_BE_DEFINED
 ---

@@ -1,13 +1,27 @@
 ---
 layout: lab
 title:  "Markdown Lab Template"
-categories: [two]
+categories: [template]
 date: "2020-02-01"
 description: Use this lab as template when you want to create a workshop using Markdown
 author: "Graham Dumpleton"
+template: true
+githuburl: https://github.com/eduk8s/lab-markdown-sample
+
+install: "kubectl apply -k https://github.com/eduk8s/lab-markdown-sample"
+delete: "kubectl delete -k https://github.com/eduk8s/lab-markdown-sample"
+example: |
+    apiVersion: training.eduk8s.io/v1alpha1
+    kind: Workshop
+    metadata:
+      name: lab-markdown-sample
+    spec:
+      vendor: eduk8s.io
+      title: Lab template using markdown
+      description: Template for creating a Workshop using Markdown
+      url: https://github.com/eduk8s/lab-markdown-sample
+      image: quay.io/eduk8s/lab-markdown-sample:master
+      duration: 30m
+      session:
+        budget: medium
 ---
-When there is no image mentioned in the front-matter, default image will be displayed. You can change this image to any other one that suits your needs.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris erat augue, eleifend nec est quis, iaculis suscipit lacus. In convallis ut mi ac volutpat. Integer feugiat lacinia purus, at condimentum enim tempus vitae. Fusce tempus tortor nibh, ut mollis sapien pulvinar at. Nam nec tortor ante. Phasellus lorem elit, placerat sit amet ligula ac, fermentum vulputate nibh. Quisque sed dapibus risus. Quisque sagittis iaculis maximus. Mauris lorem ligula, commodo in ullamcorper et, mollis ut dui.
-
-Integer ut turpis metus. Curabitur purus orci, sagittis non ultrices ac, elementum ut diam. Suspendisse fringilla dolor id sapien tincidunt, vitae tempor enim tempus. Ut quis varius tortor, ut molestie ante. Curabitur maximus quis nibh quis lacinia. Nullam ante nunc, mollis sed nibh quis, sagittis semper lectus. Morbi quis enim nibh. Vestibulum justo sem, placerat vitae cursus vel, hendrerit vitae nibh. Mauris id metus non lorem volutpat varius. Fusce dui lectus, imperdiet at felis at, tincidunt dapibus enim. Ut porttitor at magna molestie faucibus. Etiam sed dignissim lectus. Praesent interdum vulputate diam, non iaculis libero fringilla sit amet. Nunc dignissim vel ipsum sed tincidunt. Nullam id sapien quam.
