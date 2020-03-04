@@ -1,5 +1,4 @@
 ---
-layout: lab
 title:  "Kubernetes fundamentals"
 img: kubernetes.png
 categories: [one]
@@ -27,6 +26,7 @@ example: |
       session:
         budget: medium
 ---
+CONTENT:
 If you want to review the workshop content, you can browse the files and subdirectories under [workshop/content](https://github.com/eduk8s-labs/lab-k8s-fundamentals/tree/master/workshop/content).
 
 ## Install the workshop
@@ -36,9 +36,9 @@ To deploy the workshop, [install the eduk8s operator](http://localhost:1313/page
 kubectl apply -k github.com/eduk8s-labs/lab-k8s-fundamentals
 ```
 
-{{% note %}}
+{{< note >}}
 Note that this workshop requires that your Kubernetes cluster have persistent volumes of type ReadWriteOnce (RWO) and ReadWriteMany (RWX) available. Your cluster must also be configured to handle the Ingress resource type. If either of these conditions are not met, you will not be able to perform all steps of the workshop.
-{{% /note %}}
+{{< /note >}}
 
 ## Delete the workshop
 To delete the workshop when finished, run:

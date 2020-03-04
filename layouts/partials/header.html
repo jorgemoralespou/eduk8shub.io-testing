@@ -18,12 +18,43 @@
   </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
+    <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+      <!-- Search form --> 
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+
             <ul class="nav navbar-nav navbar-right">
-        <li><a href="{{ .Site.BaseURL }}pages/install/">Install</a></li>
-        <li><a target="_blank" href="https://eduk8s.readthedocs.io/">Read the docs</a></li>
-        <li><a href="{{ .Site.BaseURL }}pages/about/">About</a></li>
-        <li><a href="{{ .Site.BaseURL }}pages/contact/">Contact</a></li>
+              {{ $currentPage := . }}
+        {{ range .Site.Menus.main }}
+        {{ $url := urls.Parse .URL }}
+        {{ $baseurl := urls.Parse $.Site.Params.Baseurl }}
+            {{ if .HasChildren }}
+                <li class='{{ if $currentPage.HasMenuCurrent "main" . }}active{{ end }}'>
+                    <a href="#">
+                        {{ .Pre }}
+                        <span>{{ .Name }}</span>
+                    </a>
+                </li>
+                <ul class="sub-menu">
+                    {{ range .Children }}
+                        <li class='{{ if $currentPage.IsMenuCurrent "main" . }}active{{ end }}'>
+                            <a {{ if ne $url.Host $baseurl.Host }}target="_blank" {{ end }} href="{{ .URL }}">{{ .Name }}</a>
+                        </li>
+                    {{ end }}
+                </ul>
+            {{ else }}
+                <li>
+                    <a {{ if ne $url.Host $baseurl.Host }}target="_blank" {{ end }} href="{{ .URL }}">
+                        {{ .Pre }}
+                        <span>{{ .Name }}</span>
+                    </a>
+                </li>
+            {{ end }}
+        {{ end }}
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Contribute <span class="caret"></span></a>
           <ul class="dropdown-menu">

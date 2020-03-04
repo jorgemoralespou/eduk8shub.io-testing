@@ -1,5 +1,11 @@
-{{ $_hugo_config := `{ "version": 1 }` }}
-<!-- Version 1 must be used -->
+<!--
 <aside class="box">
 <div>{{- .Inner -}}</div>
 </aside>
+-->
+<!-- Can be alert-warning:orange, alert-success:green, alert-danger:red, alert-info:blue -->
+<div class="alert alert-dismissible alert-info">
+    <!--<button type="button" class="close" data-dismiss="alert">&times;</button>-->
+    <h4>NOTE!</h4>
+    {{- .Inner -}}
+</div>

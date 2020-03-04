@@ -1,0 +1,91 @@
+
+@media (min-width: 1800px){
+    .labcard-row{
+        width: 1800px;
+    }
+}
+
+.labcard-row {
+    margin-left: -15px;
+    margin-right: -15px;
+//    display: -webkit-inline-flex;
+//    display: -ms-inline-flexbox;
+    display: inline-flex;
+    flex-wrap: wrap;
+//    -webkit-flex-wrap: wrap;
+}
+
+.labcard-tile-container{
+    align-items: center;
+    margin-right: -15px;
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    margin: 0 15px 15px 0;
+}
+
+// Boxes with content in _default/list.html
+.labcard-tile {
+    height: 240px; //360px; // JORGE: Added fixed height for the panel in list
+    width: 240px;
+    margin-bottom: 2em;
+    border: none;
+    box-shadow: 0 0 1px rgba(0,0,0,.4);
+    transition: all 0.3s ease;
+    margin: 0 15px 15px 0;
+    &:hover, &:focus, &:active {
+      box-shadow: 
+        0px 1px 0px #ccc,
+        0px 2px 0px #c9c9c9,
+        0px 3px 0px #bbb,
+        0px 4px 0px #b9b9b9,
+        0px 6px 0px rgba(0,0,0,.1),
+        0px 1px 0px rgba(0,0,0,.3),
+        0px 3px 0px rgba(0,0,0,.2),
+        0px 5px 0px rgba(0,0,0,.25),
+        0 7px  7px rgba(0,0,0,.1),
+        0 8px  7px rgba(0,0,0,.1),
+        0 9px  9px rgba(0,0,0,.1),
+        0 10px  10px rgba(0,0,0,.15),
+        0 15px  15px rgba(0,0,0,.16),
+    }
+}
+
+.labcard-tile-image{
+    height: 40px;
+    min-width: 40px;
+    max-width: 80px;
+    vertical-align: middle;
+    margin: 10px 10px 10px 10px;
+}
+
+.labcard-tile-body {
+    padding: 5px 10px 0px 10px;
+    margin-top: 10px;
+}
+
+.labcard-tile-metadata {
+    color: $grey-color;
+}
+
+.labcard-tile-pull-right {
+//    float: right !important;
+}
+
+.labcard-tile-pull-left {
+//    float: left !important;
+}
+
+.labcard-tile-title-text {
+    font-family: "Raleway","Helvetica Neue",Helvetica,Arial,sans-serif;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 15px;
+    color: inherit;
+}
+
+.labcard-tile-summary-text {
+    padding: 5px 15px;
+    margin-top: 10px;
+    //overflow-wrap: break-word;
+}

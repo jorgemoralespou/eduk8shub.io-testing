@@ -3,46 +3,52 @@
   <header>
       <h1>{{.Title}}</h1>
   </header>
-  <!-- "{{.Content}}" pulls from the markdown content of the corresponding _index.md -->
-  {{.Content}}
+  <!-- "{{.Content}}" labcard-tile-metadatas from the markdown content of the corresponding _index.md -->
+  {{ if .Content }}
+  <div class="jumbotron">
+    {{.Content}}
+  </div>
+  {{ end }}
 </article>
+
+
 <div class="home">
  
   
-    <div class="row pack">
+    <div class="labcard-row">
 
         {{ $paginator := .Paginate (where .Site.RegularPages "Section" "labs") }}
         {{ range $paginator.Pages }}   
-            <div class="col-md-3 card">
-             <a href="{{ .Permalink }}" class="index-anchor">    
-                <div class="panel panel-default">
+            <div class="labcard-tile-container">
+             <a href="{{ .Permalink }}" class="index-anchor">
+                <div class="labcard-tile">
                   
                   {{ if .Params.img }}
-                  <img width="100%" src="{{ .Site.BaseURL }}images/{{ .Params.img }}" alt="{{ .Title }}">
+                  <img class="labcard-tile-image" src="{{ .Site.BaseURL }}images/{{ .Params.img }}" alt="{{ .Title }}">
                   {{ else }}
-                  <img width="100%" src="{{ .Site.BaseURL }}images/{{ .Site.Params.defaultImage }}" alt="{{ .Site.Title }}">
-                  {{ end }}
+                  <img class="labcard-tile-image" src="{{ .Site.BaseURL }}images/{{ .Site.Params.defaultImage }}" alt="{{ .Site.Title }}">
+                  <span class="labcard-tile-body labcard-tile-metadata labcard-tile-pull-right">
+                    {{ if .Params.template }}<small><i class="fa fa-file" aria-hidden="true"></i><!--<b>Template</b>--></small>{{ end }}
+                    {{ if .Params.test }}<small><i class="fa fa-wrench" aria-hidden="true"></i><!--<b>Testing</b>--></small>{{ end }}
+                  </span>
+                {{ end }}
                   
-                  <div class="panel-body">
-                    <h3 class="panel-title">{{ .Title | truncate 25 }}</h3></span>
+                  <div class="labcard-tile-body">
+                    <h3 class="labcard-tile-title-text">{{ .Title | truncate 25 }}</h3></span>
                   </div>
-                  <div class="panel-body">
-                    <span class="panel-title pull-left">&nbsp;{{ if .Params.duration }}<small><i class="fa fa-hourglass-half " aria-hidden="true"></i></small>&nbsp;&nbsp;{{ .Params.duration }}{{ end }}</span>
-                    <span class="post-meta pull-right">
-                      {{ if .Params.template }}<small><i class="fa fa-file" aria-hidden="true"></i><!--<b>Template</b>--></small>{{ end }}
-                      {{ if .Params.test }}<small><i class="fa fa-wrench" aria-hidden="true"></i><!--<b>Testing</b>--></small>{{ end }}
-                    </span>
+
+                  <div class="labcard-tile-body">
+                    <span class="labcard-tile-title-text labcard-tile-pull-left">{{ if .Params.duration }}<small><i class="fa fa-hourglass-half " aria-hidden="true"></i></small>&nbsp;&nbsp;{{ .Params.duration }}{{ end }}</span>
+                    <span class="labcard-tile-metadata labcard-tile-pull-right"><small>{{ .Date.Format "January 2, 2006" }}</small></span>
                   </div>
-                  <div class="panel-body">
-                    <span class="post-meta pull-right"><small>Updated: {{ .Date.Format "January 2, 2006" }}</small></span>
-                  </div>
+                  
                   {{ if .Params.description }}
-                  <div class="panel-body">
-                    <small>{{ .Params.description | plainify | truncate 120 }}</small>
+                  <div class="labcard-tile-summary-text">
+                    <small>{{ .Params.description | plainify | truncate 80 }}</small>
                   </div>
                   {{ else }}
-                  <div class="panel-body">
-                    <small>{{ .Summary | plainify | truncate 120 }}</small>
+                  <div class="labcard-tile-summary-text">
+                    <small>{{ .Summary | plainify | truncate 80 }}</small>
                   </div>
                   {{ end }}
                 </div>
@@ -52,7 +58,8 @@
           {{ end }}
 
     </div> 
-    
+
+<!--
 <div class="row">
     <div class="col-md-3">  </div>
     <div class="col-md-3">
@@ -87,5 +94,5 @@
     <div class="col-md-3">  </div>
 </div>
 </div>
-
+-->
 {{ end }}
