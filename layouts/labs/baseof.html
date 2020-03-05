@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+  {{ partial "head.html" .}}
+
+  <body>
+
+    {{ partial "header.html" . }}
+
+    <div class="page_contents">
+      <div class="page_contents_inner">
+        <div class="hub_page">
+          <div class="hub_page_content">
+            <div class="hub_page_content_tiles">
+              {{ block "main" . }} {{ end }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{ partial "footer.html" . }}
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="{{ .Site.BaseURL }}/js/bootstrap.min.js"></script>
+  {{ with .Site.Params.analytics }} 
+    {{ partial "analytics.html" . }}
+  {{ end }}
+  </body>
+
+</html>
