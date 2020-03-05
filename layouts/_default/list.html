@@ -1,25 +1,6 @@
 {{ define "main" }}
-<article>
-  <header>
-      <h1>{{.Title}}</h1>
-  </header>
-  <!-- "{{.Content}}" labcard-tile-metadatas from the markdown content of the corresponding _index.md -->
-  {{ if .Content }}
-  <div class="jumbotron">
-    {{.Content}}
-  </div>
-  {{ end }}
-</article>
-
-
-<div class="home">
- 
-  
-    <div class="labcard-row">
-
         {{ $paginator := .Paginate (where .Site.RegularPages "Section" "labs") }}
-        {{ range $paginator.Pages }}   
-            <div class="labcard-tile-container">
+        {{ range $paginator.Pages }}
              <a href="{{ .Permalink }}" class="index-anchor">
                 <div class="labcard-tile">
                   
@@ -53,11 +34,8 @@
                   {{ end }}
                 </div>
                 </a>
-            </div>
-        
           {{ end }}
 
-    </div> 
 
 <!--
 <div class="row">

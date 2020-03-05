@@ -1,9 +1,128 @@
 
-@media (min-width: 1800px){
-    .labcard-row{
-        width: 1800px;
+.page_contents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    width: 100%;
+    min-height: calc(100vh - 534px);
+    box-sizing: border-box;
+}
+
+.page_contents_inner{
+    padding: 0 15px;
+    width: 90%;
+}
+@media (min-width: 1700px){
+    .page_contents_inner{
+        width: 1700px;
     }
 }
+
+.hub_page{
+    box-sizing: border-box;
+    background: transparent;
+    display: flex;
+    padding: 20px 0 0;
+}
+
+.hub_page_filters{
+    display: none;
+    width: 220px;
+    margin: 0 20px 0 0;
+    box-sizing: border-box;
+}
+@media (min-width: 480px){
+    .hub_page_filters {
+        display: block;
+    }
+}
+
+.hub_page_content{
+    box-sizing: border-box;
+    flex: 1;
+    padding: 0;
+}
+@media (min-width: 480px){
+    .hub_page_content {
+        padding: 0;
+    }
+}
+
+.hub_page_content_tiles{
+    flex-direction: column;
+    align-items: center;
+    margin-right: -15px;
+    display: flex;
+    flex-wrap: wrap;
+    ox-sizing: border-box;
+}
+@media (min-width: 480px){
+    .hub_page_content_tiles {
+        flex-direction: row;
+    }
+}
+
+.filter_panel{
+    padding-left: 0;
+    padding-top: 5px;
+    margin: 0 0 30px;
+    padding: 0 15px;
+    box-sizing: border-box;
+    display: block;
+}
+
+/* FILTERS */
+.filter-panel-pf-category{
+    display: block;
+    box-sizing: border-box;
+    margin-top: 0;
+}
+
+.filter-panel-pf-category-items {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.filter-panel-pf-category-title {
+    margin-bottom: 10px;
+    color: #b6b6b6;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border: 0;
+    margin: 0;
+    text-transform: uppercase;
+    display: block;
+    width: 100%;
+    padding: 0;
+}
+
+.oh-category-item {
+    border-radius: 4px;
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+}
+.oh-category-item.selected, .oh-category-item:hover {
+    background-color: #eaeaea;
+}
+.oh-category-item.selected .oh-category-item__select, .oh-category-item:hover .oh-category-item__select {
+    color: #1991eb;
+}
+
+.oh-category-item__select {
+    background: transparent;
+    border: none;
+    padding: 2px 5px;
+    text-align: left;
+    flex: 1;
+    overflow: visible;
+    margin: 0;
+}
+
+
+/* END FILTERS */
 
 .labcard-row {
     margin-left: -15px;
