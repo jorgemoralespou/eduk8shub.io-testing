@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+#    service.beta.kubernetes.io/decc-load-balancer-http-backend-ports: "8080"
+    service.beta.kubernetes.io/decc-load-balancer-hostname: "eduk8shub.svc-stage.eng.vmware.com"
+  labels:
+    app: eduk8s
+  name: eduk8s
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: eduk8s
+  type: LoadBalancer

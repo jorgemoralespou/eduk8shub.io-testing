@@ -1,0 +1,12 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: eduk8s
+spec:
+  rules:
+  - host: hub.eduk8s.test
+    http:
+      paths:
+      - backend:
+          serviceName: eduk8s
+          servicePort: 8080

@@ -1,6 +1,6 @@
-baseurl = "http://eduk8s-hub.io/"
+# baseurl = "http://eduk8s-hub.io/"
 languageCode = "en-us"
-title = "eduk8s Hub - Kubernetes workshops/labs"
+title = "eduk8s Hub"
 paginate = 12
 
 [params]

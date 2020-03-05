@@ -38,8 +38,8 @@
                   </div>
 
                   <div class="labcard-tile-body">
-                    <span class="labcard-tile-title-text labcard-tile-pull-left">{{ if .Params.duration }}<small><i class="fa fa-hourglass-half " aria-hidden="true"></i></small>&nbsp;&nbsp;{{ .Params.duration }}{{ end }}</span>
-                    <span class="labcard-tile-metadata labcard-tile-pull-right"><small>{{ .Date.Format "January 2, 2006" }}</small></span>
+                    <span class="labcard-tile-title-text">{{ if .Params.duration }}<small><i class="fa fa-hourglass-half " aria-hidden="true"></i></small>&nbsp;&nbsp;{{ .Params.duration }}{{ end }}</span>
+                    <span class="labcard-tile-metadata"><small>{{ .Date.Format "January 2, 2006" }}</small></span>
                   </div>
                   
                   {{ if .Params.description }}
