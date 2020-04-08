@@ -2,28 +2,38 @@
 
 Site for eduk8s hub.
 
-## Build the site
-This [site](site/) is built with [hugo](https://gethugo.io)
+## Build the site locally
+This site is built with [hugo](https://gethugo.io)
 
 ```bash
-cd site
 hugo server
 ```
 
-## Index site
-This site uses gruntr and lunr for index/search purposes. In order to generate the index you need to run:
+## Build the site as a Docker image
+If you want to build this site as a Dockerimage, you will need to build the Dockerfile and publish it.
 
 ```
-grunt lunr-index -v 
+docker build -t quay.io/jorgemoralespou/eduk8shub:latest .
+docker push quay.io/jorgemoralespou/eduk8shub:latest
 ```
 
-This will generate the file [site/static/js/lunr/PagesIndex.json](site/static/js/lunr/PagesIndex.json)
+## Deploy the site on your k8s cluster
+If you want to deploy this hub on k8s, you can do it with kubectl or kapp.
+
+```
+kubectl apply -f k8s
+```
+
+or
+
+```
+kapp deploy -a eduk8s-hub -n eduk8s -y
+```
 
 ## Create a new lab entry
 We provide templates for creating new labs. Just use hugo's capability of creating articles from an archetype.
 
 ```bash
-cd site
 hugo new labs/example.md
 ```
 
@@ -32,7 +42,6 @@ You'll find the file in labs/example.md. Go there and tweak the frontmatter as n
 By default, the lab will be created as draft. If you want to see it rendered, start hugo like this:
 
 ```bash
-cd site
 hugo server -D
 ```
 

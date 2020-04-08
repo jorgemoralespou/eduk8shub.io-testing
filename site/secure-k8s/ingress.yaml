@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: eduk8s-hub
+  namespace: eduk8s
+spec:
+  rules:
+  - host: hub.training.failk8s.dev
+    http:
+      paths:
+      - backend:
+          serviceName: eduk8s-hub
+          servicePort: 8080
+  tls:
+  - hosts:
+    - hub.training.failk8s.dev
+    secretName: training-failk8s-dev

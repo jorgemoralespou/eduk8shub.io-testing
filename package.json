@@ -1,0 +1,26 @@
+{
+  "name": "eduk8shub.io-testing",
+  "version": "1.0.0",
+  "description": "Site for eduk8s hub.",
+  "main": "Gruntfile.js",
+  "dependencies": {
+    "grunt": "^1.1.0",
+    "string": "^3.3.3",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jorgemoralespou/eduk8shub.io-testing.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jorgemoralespou/eduk8shub.io-testing/issues"
+  },
+  "homepage": "https://github.com/jorgemoralespou/eduk8shub.io-testing#readme"
+}

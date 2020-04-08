@@ -1,0 +1,75 @@
+[
+   {
+      "id": "_labs_k14s_",
+      "title": "K14S - Kubernetes Tools",
+      "href": "/labs/k14s",
+      "content": "Lorem ipsum dolor sit amet consectetur adipiscing elit Mauris erat augue eleifend nec est quis iaculis suscipit lacus In convallis ut mi ac volutpat Integer feugiat lacinia purus at condimentum enim tempus vitae Fusce tempus tortor nibh ut mollis sapien pulvinar at Nam nec tortor ante Phasellus lorem elit placerat sit amet ligula ac fermentum vulputate nibh Quisque sed dapibus risus Quisque sagittis iaculis maximus Mauris lorem ligula commodo in ullamcorper et mollis ut dui Integer ut turpis metus Curabitur purus orci sagittis non ultrices ac elementum ut diam Suspendisse fringilla dolor id sapien tincidunt vitae tempor enim tempus Ut quis varius tortor ut molestie ante Curabitur maximus quis nibh quis lacinia Nullam ante nunc mollis sed nibh quis sagittis semper lectus Morbi quis enim nibh Vestibulum justo sem placerat vitae cursus vel hendrerit vitae nibh Mauris id metus non lorem volutpat varius Fusce dui lectus imperdiet at felis at tincidunt dapibus enim Ut porttitor at magna molestie faucibus Etiam sed dignissim lectus Praesent interdum vulputate diam non iaculis libero fringilla sit amet Nunc dignissim vel ipsum sed tincidunt Nullam id sapien quam"
+   },
+   {
+      "id": "_labs_k8s-fundamentals_",
+      "title": "Kubernetes fundamentals",
+      "tags": [
+         "tag_c"
+      ],
+      "href": "/labs/k8s-fundamentals",
+      "content": "CONTENT If you want to review the workshop content you can browse the files and subdirectories under workshopcontenthttpsgithubcomeduk8slabslabk8sfundamentalstreemasterworkshopcontent Install the workshop To deploy the workshop install the eduk8s operatorhttplocalhost1313pagesinstall then run bash kubectl apply k githubcomeduk8slabslabk8sfundamentals Note that this workshop requires that your Kubernetes cluster have persistent volumes of type ReadWriteOnce RWO and ReadWriteMany RWX available Your cluster must also be configured to handle the Ingress resource type If either of these conditions are not met you will not be able to perform all steps of the workshop Delete the workshop To delete the workshop when finished run bash kubectl delete k githubcomeduk8slabslabk8sfundamentals Example workshop If you want to manually create an instance of the workshop just create an instance of this CRD with the following content yaml apiVersion trainingeduk8siov1alpha1 kind Workshop metadata name labk8sfundamentals spec vendor eduk8sio title Kubernetes Fundamentals description Workshop on getting started with Kubernetes url httpsgithubcomeduk8slabslabk8sfundamentals image quayioeduk8slabslabk8sfundamentalsmaster duration 1h session budget medium "
+   },
+   {
+      "id": "_labs_kpack_",
+      "title": "Buildpacks",
+      "tags": [
+         "tag_a",
+         "tag_b"
+      ],
+      "href": "/labs/kpack",
+      "content": "Nulla vel ante sit amet leo imperdiet porta Mauris pellentesque finibus ligula non dignissim Sed sed vehicula velit Ut eleifend velit maximus massa lobortis mattis In dui quam rutrum eu purus et mattis consequat ex Vivamus risus mauris ultricies vel dolor eget aliquet tristique est Suspendisse odio urna vehicula vel diam at pulvinar porttitor metus Sed ac ipsum et magna aliquam mattis in eleifend mi Pellentesque porttitor diam nec hendrerit efficitur In hac habitasse platea dictumst Nam arcu enim imperdiet quis molestie molestie molestie non diam Quisque pretium felis in lorem placerat rhoncus eu et lorem Praesent tincidunt purus sed mi lacinia maximus Curabitur rutrum tempus posuere Donec quis fringilla enim Nullam nisl nisl vestibulum sed enim vel tempor pulvinar ligula Mauris tincidunt ligula et erat ullamcorper varius Nunc sit amet lacus ullamcorper suscipit sem in interdum dui Nam ultricies dui eget aliquet mollis erat ipsum luctus eros sed pulvinar nulla velit ut nibh Mauris sed molestie turpis Curabitur vehicula eros lectus ac venenatis justo fringilla eget Phasellus fringilla molestie diam vel aliquet Nunc orci lorem laoreet eget blandit nec vestibulum eu urna Ut gravida egestas massa in auctor nisl iaculis id In hac habitasse platea dictumst Fusce nec massa ullamcorper posuere nisl et feugiat risus Morbi metus risus facilisis aliquam risus porta volutpat viverra leo Praesent vestibulum orci in consectetur aliquet lacus metus suscipit risus a dignissim eros nibh sed purus Nullam in magna non nulla ultricies aliquam Nullam malesuada rhoncus est in vehicula lacus mattis vel Nam et velit dignissim consectetur est ac imperdiet nulla Nunc feugiat facilisis ipsum quis porttitor quam mattis in"
+   },
+   {
+      "id": "_labs_lab-asciidoc_",
+      "title": "Asciidoc Lab Template",
+      "href": "/labs/lab-asciidoc",
+      "content": ""
+   },
+   {
+      "id": "_labs_lab-markdown_",
+      "title": "Markdown Lab Template",
+      "href": "/labs/lab-markdown",
+      "content": ""
+   },
+   {
+      "id": "_labs_octant_",
+      "title": "Octant",
+      "href": "/labs/octant",
+      "content": "Lorem ipsum dolor sit amet consectetur adipiscing elit Mauris erat augue eleifend nec est quis iaculis suscipit lacus In convallis ut mi ac volutpat Integer feugiat lacinia purus at condimentum enim tempus vitae Fusce tempus tortor nibh ut mollis sapien pulvinar at Nam nec tortor ante Phasellus lorem elit placerat sit amet ligula ac fermentum vulputate nibh Quisque sed dapibus risus Quisque sagittis iaculis maximus Mauris lorem ligula commodo in ullamcorper et mollis ut dui Integer ut turpis metus Curabitur purus orci sagittis non ultrices ac elementum ut diam Suspendisse fringilla dolor id sapien tincidunt vitae tempor enim tempus Ut quis varius tortor ut molestie ante Curabitur maximus quis nibh quis lacinia Nullam ante nunc mollis sed nibh quis sagittis semper lectus Morbi quis enim nibh Vestibulum justo sem placerat vitae cursus vel hendrerit vitae nibh Mauris id metus non lorem volutpat varius Fusce dui lectus imperdiet at felis at tincidunt dapibus enim Ut porttitor at magna molestie faucibus Etiam sed dignissim lectus Praesent interdum vulputate diam non iaculis libero fringilla sit amet Nunc dignissim vel ipsum sed tincidunt Nullam id sapien quam"
+   },
+   {
+      "id": "_labs_tekton_",
+      "title": "Tekton - Cloud Native CD",
+      "href": "/labs/tekton",
+      "content": "When there is no image mentioned in the frontmatter default image will be displayed You can change this image to any other one that suits your needs Lorem ipsum dolor sit amet consectetur adipiscing elit Ut non iaculis risus Phasellus vitae nunc ac lectus finibus porttitor Sed vel enim vulputate euismod neque maximus tincidunt turpis Aenean accumsan leo eget dui porta pulvinar Sed tincidunt nisi non efficitur tempus enim lectus aliquam arcu at dignissim ligula ex eu quam Suspendisse gravida dapibus ultrices Vivamus convallis nulla nisl a imperdiet felis pellentesque in Nulla facilisi Integer aliquet sed orci eu tempor Sed viverra ullamcorper commodo Morbi vestibulum sem eget maximus feugiat Curabitur vehicula magna in molestie dignissim Nam gravida leo non purus cursus id accumsan justo tincidunt Donec accumsan purus mauris vitae luctus magna faucibus vitae Nullam tincidunt urna scelerisque hendrerit mi ac sagittis ligula Curabitur convallis eros eu fringilla maximus Donec lobortis scelerisque enim eu molestie Duis ac mi quis risus auctor vulputate"
+   },
+   {
+      "id": "_labs_usage_",
+      "title": "Usage Guide",
+      "href": "/labs/usage",
+      "content": "When there is no image mentioned in the frontmatter default image will be displayed You can change this image to any other one that suits your needs Lorem ipsum dolor sit amet consectetur adipiscing elit Mauris erat augue eleifend nec est quis iaculis suscipit lacus In convallis ut mi ac volutpat Integer feugiat lacinia purus at condimentum enim tempus vitae Fusce tempus tortor nibh ut mollis sapien pulvinar at Nam nec tortor ante Phasellus lorem elit placerat sit amet ligula ac fermentum vulputate nibh Quisque sed dapibus risus Quisque sagittis iaculis maximus Mauris lorem ligula commodo in ullamcorper et mollis ut dui Integer ut turpis metus Curabitur purus orci sagittis non ultrices ac elementum ut diam Suspendisse fringilla dolor id sapien tincidunt vitae tempor enim tempus Ut quis varius tortor ut molestie ante Curabitur maximus quis nibh quis lacinia Nullam ante nunc mollis sed nibh quis sagittis semper lectus Morbi quis enim nibh Vestibulum justo sem placerat vitae cursus vel hendrerit vitae nibh Mauris id metus non lorem volutpat varius Fusce dui lectus imperdiet at felis at tincidunt dapibus enim Ut porttitor at magna molestie faucibus Etiam sed dignissim lectus Praesent interdum vulputate diam non iaculis libero fringilla sit amet Nunc dignissim vel ipsum sed tincidunt Nullam id sapien quam"
+   },
+   {
+      "id": "_pages_about_",
+      "title": "About",
+      "href": "/pages/about",
+      "content": "We always thought that Kubernetes was difficult to grasp Weve been fighting for some years to bring some sense to the project but since we dont know the Go language we dediced that it was better to show people how they could use the platform and tools in the ecosystem This is how eduk8s was born We needed a platform that would allow us to teach people the usage of Kubernetes and the Cloud Native Foundation Landscape We wanted our platform to be yet another Cloud Native application that would run on Kubernetes and would use many of the capabilities provided by it Feel free to use any of the workshopslabs in this site Follow the instructions on how to have them running installing uninstalling and if you ever have a specific requirement you can either fill an issue on Githubhttpsgithubcomeduk8s or send us a tweethttpstwittercomeduk8sio"
+   },
+   {
+      "id": "_pages_contact_",
+      "title": "Contact",
+      "href": "/pages/contact",
+      "content": "We are a set of enthusiastic Cloud Native Developer Advocates working for an important company that like to teach people about Cloud Native technologies on the Kubernetes ecosystem The team is formed by Grant Shipleyhttpstwittercomgshipley The Boss Graham Dumpletonhttpstwittercomgrahamdumpleton Grumpleton for his friends Always complaining but doing most of the hard work Jorge Moraleshttpstwittercomjorgemoralespou The catalyst Doesnt like to work but makes sure people does the work Daniel Helfandhttpsgithubcomdanielhelfand Junior He runs all the time but when hes not running you can see him around Tekton Stephen Augustushttpstwittercomstephenaugustus The releaser He releases everything at his hands Even a tweet every 5 minutes If you would like to get in touch with us just gives us a call"
+   },
+   {
+      "id": "_pages_install_",
+      "title": "Kubernetes operator for eduk8s",
+      "href": "/pages/install",
+      "content": "Kubernetes operator for deploying eduk8s workshop environments on Kubernetes Deploying the eduk8s operator To deploy the operator run bash kubectl apply k githubcomeduk8seduk8soperatorrefmaster Note that tagged versions havent been created as yet so this is using the latest version Tagging of versions will be setup soon The command above will create a namespace in your Kubernetes cluster called eduk8s and the operator along with any required namespaced resources will be created in it A set of custom resource definitions and a global cluster role binding will also be created The list of resources you should see being created are bash customresourcedefinitionapiextensionsk8sioworkshopenvironmentstrainingeduk8sio created customresourcedefinitionapiextensionsk8sioworkshoprequeststrainingeduk8sio created customresourcedefinitionapiextensionsk8sioworkshopstrainingeduk8sio created customresourcedefinitionapiextensionsk8sioworkshopsessionstrainingeduk8sio created serviceaccounteduk8s created clusterrolebindingrbacauthorizationk8sioeduk8sclusteradmin created deploymentappseduk8soperator created You can check that the operator deployed okay by running bash kubectl get all n eduk8s The pod for the operator should be marked as running Specifying the ingress domain The operator when deploying instances of the workshop environments needs to be able to expose them via an external URL for access To define the domain name that can be used as a suffix to hostnames for instances you need to set the INGRESSDOMAIN environment variable on the operator deployment To do this run bash kubectl set env deploymenteduk8soperator n eduk8s INGRESSDOMAINtest Replace test with the domain name for your Kubernetes cluster If you do not set this the ingress created will use trainingeduk8sio as a default If your Kubernetes cluster doesnt have an ingress controller configured you will need to use port forwarding to access a workshop environment Deploying workshop environments For deploying workshops using the eduk8s operator see the eduk8s documentation at httpseduk8sreadthedocsio"
+   }
+]

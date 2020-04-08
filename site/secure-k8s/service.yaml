@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: eduk8s
+  name: eduk8s-hub
+  namespace: eduk8s
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    deployment: hub
+    app: eduk8s
+  type: LoadBalancer

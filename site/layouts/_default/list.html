@@ -1,8 +1,9 @@
 {{ define "main" }}
         {{ $paginator := .Paginate (where .Site.RegularPages "Section" "labs") }}
         {{ range $paginator.Pages }}
-             <a href="{{ .Permalink }}" class="index-anchor">
-                <div class="labcard-tile">
+             {{ $page_id := .RelPermalink | replaceRE "(/)" "_"}}
+             <a href="{{ .Permalink }}" class="index-anchor" id="{{ $page_id }}">
+                <div class="labcard-tile" id="{{ $page_id }}">
                   
                   {{ if .Params.img }}
                   <img class="labcard-tile-image" src="{{ .Site.BaseURL }}images/{{ .Params.img }}" alt="{{ .Title }}">
@@ -73,4 +74,8 @@
 </div>
 </div>
 -->
+<div>
+  <ul id="results">
+  </ul>
+</div>
 {{ end }}
