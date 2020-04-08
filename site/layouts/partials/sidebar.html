@@ -1,9 +1,9 @@
 <div class="col-md-4 mt20">
         <div class="post-img">
            {{ if .Params.img }}
-            <img width="600" src="{{ .Site.BaseURL}}images/{{ .Params.img }}" alt="{{ .Params.title }}">
+            <img width="600" src="{{ .Site.BaseURL}}/images/{{ .Params.img }}" alt="{{ .Params.title }}">
             {{ else }}
-            <img width="600" src="{{ .Site.BaseURL }}images/{{ .Site.Params.defaultImage }}" alt="webjeda">
+            <img width="600" src="{{ .Site.BaseURL }}/images/{{ .Site.Params.defaultImage }}" alt="webjeda">
             {{ end }}
         </div>
             

@@ -6,9 +6,9 @@
                 <div class="labcard-tile" id="{{ $page_id }}">
                   
                   {{ if .Params.img }}
-                  <img class="labcard-tile-image" src="{{ .Site.BaseURL }}images/{{ .Params.img }}" alt="{{ .Title }}">
+                  <img class="labcard-tile-image" src="{{ .Site.BaseURL }}/images/{{ .Params.img }}" alt="{{ .Title }}">
                   {{ else }}
-                  <img class="labcard-tile-image" src="{{ .Site.BaseURL }}images/{{ .Site.Params.defaultImage }}" alt="{{ .Site.Title }}">
+                  <img class="labcard-tile-image" src="{{ .Site.BaseURL }}/images/{{ .Site.Params.defaultImage }}" alt="{{ .Site.Title }}">
                   {{ end }}
                   <span class="labcard-tile-body labcard-tile-metadata labcard-tile-pull-right">
                     {{ if .Params.template }}<small><i class="fa fa-file" aria-hidden="true"></i><!--<b>Template</b>--></small>{{ end }}
