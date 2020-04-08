@@ -1,10 +1,12 @@
 ---
-title:  "Kubernetes fundamentals"
+layout: lab
+title: "Kubernetes fundamentals"
 img: kubernetes.png
-categories: [one]
-tags: ["tag_c"]
-date: 2016-05-09
-githuburl: "https://github.com/eduk8s-labs/lab-k8s-fundamentals"
+categories: [kubernetes, foundations]
+tags: ["basic"]
+date: 2020-01-01
+description: An interactive workshop on Kubernetes fundamentals
+githuburl: https://github.com/eduk8s-labs/lab-k8s-fundamentals
 duration: "1 hour"
 author: "Graham Dumpleton"
 

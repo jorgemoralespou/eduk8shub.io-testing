@@ -1,30 +1,59 @@
+<script type="text/javascript">
+
+    function initFilters(){
+        var categories = new Set();
+        var tags = new Set();
+        $.getJSON("/js/lunr/PagesIndex.json").done(function(data) {
+            //console.log("data", data);
+            data.forEach(function addToFilters(element, index){
+                if (element.categories){
+                    element.categories.forEach(category => categories.add(category));
+                }
+                if (element.tags){
+                    element.tags.forEach(tag => tags.add(tag));
+                }
+            });
+            categories.forEach(category => addCategory(category));
+            tags.forEach(tag => addTags(tag));
+        }).fail(function(jqxhr, textStatus, error) {
+            var err = textStatus + ", " + error;
+            console.error("Error getting Hugo index flie:", err);
+        });
+    }
+
+    function addCategory(item){
+        $categories = $("#categories");
+        $categories.append('<div class="oh-category-item"><button class="oh-category-item__select">'+item+'</button></div>');
+    }
+
+    function addTags(item){
+        $tags = $("#tags");
+        $tags.append('<div class="filter-panel-pf-category-item"><div class="checkbox"><label title="Altinity"><input type="checkbox">'+item+'<span class="item-count">(2)</span></label></div></div>');
+    }
+
+//    $(document).ready(function() {
+        initFilters();
+//    });
+</script>
+
 <form class="filter-panel-pf-category">
-    <fieldset class="checkbox filter-panel-pf-category-items">
+    <fieldset class="checkbox filter-panel-pf-category-items" id="categories">
         <legend class="filter-panel-pf-category-title">Categories</legend>
+<!-- // This is filled by Javascript above
         <div class="oh-category-item ">
-            <button class="oh-category-item__select selected">Fundamentals</button>
+            <button class="oh-category-item__select">TEXT</button>
         </div>
-        <div class="oh-category-item ">
-            <button class="oh-category-item__select">Tooling</button>
-        </div>
-        <div class="oh-category-item ">
-            <button class="oh-category-item__select">Developer Experience</button>
-        </div>
-        <div class="oh-category-item ">
-            <button class="oh-category-item__select">CI/CD</button>
-        </div>
+-->
     </fieldset>
 </form>
+
+<!-- TODO BELOW -->
 <form class="filter-panel-pf-category">
-    <fieldset class="checkbox filter-panel-pf-category-items">
-        <legend class="filter-panel-pf-category-title">types</legend>
-        <div class="filter-panel-pf-category-item"><div class="checkbox"><label title="Altinity"><input type="checkbox">Templates<span class="item-count">(2)</span></label></div></div>
-        <div class="filter-panel-pf-category-item"><div class="checkbox"><label title="Anchore"><input type="checkbox">Testing<span class="item-count">(1)</span></label></div></div>
+    <fieldset class="checkbox filter-panel-pf-category-items" id="tags">
+        <legend class="filter-panel-pf-category-title">Types</legend>
 <!--
-        <div class="filter-panel-pf-category-item"><div class="checkbox"><label title="Appranix"><input type="checkbox">Appranix<span class="item-count">(1)</span></label></div></div>
-        <div class="filter-panel-pf-category-item"><div class="checkbox"><label title="Appsody"><input type="checkbox">Appsody<span class="item-count">(1)</span></label></div></div>
-        <div class="filter-panel-pf-category-item"><div class="checkbox"><label title="Aqua Security"><input type="checkbox">Aqua Security<span class="item-count">(1)</span></label></div></div>
--->
+        <div class="filter-panel-pf-category-item"><div class="checkbox"><label title="Altinity"><input type="checkbox">Templates<span class="item-count">(2)</span></label></div></div>
     <button type="button" class="btn btn-link">Show 2 more</button>
+-->
     </fieldset>
 </form>

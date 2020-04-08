@@ -3,6 +3,7 @@ var yaml = require("yamljs");
 var S = require("string");
 
 var CONTENT_PATH_PREFIX = "site/content";
+var RELPATH_PREFIX = "/labs"
 
 module.exports = function(grunt) {
 
@@ -75,15 +76,22 @@ module.exports = function(grunt) {
                 href = S(abspath).chompLeft(CONTENT_PATH_PREFIX).chompRight(filename).s;
             }
 
-            // Build Lunr index for this page
-            pageIndex = {
-                id: href.replace(/\//g,"_").concat("_"),  // We add a final underscore as .RelPermalink does end with /
-                title: frontMatter.title,
-                tags: frontMatter.tags,
-                href: href,
-                content: S(content[2]).trim().stripTags().stripPunctuation().s
-            };
-            grunt.verbose.writeln("pageIndex: ", pageIndex); 
+            // Build Lunr index for labs ONLY
+            if (frontMatter.layout == "lab"){
+                pageIndex = {
+                    id: href.replace(/\//g,"_").concat("_"),  // We add a final underscore as .RelPermalink does end with /
+                    layout: frontMatter.layout,
+                    title: frontMatter.title,
+                    categories: frontMatter.categories,
+                    tags: frontMatter.tags,
+                    type: frontMatter.test,
+                    type: frontMatter.template,
+                    duration: frontMatter.duration,
+                    href: href,
+                    content: S(content[2]).trim().stripTags().stripPunctuation().s
+                };
+                grunt.verbose.writeln("pageIndex: ", pageIndex); 
+            }
             return pageIndex;
         };
 

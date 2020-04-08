@@ -1,12 +1,11 @@
 ---
 layout: lab
 title:  "Asciidoc Lab Template"
-categories: [template]
+tags: [template]
 date: "2020-02-01"
 description: Use this lab as template when you want to create a workshop using Asciidoc
 author: "Graham Dumpleton"
 template: true
-test: true
 githuburl: https://github.com/eduk8s/lab-asciidoc-sample
 
 install: "kubectl apply -k https://github.com/eduk8s/lab-asciidoc-sample"

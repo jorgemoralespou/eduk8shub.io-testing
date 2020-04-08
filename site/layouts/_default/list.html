@@ -9,12 +9,12 @@
                   <img class="labcard-tile-image" src="{{ .Site.BaseURL }}images/{{ .Params.img }}" alt="{{ .Title }}">
                   {{ else }}
                   <img class="labcard-tile-image" src="{{ .Site.BaseURL }}images/{{ .Site.Params.defaultImage }}" alt="{{ .Site.Title }}">
+                  {{ end }}
                   <span class="labcard-tile-body labcard-tile-metadata labcard-tile-pull-right">
                     {{ if .Params.template }}<small><i class="fa fa-file" aria-hidden="true"></i><!--<b>Template</b>--></small>{{ end }}
                     {{ if .Params.test }}<small><i class="fa fa-wrench" aria-hidden="true"></i><!--<b>Testing</b>--></small>{{ end }}
                   </span>
-                {{ end }}
-                  
+                
                   <div class="labcard-tile-body">
                     <h3 class="labcard-tile-title-text">{{ .Title | truncate 25 }}</h3></span>
                   </div>

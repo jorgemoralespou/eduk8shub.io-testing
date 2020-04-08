@@ -1,7 +1,7 @@
 ---
 layout: lab
 title:  "Markdown Lab Template"
-categories: [template]
+tags: [template]
 date: "2020-02-01"
 description: Use this lab as template when you want to create a workshop using Markdown
 author: "Graham Dumpleton"
