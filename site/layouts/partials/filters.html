@@ -52,36 +52,21 @@
 
     function addCategory(item, occurences){
         $categories = $("#categories");
-        $categories.append('<div class="oh-category-item"><button type="button" class="oh-category-item__select" id="_category_'+item+'" onclick="filterCategory(this)">'+item+'&nbsp;&nbsp;&nbsp;<span class="item-count">('+occurences+')</span></button></div>');
+        $categories.append('<div class="oh-category-item"><button type="button" class="oh-category-item__select" id="_category_'+item+'" onclick="clickCategory(this); doSearch();">'+item+'&nbsp;&nbsp;&nbsp;<span class="item-count">('+occurences+')</span></button></div>');
     }
 
     function addTags(item, occurences){
         $tags = $("#tags");
-        $tags.append('<div class="filter-panel-pf-category-item"><div class="checkbox"><label title="Altinity"><input type="checkbox" class="_filter_tags_checkboxes" id="_tag_'+item+'" onclick="filterTags()">'+item+'<span class="item-count">('+occurences+')</span></label></div></div>');
+        $tags.append('<div class="filter-panel-pf-category-item"><div class="checkbox"><label title="Altinity"><input type="checkbox" class="_filter_tags_checkboxes" id="_tag_'+item+'" onclick="doSearch()">'+item+'<span class="item-count">('+occurences+')</span></label></div></div>');
     }
 
-    function filterCategory(element) {
+    function clickCategory(element) {
         // Remove all previous selected
         $(".oh-category-item").each(function(index,element){ $(element).removeClass("selected")});
         $(".oh-category-item__select").each(function(index,element){ $(element).removeClass("selected")});
-
-        var queryString = element.id.replace('_category_','');
-        var results = search("categories:" + queryString);
-        renderResults(results, queryString);
         // Mark selected element
         $(element).addClass("selected");
         $(element).parent().addClass("selected");
-    }
-
-    function filterTags(){
-        var queryString = "";
-        $("._filter_tags_checkboxes").each(function(idx, element){
-            if (element.checked){
-                queryString += " tags:" + element.id.replace('_tag_','');
-            }
-        });
-        var results = search(queryString);
-        renderResults(results, queryString);
     }
 
     initFilters();

@@ -44,17 +44,40 @@
         $("#clear_search").hide();
         $("#clear_search").click(function(){
           $("#search").val("");
-          doSearch("");
+          doSearch();
         });
         $("#search").keyup(function() {
-            // Only trigger a search when 2 chars. at least have been provided
-            var query = $(this).val();
-            doSearch(query);
+            doSearch();
         });
     }
 
-    function doSearch(searchString){
-      var results = search(searchString);
+    function doSearch(){
+      var tagString = "";
+      // computeTags
+      $("._filter_tags_checkboxes").each(function(idx, element){
+        if (element.checked){
+          tagString += element.id.replace('_tag_',' +tags:');
+        }
+      });
+
+      // computeCategories
+      var categoryString = "";
+      $(".oh-category-item__select").each(function(index,element){ 
+        if ($(element).hasClass("selected")){
+          categoryString = $(element).attr('id').replace('_category_',' +categories:');
+        }
+      });
+
+      // compute Search
+      var searchString = "";
+      var searchFieldValue = $("#search").val();
+      if (searchFieldValue!=null && searchFieldValue.length>0){
+        searchFieldValue.split(" ").forEach(token => searchString += "+" + token);
+      }
+
+      var filter = tagString + " " + categoryString + " " + searchString;
+      console.log("Doing search for: " + filter);
+      var results = search(filter);
       // Show the results that have been returned, hide all others
       renderResults(results, searchString);
     }
