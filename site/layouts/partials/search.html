@@ -9,7 +9,7 @@
         $.getJSON("/js/lunr/PagesIndex.json")
             .done(function(index) {
                 pagesIndex = index;
-                console.log("index:", pagesIndex);
+//                console.log("index:", pagesIndex);
   
                 lunrIndex = lunr(function () {
                   this.field("title", {
@@ -41,16 +41,22 @@
   
     // Nothing crazy here, just hook up a listener on the input field
     function initUI() {
+        $("#clear_search").hide();
+        $("#clear_search").click(function(){
+          $("#search").val("");
+          doSearch("");
+        });
         $("#search").keyup(function() {
-            // console.log("key up");
             // Only trigger a search when 2 chars. at least have been provided
             var query = $(this).val();
-  
-            var results = search(query);
-            
-            // Show the results that have been returned, hide all others
-            renderResults(results, query);
+            doSearch(query);
         });
+    }
+
+    function doSearch(searchString){
+      var results = search(searchString);
+      // Show the results that have been returned, hide all others
+      renderResults(results, searchString);
     }
   
     function search(query) {
@@ -64,12 +70,15 @@
     function renderResults(results, query) {
         if (query.length==0){
             visibleAll(true);
+            $("#clear_search").hide();
+        }else{
+          $("#clear_search").show();
         }
         if (!results.length) {
             visibleAll(false);
         }
 
-        results.forEach(function(item){console.log(item.id)});
+//        results.forEach(function(item){console.log(item.id)});
         $(".index-anchor" ).each(function(idx, element){
           var toshow = false;  
           results.forEach(function(result){
@@ -106,9 +115,10 @@
 
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
-          <input type="text" class="form-control" id="search" placeholder="Search">
+          <div class="search-group">
+              <span class="fa fa-search search-icon" aria-hidden="true"></span>
+              <input type="text" class="form-control" id="search" placeholder="Search">
+              <a href="#" id="clear_search" class="fa fa-times-circle clear-icon"></a>
+          </div>
         </div>
-        <!--
-        <button type="submit" class="btn btn-default">Submit</button>
-        -->
       </form>

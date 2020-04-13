@@ -1,7 +1,7 @@
 # baseurl = "http://eduk8s-hub.io/"
 languageCode = "en-us"
 title = "eduk8s Hub"
-paginate = 12
+paginate = 100
 
 [params]
   img = "eduk8s.png"
