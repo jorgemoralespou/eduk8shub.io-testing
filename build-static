@@ -1,0 +1,5 @@
+pushd hugo/site
+hugo
+popd
+rm -rf src/main/resources/static/*
+mv -f hugo/site/public/* src/main/resources/static/

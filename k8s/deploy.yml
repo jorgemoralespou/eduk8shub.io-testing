@@ -1,0 +1,116 @@
+#@ load("@ytt:data", "data")
+
+#@ def destructive_role(destructive):
+#@   if destructive:
+#@     return "edit"
+#@   else:
+#@     return "view"
+#@   end
+#@ end
+
+#@ if data.values.namespace.create:
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: #@ data.values.namespace.name
+#@ end
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eduk8shub
+  #@ if/end data.values.namespace.create:
+  namespace: #@ data.values.namespace.name
+spec:
+  replicas: #@ data.values.replicas
+  selector:
+    matchLabels:
+      app: eduk8shub
+  template:
+    metadata:
+      labels:
+        app: eduk8shub
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+      - name: eduk8shub
+        image: #@ data.values.image.name
+        imagePullPolicy: Always
+        env:
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          initialDelaySeconds: 2
+          periodSeconds: 1
+          timeoutSeconds: 1
+          failureThreshold: 1
+          successThreshold: 1
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8080
+            scheme: HTTP
+        livenessProbe:
+          initialDelaySeconds: 1
+          periodSeconds: 5
+          timeoutSeconds: 1
+          failureThreshold: 3
+          successThreshold: 1
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+            scheme: HTTP
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: eduk8shub
+  #@ if/end data.values.namespace.create:
+  namespace: #@ data.values.namespace.name
+  labels:
+    app: eduk8shub
+spec:
+  type: NodePort
+  ports:
+    - name: eduk8shub
+      port: 8080
+  selector:
+    app: eduk8shub
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: wild-west-role
+  #@ if/end data.values.namespace.create:
+  namespace: #@ data.values.namespace.name
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: #@ destructive_role(data.values.destructive)
+subjects:
+  - kind: ServiceAccount
+    name: default
+    
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-eduk8shub
+  #@ if/end data.values.namespace.create:
+  namespace: #@ data.values.namespace.name
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: #@ data.values.host
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: eduk8shub
+          servicePort: 8080

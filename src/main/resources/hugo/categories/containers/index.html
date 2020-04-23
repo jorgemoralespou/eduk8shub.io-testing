@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>containers</title>
+<meta name="description" content=""/>
+<meta name="robots" content="noodp"/>
+<link rel="canonical" href="/categories/containers/" />
+
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:title" content="containers - eduk8s Hub" />
+<meta name="twitter:site" content="http://twitter.com/eduk8sio" />
+<meta name="twitter:creator" content="http://twitter.com/eduk8sio" />
+
+
+<meta property="og:type" content="website" />
+<meta content="containers - eduk8s Hub" property="og:title">
+<meta content="" property="og:description">
+<meta property="og:url" content="/categories/containers/" />
+<meta property="og:site_name" content="eduk8s Hub" />
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/main.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/lunr.min.js"></script>
+<script type="text/javascript" src="/js/fuse-5_1_0.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div>
+         
+         <img height="64" src="/images/eduk8s.png" alt="">
+         
+         <a class="navbar-brand" href="/">eduk8s Hub</a>
+    </div>
+  </div>
+
+    
+    <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+       
+      <script type="text/javascript">
+    var lunrIndex,
+        $results,
+        pagesIndex,
+        fuse;
+    
+    function initFuse(){
+      const options = {
+        includeScore: true,
+        includeMatches: true,
+        threshold: 0.3,
+        keys: [
+          {
+            name: 'title',
+            weight: 0.1
+          }, 
+          {
+            name: 'tags',
+            weight: 0.3
+          },
+          { 
+            name: 'categories',
+            weight: 0.3
+          },
+          {
+            name: 'content',
+            weight: 0.5
+          }
+        ]
+      }
+
+        $.getJSON("/js/lunr/PagesIndex.json")
+            .done(function(index) {
+                pagesIndex = index;
+
+                fuse = new Fuse(pagesIndex, options);
+            })
+            .fail(function(jqxhr, textStatus, error) {
+                var err = textStatus + ", " + error;
+                console.error("Error getting Hugo index flie:", err);
+            });
+    }
+  
+    
+    function initLunr() {
+        
+        $.getJSON("/js/lunr/PagesIndex.json")
+            .done(function(index) {
+                pagesIndex = index;
+
+  
+                lunrIndex = lunr(function () {
+                  this.field("title", {
+                    boost: 20
+                  });
+                  this.field("tags", {
+                    boost: 10
+                  });
+                  this.field("categories", {
+                    boost: 10
+                  });
+                  this.field("content",{
+                    boost: 5
+                  });
+  
+                  
+                  this.ref("id");
+  
+                  pagesIndex.forEach(function (doc) {
+                    this.add(doc)
+                  }, this)
+                });
+            })
+            .fail(function(jqxhr, textStatus, error) {
+                var err = textStatus + ", " + error;
+                console.error("Error getting Hugo index flie:", err);
+            });
+    }
+  
+    
+    function initUI() {
+        $("#clear_search").hide();
+        $("#clear_search").click(function(){
+          $("#search").val("");
+          doSearch();
+        });
+        $("#search").keyup(function() {
+            doSearch();
+        });
+    }
+
+    
+
+    function doSearch(){
+      var tagString = "";
+      
+      $("._filter_tags_checkboxes").each(function(idx, element){
+        if (element.checked){
+          
+          tagString += element.id.replace('_tag_',' +tags:');
+        }
+      });
+
+      
+      var categoryString = "";
+      $(".oh-category-item__select").each(function(index,element){ 
+        if ($(element).hasClass("selected")){
+          
+          categoryString = $(element).attr('id').replace('_category_',' +categories:');
+        }
+      });
+
+      
+      var searchString = "";
+      var searchFieldValue = $("#search").val();
+      if (searchFieldValue!=null && searchFieldValue.length>0){
+        
+        searchFieldValue.split(" ").forEach(token => searchString += "'"+ token);
+      }
+
+      var filter = tagString + " " + categoryString + " " + searchString;
+      console.log("Doing search for: " + filter);
+      var results = search(filter);
+      console.log("results", results);
+      
+      renderResults(results, searchString);
+    }
+  
+    function search(query) {
+      return fuse.search(query);
+
+
+
+    }
+  
+    function renderResults(results, query) {
+        if (query.length==0){
+            visibleAll(true);
+            $("#clear_search").hide();
+        }else{
+          $("#clear_search").show();
+        }
+        if (!results.length) {
+            visibleAll(false);
+        }
+
+
+
+
+        $(".index-anchor" ).each(function(idx, element){
+          var toshow = false;  
+          results.forEach(function(result){
+            if (result.item.id === element.id){
+              toshow = true;
+            }
+          });
+          if (toshow){
+            $(element).show();
+          }else{
+            $(element).hide();
+          }
+        });
+    }
+
+    function visibleAll(show) {
+        $(".index-anchor").each(function (idx, element) {
+            if (show) {
+                $(element).show();
+            } else {
+                $(element).hide();
+            }
+        });
+        return;
+    }
+  
+    
+    initLunr();
+    initFuse();
+  
+    $(document).ready(function() {
+        initUI();
+    });
+</script>
+
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <div class="search-group">
+              <span class="fa fa-search search-icon" aria-hidden="true"></span>
+              <input type="text" class="form-control" id="search" placeholder="Search">
+              <a href="#" id="clear_search" class="fa fa-times-circle clear-icon"></a>
+          </div>
+        </div>
+      </form>
+
+            <ul class="nav navbar-nav navbar-right">
+              
+        
+        
+        
+            
+                <li>
+                    <a  href="/pages/install/">
+                        <i class='fa fa-bolt'></i>
+                        <span>Install</span>
+                    </a>
+                </li>
+            
+        
+        
+        
+            
+                <li>
+                    <a target="_blank"  href="https://eduk8s.readthedocs.io/">
+                        <i class='fa fa-road'></i>
+                        <span>Read the docs</span>
+                    </a>
+                </li>
+            
+        
+        
+        
+            
+                <li>
+                    <a  href="/pages/about/">
+                        <i class='fa fa-bookmark'></i>
+                        <span>About</span>
+                    </a>
+                </li>
+            
+        
+        
+        
+            
+                <li>
+                    <a  href="/pages/contact/">
+                        <i class='fa fa-user-circle'></i>
+                        <span>Contact</span>
+                    </a>
+                </li>
+            
+        
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Contribute <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a target="_blank" href="https://github.com/eduk8s">Project</a></li>
+            <li><a href="https://github.com/eduk8s/eduk8s-operator">Operator</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a target="_blank" href="https://github.com/eduk8s-labs">Labs</a></li>
+            <li><a target="_blank" href="https://github.com/eduk8s-tests">Tests</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+</header>
+
+
+    <div class="page_contents">
+      <div class="page_contents_inner">
+        <div class="hub_page">
+          <div class="hub_page_filters">
+            <div class="filter_panel">
+              <script type="text/javascript">
+
+    
+    var toOcurrencesMap = function(array) {
+        var elements = new Map();
+        array.forEach(function aggregate(element, index){
+            val = elements.get(element);
+            if (val){
+                val = val+1;
+            }else{
+                val = 1;
+            }
+            elements.set(element, val); 
+        });
+        return elements;
+    }
+
+    function initFilters(){
+        var categoriesArr = [];
+        var tagsArr = [];
+        var categories = [];
+        var tags = [];
+        $.getJSON("/js/lunr/PagesIndex.json").done(function(data) {
+            
+            data.forEach(function addToFilters(element, index){
+                if (element.categories){
+                    element.categories.forEach(category => categoriesArr.push(category));
+                }
+                if (element.tags){
+                    element.tags.forEach(tag => tagsArr.push(tag));
+                }
+            });
+
+            var categories = categoriesArr.reduce(function (acc, curr) {
+                if (typeof acc[curr] == 'undefined') {
+                    acc[curr] = 1;
+                } else {
+                    acc[curr] += 1;
+                }
+                return acc;
+            }, {});
+            var categories = toOcurrencesMap(categoriesArr);
+            var tags = toOcurrencesMap(tagsArr);
+
+            categories.forEach(function(occurences,category){addCategory(category, occurences)});
+            tags.forEach(function(occurences,tag){addTags(tag, occurences)});
+        }).fail(function(jqxhr, textStatus, error) {
+            var err = textStatus + ", " + error;
+            console.error("Error getting Hugo index flie:", err);
+        });
+    }
+
+    function addCategory(item, occurences){
+        $categories = $("#categories");
+        $categories.append('<div class="oh-category-item"><button type="button" class="oh-category-item__select" id="_category_'+item+'" onclick="clickCategory(this); doSearch();">'+item+'&nbsp;&nbsp;&nbsp;<span class="item-count">('+occurences+')</span></button></div>');
+    }
+
+    function addTags(item, occurences){
+        $tags = $("#tags");
+        $tags.append('<div class="filter-panel-pf-category-item"><div class="checkbox"><label title="Altinity"><input type="checkbox" class="_filter_tags_checkboxes" id="_tag_'+item+'" onclick="doSearch()">'+item+'<span class="item-count">('+occurences+')</span></label></div></div>');
+    }
+
+    function clickCategory(element) {
+        
+        $(".oh-category-item").each(function(index,element){ $(element).removeClass("selected")});
+        $(".oh-category-item__select").each(function(index,element){ $(element).removeClass("selected")});
+        
+        $(element).addClass("selected");
+        $(element).parent().addClass("selected");
+    }
+
+    initFilters();
+</script>
+
+<form class="filter-panel-pf-category">
+    <fieldset class="checkbox filter-panel-pf-category-items" id="categories">
+        <legend class="filter-panel-pf-category-title">Categories</legend>
+
+    </fieldset>
+</form>
+
+
+<form class="filter-panel-pf-category">
+    <fieldset class="filter-panel-pf-category-items" id="tags">
+        <legend class="filter-panel-pf-category-title">Tags</legend>
+
+    </fieldset>
+</form>
+
+            </div>
+          </div>
+
+          <div class="hub_page_content">
+            <div class="hub_page_content_tiles">
+              
+        
+        
+             
+             <a href="/labs/k14s/" class="index-anchor" id="_labs_k14s_">
+                <div class="labcard-tile" id="_labs_k14s_">
+                  
+                  
+                  <img class="labcard-tile-image" src="/images/k14s.png" alt="K14S - Kubernetes Tools">
+                  
+                  <span class="labcard-tile-body labcard-tile-metadata labcard-tile-pull-right">
+                    
+                    <small><i class="fa fa-wrench" aria-hidden="true"></i></small>
+                  </span>
+                
+                  <div class="labcard-tile-body">
+                    <h3 class="labcard-tile-title-text">K14S - Kubernetes Tools</h3></span>
+                  </div>
+
+                  <div class="labcard-tile-body">
+                    <span class="labcard-tile-title-text"><small><i class="fa fa-hourglass-half " aria-hidden="true"></i></small>&nbsp;&nbsp;45 minutes</span>
+                    <span class="labcard-tile-metadata"><small>March 28, 2020</small></span>
+                  </div>
+                  
+                  
+                  <div class="labcard-tile-summary-text">
+                    <small>Kubernetes Tools (k14s) provides a comprehensive set of tools for templating, …</small>
+                  </div>
+                  
+                </div>
+                </a>
+          
+             
+             <a href="/labs/kpack/" class="index-anchor" id="_labs_kpack_">
+                <div class="labcard-tile" id="_labs_kpack_">
+                  
+                  
+                  <img class="labcard-tile-image" src="/images/buildpacks.png" alt="Buildpacks">
+                  
+                  <span class="labcard-tile-body labcard-tile-metadata labcard-tile-pull-right">
+                    
+                    <small><i class="fa fa-wrench" aria-hidden="true"></i></small>
+                  </span>
+                
+                  <div class="labcard-tile-body">
+                    <h3 class="labcard-tile-title-text">Buildpacks</h3></span>
+                  </div>
+
+                  <div class="labcard-tile-body">
+                    <span class="labcard-tile-title-text"><small><i class="fa fa-hourglass-half " aria-hidden="true"></i></small>&nbsp;&nbsp;30 minutes</span>
+                    <span class="labcard-tile-metadata"><small>March 1, 2020</small></span>
+                  </div>
+                  
+                  
+                  <div class="labcard-tile-summary-text">
+                    <small>Lab on Cloud Native Buildpacks.</small>
+                  </div>
+                  
+                </div>
+                </a>
+          
+             
+             <a href="/labs/container-basics/" class="index-anchor" id="_labs_container-basics_">
+                <div class="labcard-tile" id="_labs_container-basics_">
+                  
+                  
+                  <img class="labcard-tile-image" src="/images/oci.png" alt="Container Basics">
+                  
+                  <span class="labcard-tile-body labcard-tile-metadata labcard-tile-pull-right">
+                    
+                    
+                  </span>
+                
+                  <div class="labcard-tile-body">
+                    <h3 class="labcard-tile-title-text">Container Basics</h3></span>
+                  </div>
+
+                  <div class="labcard-tile-body">
+                    <span class="labcard-tile-title-text"><small><i class="fa fa-hourglass-half " aria-hidden="true"></i></small>&nbsp;&nbsp;1 hour</span>
+                    <span class="labcard-tile-metadata"><small>March 1, 2020</small></span>
+                  </div>
+                  
+                  
+                  <div class="labcard-tile-summary-text">
+                    <small>An interactive workshop on running applications in containers</small>
+                  </div>
+                  
+                </div>
+                </a>
+          
+             
+             <a href="/labs/theia-testing/" class="index-anchor" id="_labs_theia-testing_">
+                <div class="labcard-tile" id="_labs_theia-testing_">
+                  
+                  
+                  <img class="labcard-tile-image" src="/images/theia.png" alt="Eclipse Theia testing playground">
+                  
+                  <span class="labcard-tile-body labcard-tile-metadata labcard-tile-pull-right">
+                    
+                    
+                  </span>
+                
+                  <div class="labcard-tile-body">
+                    <h3 class="labcard-tile-title-text">Eclipse Theia testing …</h3></span>
+                  </div>
+
+                  <div class="labcard-tile-body">
+                    <span class="labcard-tile-title-text"><small><i class="fa fa-hourglass-half " aria-hidden="true"></i></small>&nbsp;&nbsp;5 minutes</span>
+                    <span class="labcard-tile-metadata"><small>March 1, 2020</small></span>
+                  </div>
+                  
+                  
+                  <div class="labcard-tile-summary-text">
+                    <small>A play area for testing Eclipse Theia web editor.</small>
+                  </div>
+                  
+                </div>
+                </a>
+          
+             
+             <a href="/labs/jupyter-on-k8s-01/" class="index-anchor" id="_labs_jupyter-on-k8s-01_">
+                <div class="labcard-tile" id="_labs_jupyter-on-k8s-01_">
+                  
+                  
+                  <img class="labcard-tile-image" src="/images/jupyter.png" alt="Jupyter on K8S - Part 1">
+                  
+                  <span class="labcard-tile-body labcard-tile-metadata labcard-tile-pull-right">
+                    
+                    
+                  </span>
+                
+                  <div class="labcard-tile-body">
+                    <h3 class="labcard-tile-title-text">Jupyter on K8S - Part 1</h3></span>
+                  </div>
+
+                  <div class="labcard-tile-body">
+                    <span class="labcard-tile-title-text"><small><i class="fa fa-hourglass-half " aria-hidden="true"></i></small>&nbsp;&nbsp;1 hour</span>
+                    <span class="labcard-tile-metadata"><small>March 1, 2020</small></span>
+                  </div>
+                  
+                  
+                  <div class="labcard-tile-summary-text">
+                    <small>Workshop exploring deployment of Jupyter notebooks to Kubernetes</small>
+                  </div>
+                  
+                </div>
+                </a>
+          
+             
+             <a href="/labs/jupyter-on-k8s-02/" class="index-anchor" id="_labs_jupyter-on-k8s-02_">
+                <div class="labcard-tile" id="_labs_jupyter-on-k8s-02_">
+                  
+                  
+                  <img class="labcard-tile-image" src="/images/jupyter.png" alt="Jupyter on K8S - Part 2">
+                  
+                  <span class="labcard-tile-body labcard-tile-metadata labcard-tile-pull-right">
+                    
+                    
+                  </span>
+                
+                  <div class="labcard-tile-body">
+                    <h3 class="labcard-tile-title-text">Jupyter on K8S - Part 2</h3></span>
+                  </div>
+
+                  <div class="labcard-tile-body">
+                    <span class="labcard-tile-title-text"><small><i class="fa fa-hourglass-half " aria-hidden="true"></i></small>&nbsp;&nbsp;1 hour</span>
+                    <span class="labcard-tile-metadata"><small>March 1, 2020</small></span>
+                  </div>
+                  
+                  
+                  <div class="labcard-tile-summary-text">
+                    <small>Workshop exploring deployment of Jupyter notebooks to Kubernetes</small>
+                  </div>
+                  
+                </div>
+                </a>
+          
+             
+             <a href="/labs/jupyter-testing/" class="index-anchor" id="_labs_jupyter-testing_">
+                <div class="labcard-tile" id="_labs_jupyter-testing_">
+                  
+                  
+                  <img class="labcard-tile-image" src="/images/jupyter.png" alt="Jupyter playground">
+                  
+                  <span class="labcard-tile-body labcard-tile-metadata labcard-tile-pull-right">
+                    
+                    
+                  </span>
+                
+                  <div class="labcard-tile-body">
+                    <h3 class="labcard-tile-title-text">Jupyter playground</h3></span>
+                  </div>
+
+                  <div class="labcard-tile-body">
+                    <span class="labcard-tile-title-text"><small><i class="fa fa-hourglass-half " aria-hidden="true"></i></small>&nbsp;&nbsp;1 hour</span>
+                    <span class="labcard-tile-metadata"><small>March 1, 2020</small></span>
+                  </div>
+                  
+                  
+                  <div class="labcard-tile-summary-text">
+                    <small>An interactive workshop on running Jupyter notebooks</small>
+                  </div>
+                  
+                </div>
+                </a>
+          
+             
+             <a href="/labs/openshift-testing/" class="index-anchor" id="_labs_openshift-testing_">
+                <div class="labcard-tile" id="_labs_openshift-testing_">
+                  
+                  
+                  <img class="labcard-tile-image" src="/images/openshift.png" alt="OpenShift testing playground">
+                  
+                  <span class="labcard-tile-body labcard-tile-metadata labcard-tile-pull-right">
+                    
+                    
+                  </span>
+                
+                  <div class="labcard-tile-body">
+                    <h3 class="labcard-tile-title-text">OpenShift testing …</h3></span>
+                  </div>
+
+                  <div class="labcard-tile-body">
+                    <span class="labcard-tile-title-text"><small><i class="fa fa-hourglass-half " aria-hidden="true"></i></small>&nbsp;&nbsp;5 minutes</span>
+                    <span class="labcard-tile-metadata"><small>March 1, 2020</small></span>
+                  </div>
+                  
+                  
+                  <div class="labcard-tile-summary-text">
+                    <small>A play area for testing the OpenShift web console.</small>
+                  </div>
+                  
+                </div>
+                </a>
+          
+             
+             <a href="/labs/podman/" class="index-anchor" id="_labs_podman_">
+                <div class="labcard-tile" id="_labs_podman_">
+                  
+                  
+                  <img class="labcard-tile-image" src="/images/podman.png" alt="Using podman to manage containers">
+                  
+                  <span class="labcard-tile-body labcard-tile-metadata labcard-tile-pull-right">
+                    
+                    <small><i class="fa fa-wrench" aria-hidden="true"></i></small>
+                  </span>
+                
+                  <div class="labcard-tile-body">
+                    <h3 class="labcard-tile-title-text">Using podman to manage …</h3></span>
+                  </div>
+
+                  <div class="labcard-tile-body">
+                    <span class="labcard-tile-title-text"><small><i class="fa fa-hourglass-half " aria-hidden="true"></i></small>&nbsp;&nbsp;30 minutes</span>
+                    <span class="labcard-tile-metadata"><small>March 1, 2020</small></span>
+                  </div>
+                  
+                  
+                  <div class="labcard-tile-summary-text">
+                    <small>Sample workshop for testing use of podman in a container</small>
+                  </div>
+                  
+                </div>
+                </a>
+          
+             
+             <a href="/labs/tekton/" class="index-anchor" id="_labs_tekton_">
+                <div class="labcard-tile" id="_labs_tekton_">
+                  
+                  
+                  <img class="labcard-tile-image" src="/images/tekton.png" alt="Tekton - Cloud Native CD">
+                  
+                  <span class="labcard-tile-body labcard-tile-metadata labcard-tile-pull-right">
+                    
+                    
+                  </span>
+                
+                  <div class="labcard-tile-body">
+                    <h3 class="labcard-tile-title-text">Tekton - Cloud Native CD</h3></span>
+                  </div>
+
+                  <div class="labcard-tile-body">
+                    <span class="labcard-tile-title-text"></span>
+                    <span class="labcard-tile-metadata"><small>February 28, 2020</small></span>
+                  </div>
+                  
+                  
+                  <div class="labcard-tile-summary-text">
+                    <small>Cloud Native Continuous Delivery using Kubernetes primitives</small>
+                  </div>
+                  
+                </div>
+                </a>
+          
+             
+             <a href="/labs/octant/" class="index-anchor" id="_labs_octant_">
+                <div class="labcard-tile" id="_labs_octant_">
+                  
+                  
+                  <img class="labcard-tile-image" src="/images/octant.png" alt="Octant">
+                  
+                  <span class="labcard-tile-body labcard-tile-metadata labcard-tile-pull-right">
+                    
+                    
+                  </span>
+                
+                  <div class="labcard-tile-body">
+                    <h3 class="labcard-tile-title-text">Octant</h3></span>
+                  </div>
+
+                  <div class="labcard-tile-body">
+                    <span class="labcard-tile-title-text"><small><i class="fa fa-hourglass-half " aria-hidden="true"></i></small>&nbsp;&nbsp;10 minutes</span>
+                    <span class="labcard-tile-metadata"><small>February 28, 2020</small></span>
+                  </div>
+                  
+                  
+                  <div class="labcard-tile-summary-text">
+                    <small>An introduction to Octant and play area for testing it</small>
+                  </div>
+                  
+                </div>
+                </a>
+          
+             
+             <a href="/labs/lab-asciidoc/" class="index-anchor" id="_labs_lab-asciidoc_">
+                <div class="labcard-tile" id="_labs_lab-asciidoc_">
+                  
+                  
+                  <img class="labcard-tile-image" src="/images/eduk8s.png" alt="eduk8s Hub">
+                  
+                  <span class="labcard-tile-body labcard-tile-metadata labcard-tile-pull-right">
+                    <small><i class="fa fa-file" aria-hidden="true"></i></small>
+                    
+                  </span>
+                
+                  <div class="labcard-tile-body">
+                    <h3 class="labcard-tile-title-text">Asciidoc Lab Template</h3></span>
+                  </div>
+
+                  <div class="labcard-tile-body">
+                    <span class="labcard-tile-title-text"></span>
+                    <span class="labcard-tile-metadata"><small>February 1, 2020</small></span>
+                  </div>
+                  
+                  
+                  <div class="labcard-tile-summary-text">
+                    <small>Use this lab as template when you want to create a workshop using Asciidoc</small>
+                  </div>
+                  
+                </div>
+                </a>
+          
+             
+             <a href="/labs/lab-markdown/" class="index-anchor" id="_labs_lab-markdown_">
+                <div class="labcard-tile" id="_labs_lab-markdown_">
+                  
+                  
+                  <img class="labcard-tile-image" src="/images/eduk8s.png" alt="eduk8s Hub">
+                  
+                  <span class="labcard-tile-body labcard-tile-metadata labcard-tile-pull-right">
+                    <small><i class="fa fa-file" aria-hidden="true"></i></small>
+                    
+                  </span>
+                
+                  <div class="labcard-tile-body">
+                    <h3 class="labcard-tile-title-text">Markdown Lab Template</h3></span>
+                  </div>
+
+                  <div class="labcard-tile-body">
+                    <span class="labcard-tile-title-text"></span>
+                    <span class="labcard-tile-metadata"><small>February 1, 2020</small></span>
+                  </div>
+                  
+                  
+                  <div class="labcard-tile-summary-text">
+                    <small>Use this lab as template when you want to create a workshop using Markdown</small>
+                  </div>
+                  
+                </div>
+                </a>
+          
+             
+             <a href="/labs/k8s-fundamentals/" class="index-anchor" id="_labs_k8s-fundamentals_">
+                <div class="labcard-tile" id="_labs_k8s-fundamentals_">
+                  
+                  
+                  <img class="labcard-tile-image" src="/images/kubernetes.png" alt="Kubernetes fundamentals">
+                  
+                  <span class="labcard-tile-body labcard-tile-metadata labcard-tile-pull-right">
+                    
+                    
+                  </span>
+                
+                  <div class="labcard-tile-body">
+                    <h3 class="labcard-tile-title-text">Kubernetes fundamentals</h3></span>
+                  </div>
+
+                  <div class="labcard-tile-body">
+                    <span class="labcard-tile-title-text"><small><i class="fa fa-hourglass-half " aria-hidden="true"></i></small>&nbsp;&nbsp;1 hour</span>
+                    <span class="labcard-tile-metadata"><small>January 1, 2020</small></span>
+                  </div>
+                  
+                  
+                  <div class="labcard-tile-summary-text">
+                    <small>An interactive workshop on Kubernetes fundamentals</small>
+                  </div>
+                  
+                </div>
+                </a>
+          
+
+
+
+<div>
+  <ul id="results">
+  </ul>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+    <div class="container">
+        <div class="row p20">
+            
+                <div class="col-md-4 text-center mt25">All rights reserved by <a target="_blank" href="https://eduk8s.io">eduk8s</a></div>
+            
+
+            <div class="col-md-4 text-center mt25">
+               
+                <a target="_blank" href="http://twitter.com/eduk8sio"><li class="social twitter"><i class="fa fa-twitter-square"></i></li></a>
+                
+               
+                <a target="_blank" href="http://github.com/eduk8s"><li class="social github"><i class="fa fa-github-square"></i></li></a>
+                
+            </div>
+        </div> 
+    </div>
+</footer>
+
+
+    
+  </body>
+
+</html>

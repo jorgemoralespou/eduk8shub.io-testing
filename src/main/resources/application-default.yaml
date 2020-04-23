@@ -1,0 +1,56 @@
+spring:
+  mustache:
+    suffix: .html
+logging:
+  level:
+    web: DEBUG
+    com.eduk8s.hub: DEBUG
+
+# MOCK DATA
+json:
+  mock:
+    environments: mock-data/environments.json
+    hub: mock-data/hub.json
+##########
+# PORTAL CONFIGURATION
+##########
+catalog:
+  portals:
+    - name: eduk8s-training-portal-ui-failk8s-dev
+      url: https://eduk8s-training-portal-ui.training.failk8s.dev
+      robot:
+        client_id: AmZTf7C1zxs3bjJ84Wg0IvyPGkpDXYw2
+        client_secret: EbM5Vs6nSQcBTKvLgefIUqAHtd3rZiyX
+        username: robot@eduk8s
+        password: pmgM06nDFNYb8xXP5ctSvl9us4Eyakz1
+    - name: eduk8s-training-portal-ui-failk8s-com
+      url: https://eduk8s-training-portal-ui.training.failk8s.com
+      robot:
+        client_id: 1pvrufdeGNLBIElZTJxwHbVKm4y67Dg2
+        client_secret: TEhq2A5RGLr8VckUwDYiej6luFWCSPKQ
+        username: robot@eduk8s
+        password: 2Gt7Q86RDdrJuXjYEMUbOgwvkpBWmyif
+##########
+# WEBSITE CONFIGURATION
+##########
+web:
+  site:
+    baseUrl:
+    title: eduk8s hub
+    img: eduk8s.png
+  copyright:
+    name: eduk8s
+    link: https://eduk8s.io
+  twitter: http://twitter.com/eduk8sio
+  github: http://github.com/eduk8s
+  analytics:
+  page:
+    defaultImage: eduk8s.png
+  web:
+    menu:
+      main: 
+        install:
+          name: Install
+          pre: <i class='fa fa-bolt'></i>
+          url: /pages/install/
+          weight: -200

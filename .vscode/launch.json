@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-HubApplication<hub>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.eduk8s.hub.HubApplication",
+            "projectName": "hub",
+            "args": ""
+        }
+    ]
+}

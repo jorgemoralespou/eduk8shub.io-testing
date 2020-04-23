@@ -1,0 +1,37 @@
+spring:
+  mustache:
+    suffix: .html
+logging:
+  level:
+    web: DEBUG
+    com.eduk8s.hub: INFO
+
+# MOCK DATA
+json:
+  mock:
+    environments: mock-data/environments.json
+    hub: mock-data/hub.json
+##########
+# WEBSITE CONFIGURATION
+##########
+web:
+  site:
+    baseUrl:
+    title: eduk8s hub
+    img: eduk8s.png
+  copyright:
+    name: eduk8s
+    link: https://eduk8s.io
+  twitter: http://twitter.com/eduk8sio
+  github: http://github.com/eduk8s
+  analytics:
+  page:
+    defaultImage: eduk8s.png
+  web:
+    menu:
+      main: 
+        install:
+          name: Install
+          pre: <i class='fa fa-bolt'></i>
+          url: /pages/install/
+          weight: -200

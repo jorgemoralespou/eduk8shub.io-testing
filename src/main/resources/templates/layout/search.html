@@ -1,0 +1,201 @@
+<script type="text/javascript">
+  var lunrIndex,
+    $results,
+    pagesIndex,
+    fuse;
+
+  function initFuse() {
+    const options = {
+      includeScore: true,
+      includeMatches: true,
+      threshold: 0.3,
+      keys: [
+        {
+          name: 'title',
+          weight: 0.1
+        },
+        {
+          name: 'tags',
+          weight: 0.3
+        },
+        {
+          name: 'categories',
+          weight: 0.3
+        },
+        {
+          name: 'description',
+          weight: 0.5
+        }
+      ]
+    }
+
+    $.getJSON("/api/catalog")
+      .done(function (index) {
+        fuse = new Fuse(index, options);
+      })
+      .fail(function (jqxhr, textStatus, error) {
+        var err = textStatus + ", " + error;
+        console.error("Error getting catalog:", err);
+      });
+  }
+
+  // Initialize lunrjs using our generated index file
+  function initLunr() {
+    // First retrieve the index file
+    $.getJSON("/api/catalog")
+      .done(function (index) {
+        pagesIndex = index;
+
+        lunrIndex = lunr(function () {
+          this.field("title", {
+            boost: 20
+          });
+          this.field("tags", {
+            boost: 10
+          });
+          this.field("categories", {
+            boost: 10
+          });
+          this.field("description", {
+            boost: 5
+          });
+
+          // ref is the result item identifier (I chose the page id)
+          this.ref("name");
+
+          pagesIndex.forEach(function (doc) {
+            this.add(doc)
+          }, this)
+        });
+      })
+      .fail(function (jqxhr, textStatus, error) {
+        var err = textStatus + ", " + error;
+        console.error("Error getting catalog:", err);
+      });
+  }
+
+  // Nothing crazy here, just hook up a listener on the input field
+  function initUI() {
+    $("#clear_search").hide();
+    $("#clear_search").click(function () {
+      $("#search").val("");
+      doSearch();
+    });
+    $("#search").keyup(function () {
+      doSearch();
+    });
+  }
+
+  /*
+   * When this issue will be solved we can safely use fuse to search in tags/categories: https://github.com/krisk/Fuse/issues/378
+   *
+   */
+  function doSearch() {
+    var tagString = "";
+    // computeTags
+    $("._filter_tags_checkboxes").each(function (idx, element) {
+      if (element.checked) {
+        // Do an OR operation
+        // lunr Below
+        // tagString += element.id.replace('_tag_', ' +tags:');
+        // fuse below
+        tagString += element.id.replace('_tag_', ' ');
+      }
+    });
+
+    // computeCategories
+    var categoryString = "";
+    $(".oh-category-item__select").each(function (index, element) {
+      if ($(element).hasClass("selected")) {
+        // Exclusive operation
+        // lunr Below
+        // categoryString = $(element).attr('id').replace('_category_', ' +categories:');
+        // fuse below
+        categoryString = $(element).attr('id').replace('_category_', ' ');
+      }
+    });
+
+    // compute Search
+    var searchString = "";
+    var searchFieldValue = $("#search").val();
+    console.log("Search for: " + searchFieldValue);
+    if (searchFieldValue != null && searchFieldValue.length > 0) {
+      // Do an AND operation
+      //searchFieldValue.split(" ").forEach(token => searchString += "'" + token);
+      searchFieldValue.split(" ").forEach(token => searchString += " " + token);
+    }
+
+    var filter = tagString + " " + categoryString + " " + searchString;
+    console.log("Doing search for: [" + filter + "]");
+    var results = search(filter);
+    console.log("results", results);
+    // Show the results that have been returned, hide all others
+    renderResults(results, searchString);
+  }
+
+  function search(query) {
+/*
+    return fuse.search(query);
+*/
+    return lunrIndex.search(query).map(function(result) {
+      return pagesIndex.filter(function(page) {
+        return page.name === result.ref;
+      })[0];
+    });
+  }
+
+  function renderResults(results, query) {
+    if (query.length == 0) {
+      visibleAll(true);
+      $("#clear_search").hide();
+    } else {
+      $("#clear_search").show();
+    }
+    if (!results.length) {
+      visibleAll(false);
+    }
+
+    $(".index-anchor").each(function (idx, element) {
+      var toshow = false;
+      results.forEach(function (result) {
+        if (result.name === element.id) {
+          toshow = true;
+        }
+      });
+      if (toshow) {
+        $(element).show();
+      } else {
+        $(element).hide();
+      }
+    });
+  }
+
+  function visibleAll(show) {
+    $(".index-anchor").each(function (idx, element) {
+      if (show) {
+        $(element).show();
+      } else {
+        $(element).hide();
+      }
+    });
+    return;
+  }
+
+  // Let's get started
+  initLunr();
+  initFuse();
+
+  $(document).ready(function () {
+    initUI();
+  });
+</script>
+
+<form class="navbar-form navbar-left" role="search">
+  <div class="form-group">
+    <div class="search-group">
+      <span class="fa fa-search search-icon" aria-hidden="true"></span>
+      <input type="text" class="form-control" id="search" placeholder="Search">
+      <a href="#" id="clear_search" class="fa fa-times-circle clear-icon"></a>
+    </div>
+  </div>
+</form>

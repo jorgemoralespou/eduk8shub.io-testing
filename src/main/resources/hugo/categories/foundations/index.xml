@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>foundations on eduk8s Hub</title>
+    <link>/categories/foundations/</link>
+    <description>Recent content in foundations on eduk8s Hub</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 01 Jan 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/foundations/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Kubernetes fundamentals</title>
+      <link>/labs/k8s-fundamentals/</link>
+      <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/labs/k8s-fundamentals/</guid>
+      <description>CONTENT: If you want to review the workshop content, you can browse the files and subdirectories under workshop/content.
+Install the workshop To deploy the workshop, install the eduk8s operator, then run:
+kubectl apply -k github.com/eduk8s-labs/lab-k8s-fundamentals  NOTE! Note that this workshop requires that your Kubernetes cluster have persistent volumes of type ReadWriteOnce (RWO) and ReadWriteMany (RWX) available. Your cluster must also be configured to handle the Ingress resource type. If either of these conditions are not met, you will not be able to perform all steps of the workshop.</description>
+    </item>
+    
+  </channel>
+</rss>

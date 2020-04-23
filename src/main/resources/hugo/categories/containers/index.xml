@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>containers on eduk8s Hub</title>
+    <link>/categories/containers/</link>
+    <description>Recent content in containers on eduk8s Hub</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 01 Mar 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/containers/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Container Basics</title>
+      <link>/labs/container-basics/</link>
+      <pubDate>Sun, 01 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/labs/container-basics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Using podman to manage containers</title>
+      <link>/labs/podman/</link>
+      <pubDate>Sun, 01 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/labs/podman/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>k14s on eduk8s Hub</title>
+    <link>/categories/k14s/</link>
+    <description>Recent content in k14s on eduk8s Hub</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 28 Mar 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/k14s/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>K14S - Kubernetes Tools</title>
+      <link>/labs/k14s/</link>
+      <pubDate>Sat, 28 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/labs/k14s/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

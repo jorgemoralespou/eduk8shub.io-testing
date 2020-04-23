@@ -1,0 +1,13 @@
+#@data/values
+---
+namespace:
+  name: eduk8s
+  create: true
+replicas: 1
+image: 
+  name: quay.io/jorgemoralespou/eduk8shub:development
+  build: false
+  push_repo: registry.test:5000/wildwest
+destructive: false
+host: hub.k8s.test
+dockerfile: docker/Dockerfile.innerloop

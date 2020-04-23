@@ -1,0 +1,50 @@
+@hostname=https://eduk8s-training-portal-ui.training.failk8s.dev
+# Robot client:
+# id: kubectl get trainingportal/eduk8s-training-portal -o jsonpath='{.status.eduk8s.clients.robot.id}'
+@robot_client_id=AmZTf7C1zxs3bjJ84Wg0IvyPGkpDXYw2
+# secret: kubectl get trainingportal/eduk8s-training-portal -o jsonpath='{.status.eduk8s.clients.robot.secret}'
+@robot_client_secret=EbM5Vs6nSQcBTKvLgefIUqAHtd3rZiyX
+# Robot credentials:
+# Username: kubectl get trainingportal/eduk8s-training-portal -o jsonpath='{.status.eduk8s.credentials.robot.username}'
+@robot_username=robot@eduk8s
+# Password: kubectl get trainingportal/eduk8s-training-portal -o jsonpath='{.status.eduk8s.credentials.robot.password}'
+@robot_password=pmgM06nDFNYb8xXP5ctSvl9us4Eyakz1
+
+
+###
+# Get the bearer token
+#
+# @name tokenRequest
+POST  {{hostname}}/oauth2/token/ HTTP/1.1
+Authorization: Basic {{robot_client_id}}:{{robot_client_secret}}
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&username={{robot_username}}&password={{robot_password}}
+
+###
+# Get a list of catalogs
+#
+# @name catalogRequest
+# token is in tokenRequest.response.body.access_token
+GET {{hostname}}/workshops/catalog/environments/ HTTP/1.1
+Authorization: Bearer {{tokenRequest.response.body.access_token}}
+
+
+###
+# Start a workshop
+#
+# @name workshopRequest
+# token is in tokenRequest.response.body.access_token
+GET {{hostname}}/workshops/environment/{{catalogRequest.response.body.environments[0].name}}/request/?redirect_url={{hostname}} HTTP/1.1
+Authorization: Bearer {{tokenRequest.response.body.access_token}}
+
+
+###
+# Refresh token
+#
+# @name workshopRequest
+# token is in tokenRequest.response.body.access_token
+POST {{hostname}}/oauth2/token/ HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=refresh_token&refresh_token={{tokenRequest.response.body.refresh_token}}&client_id={{robot_client_id}}&client_secret={{robot_client_secret}}

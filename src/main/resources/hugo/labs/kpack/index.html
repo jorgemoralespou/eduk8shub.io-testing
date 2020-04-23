@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Buildpacks - eduk8s Hub</title>
+<meta name="description" content="Lab on Cloud Native Buildpacks."/>
+<meta name="robots" content="noodp"/>
+<link rel="canonical" href="/labs/kpack/" />
+
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:description" content="Lab on Cloud Native Buildpacks." />
+<meta name="twitter:title" content="Buildpacks - eduk8s Hub" />
+<meta name="twitter:site" content="http://twitter.com/eduk8sio" />
+<meta name="twitter:creator" content="http://twitter.com/eduk8sio" />
+
+
+<meta property="og:type" content="article" />
+<meta content="Buildpacks - eduk8s Hub" property="og:title">
+<meta content="Lab on Cloud Native Buildpacks." property="og:description">
+<meta property="og:url" content="/labs/kpack/" />
+<meta property="og:site_name" content="eduk8s Hub" />
+<meta property="article:section" content="kubernetes" /><meta property="article:section" content="tools" /><meta property="article:section" content="builds" />
+<meta property="article:published_time" content="2020-03-01 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+<script type="application/ld+json">
+{ 
+    "@context": "http://schema.org", 
+    "@type": "BlogPosting",
+    "headline": "Buildpacks",
+    "genre": "kubernetestoolsbuilds",  
+    "url": "\/labs\/kpack\/",
+    "datePublished": "2020-03-01 00:00:00 \x2b0000 UTC",
+    "description": "Lab on Cloud Native Buildpacks.",
+    "author": {
+        "@type": "Person",
+        "name": ""
+    }
+ }
+</script>
+
+
+
+
+<link rel="stylesheet" href="/sass/main.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/lunr.min.js"></script>
+<script type="text/javascript" src="/js/fuse-5_1_0.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div>
+         
+         <img height="64" src="/images/eduk8s.png" alt="">
+         
+         <a class="navbar-brand" href="/">eduk8s Hub</a>
+    </div>
+  </div>
+
+    
+    <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+       
+      <script type="text/javascript">
+    var lunrIndex,
+        $results,
+        pagesIndex,
+        fuse;
+    
+    function initFuse(){
+      const options = {
+        includeScore: true,
+        includeMatches: true,
+        threshold: 0.3,
+        keys: [
+          {
+            name: 'title',
+            weight: 0.1
+          }, 
+          {
+            name: 'tags',
+            weight: 0.3
+          },
+          { 
+            name: 'categories',
+            weight: 0.3
+          },
+          {
+            name: 'content',
+            weight: 0.5
+          }
+        ]
+      }
+
+        $.getJSON("/js/lunr/PagesIndex.json")
+            .done(function(index) {
+                pagesIndex = index;
+
+                fuse = new Fuse(pagesIndex, options);
+            })
+            .fail(function(jqxhr, textStatus, error) {
+                var err = textStatus + ", " + error;
+                console.error("Error getting Hugo index flie:", err);
+            });
+    }
+  
+    
+    function initLunr() {
+        
+        $.getJSON("/js/lunr/PagesIndex.json")
+            .done(function(index) {
+                pagesIndex = index;
+
+  
+                lunrIndex = lunr(function () {
+                  this.field("title", {
+                    boost: 20
+                  });
+                  this.field("tags", {
+                    boost: 10
+                  });
+                  this.field("categories", {
+                    boost: 10
+                  });
+                  this.field("content",{
+                    boost: 5
+                  });
+  
+                  
+                  this.ref("id");
+  
+                  pagesIndex.forEach(function (doc) {
+                    this.add(doc)
+                  }, this)
+                });
+            })
+            .fail(function(jqxhr, textStatus, error) {
+                var err = textStatus + ", " + error;
+                console.error("Error getting Hugo index flie:", err);
+            });
+    }
+  
+    
+    function initUI() {
+        $("#clear_search").hide();
+        $("#clear_search").click(function(){
+          $("#search").val("");
+          doSearch();
+        });
+        $("#search").keyup(function() {
+            doSearch();
+        });
+    }
+
+    
+
+    function doSearch(){
+      var tagString = "";
+      
+      $("._filter_tags_checkboxes").each(function(idx, element){
+        if (element.checked){
+          
+          tagString += element.id.replace('_tag_',' +tags:');
+        }
+      });
+
+      
+      var categoryString = "";
+      $(".oh-category-item__select").each(function(index,element){ 
+        if ($(element).hasClass("selected")){
+          
+          categoryString = $(element).attr('id').replace('_category_',' +categories:');
+        }
+      });
+
+      
+      var searchString = "";
+      var searchFieldValue = $("#search").val();
+      if (searchFieldValue!=null && searchFieldValue.length>0){
+        
+        searchFieldValue.split(" ").forEach(token => searchString += "'"+ token);
+      }
+
+      var filter = tagString + " " + categoryString + " " + searchString;
+      console.log("Doing search for: " + filter);
+      var results = search(filter);
+      console.log("results", results);
+      
+      renderResults(results, searchString);
+    }
+  
+    function search(query) {
+      return fuse.search(query);
+
+
+
+    }
+  
+    function renderResults(results, query) {
+        if (query.length==0){
+            visibleAll(true);
+            $("#clear_search").hide();
+        }else{
+          $("#clear_search").show();
+        }
+        if (!results.length) {
+            visibleAll(false);
+        }
+
+
+
+
+        $(".index-anchor" ).each(function(idx, element){
+          var toshow = false;  
+          results.forEach(function(result){
+            if (result.item.id === element.id){
+              toshow = true;
+            }
+          });
+          if (toshow){
+            $(element).show();
+          }else{
+            $(element).hide();
+          }
+        });
+    }
+
+    function visibleAll(show) {
+        $(".index-anchor").each(function (idx, element) {
+            if (show) {
+                $(element).show();
+            } else {
+                $(element).hide();
+            }
+        });
+        return;
+    }
+  
+    
+    initLunr();
+    initFuse();
+  
+    $(document).ready(function() {
+        initUI();
+    });
+</script>
+
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <div class="search-group">
+              <span class="fa fa-search search-icon" aria-hidden="true"></span>
+              <input type="text" class="form-control" id="search" placeholder="Search">
+              <a href="#" id="clear_search" class="fa fa-times-circle clear-icon"></a>
+          </div>
+        </div>
+      </form>
+
+            <ul class="nav navbar-nav navbar-right">
+              
+        
+        
+        
+            
+                <li>
+                    <a  href="/pages/install/">
+                        <i class='fa fa-bolt'></i>
+                        <span>Install</span>
+                    </a>
+                </li>
+            
+        
+        
+        
+            
+                <li>
+                    <a target="_blank"  href="https://eduk8s.readthedocs.io/">
+                        <i class='fa fa-road'></i>
+                        <span>Read the docs</span>
+                    </a>
+                </li>
+            
+        
+        
+        
+            
+                <li>
+                    <a  href="/pages/about/">
+                        <i class='fa fa-bookmark'></i>
+                        <span>About</span>
+                    </a>
+                </li>
+            
+        
+        
+        
+            
+                <li>
+                    <a  href="/pages/contact/">
+                        <i class='fa fa-user-circle'></i>
+                        <span>Contact</span>
+                    </a>
+                </li>
+            
+        
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Contribute <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a target="_blank" href="https://github.com/eduk8s">Project</a></li>
+            <li><a href="https://github.com/eduk8s/eduk8s-operator">Operator</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a target="_blank" href="https://github.com/eduk8s-labs">Labs</a></li>
+            <li><a target="_blank" href="https://github.com/eduk8s-tests">Tests</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+</header>
+
+
+    <div class="page_contents">
+      <div class="page_contents_inner">
+        <div class="hub_page">
+          <div class="hub_page_content">
+            <div class="hub_page_content_tiles">
+              
+<div class="row">
+<div class="col-md-8">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+          <header class="post-header">
+            <h1 class="post-title" itemprop="name headline">Buildpacks</h1>
+            <p class="post-meta"><time datetime='2020-03-01T00:00:00Z' itemprop="datePublished">March 1, 2020</time> • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Graham Dumpleton</span></span></p>
+          </header>
+
+          <div class="post-content" itemprop="articleBody">
+            
+            <p>If you want to review the workshop content, you can browse the files and subdirectories under <a href="https://github.com/eduk8s-tests/lab-kpack-testing/tree/master/workshop/content">workshop/content</a>.</p>
+
+            <h2 id="install-the-workshop">Install the workshop</h2>
+            <p>To deploy the workshop, <a href="/pages/install/">install the eduk8s operator</a>, then run:</p>
+            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -k github.com/eduk8s-tests/lab-kpack-testing</code></pre></div>
+
+            
+            <aside class="box">
+            <div><p>You need to have kpack installed on the cluster for this workshop. You can install it by doing
+kubectl apply -f https://github.com/pivotal/kpack/releases/download/v0.0.8/release-0.0.8.yaml
+</p>
+            </div>
+            </aside>
+            
+            <h2 id="delete-the-workshop">Delete the workshop</h2>
+            <p>To delete the workshop when finished, run:</p>
+            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-bash" data-lang="bash">kubectl delete -k github.com/eduk8s-tests/lab-kpack-testing
+            </code></pre></div><h2 id="example-workshop">Example workshop</h2>
+            <p>If you want to manually create an instance of the workshop, just create an instance of this CRD with the following content:</p>
+            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-yaml" data-lang="yaml">
+            </code></pre></div>
+            
+          </div>
+    </article>
+</div>
+
+<div class="col-md-4 mt20">
+        <div class="post-img">
+           
+            <img width="600" src="/images/buildpacks.png" alt="Buildpacks">
+            
+        </div>
+            
+        
+        <div class="mt10">
+            <i class="fa fa-github" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<a href="https://github.com/eduk8s-tests/lab-kpack-testing">https://github.com/eduk8s-tests/lab-kpack-testing</a>
+        </div>
+        
+        <br>
+
+</div>
+</div>
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+    <div class="container">
+        <div class="row p20">
+            
+                <div class="col-md-4 text-center mt25">All rights reserved by <a target="_blank" href="https://eduk8s.io">eduk8s</a></div>
+            
+
+            <div class="col-md-4 text-center mt25">
+               
+                <a target="_blank" href="http://twitter.com/eduk8sio"><li class="social twitter"><i class="fa fa-twitter-square"></i></li></a>
+                
+               
+                <a target="_blank" href="http://github.com/eduk8s"><li class="social github"><i class="fa fa-github-square"></i></li></a>
+                
+            </div>
+        </div> 
+    </div>
+</footer>
+
+
+    
+  </body>
+
+</html>
