@@ -29,6 +29,13 @@ catalog:
         client_secret: what-a-looser
         username: robot@eduk8s
         password: jorge-is-awesome
+    - name: lab-spring-boot-ui-failk8s-dev
+      url: https://lab-spring-boot-ui.training.failk8s.dev
+      robot:
+        client_id: grumpy-old-man
+        client_secret: what-a-looser
+        username: robot@eduk8s
+        password: jorge-is-awesome
 ##########
 # WEBSITE CONFIGURATION
 ##########

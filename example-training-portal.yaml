@@ -1,0 +1,19 @@
+apiVersion: training.eduk8s.io/v1alpha1
+kind: TrainingPortal
+metadata:
+  name: lab-spring-boot
+spec:
+    portal:
+      clients:
+        robot:
+          id: grumpy-old-man
+          secret: what-a-looser
+      credentials:
+        robot:
+          password: jorge-is-awesome
+    workshops:
+    - capacity: 5
+      expires: 60m
+      name: lab-spring-boot
+      orphaned: 5m
+      reserved: 0

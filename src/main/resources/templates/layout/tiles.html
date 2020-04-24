@@ -2,12 +2,17 @@
 <a href="/workshops/{{ uid.encodedUID }}/" class="index-anchor" id="{{name}}">
     <div class="labcard-tile">
 
-        {{#logo}}
-        <img class="labcard-tile-image" src="{{web.site.baseUrl}}/images/{{logo}}" alt="{{title}}">
-        {{/logo}}
-        {{^logo}}
+        {{#logo.logo}}
+            {{#logo.dataUri}}
+            <img class="labcard-tile-image" src="{{logo.logo}}" alt="{{title}}">
+            {{/logo.dataUri}}
+            {{^logo.dataUri}}
+            <img class="labcard-tile-image" src="{{web.site.baseUrl}}/images/{{logo.logo}}" alt="{{title}}">
+            {{/logo.dataUri}}
+        {{/logo.logo}}
+        {{^logo.logo}}
         <img class="labcard-tile-image" src="{{web.site.baseUrl}}/images/{{web.page.defaultImage}}" alt="{{title}}">
-        {{/logo}}
+        {{/logo.logo}}
         <span class="labcard-tile-body labcard-tile-metadata labcard-tile-pull-right">
             {{#template }}<small><i class="fa fa-file" aria-hidden="true"></i>
                 <!--<b>Template</b>--></small>{{/template}}

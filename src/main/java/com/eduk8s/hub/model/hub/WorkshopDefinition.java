@@ -18,7 +18,7 @@ public class WorkshopDefinition {
     public String difficulty;
     public String duration;
     public String[] tags;
-    public String logo;
+    public Logo logo;
     public String url;
     public String image;
     public String content;
@@ -51,7 +51,7 @@ public class WorkshopDefinition {
         this.difficulty = workshop.getDifficulty();
         this.duration = workshop.getDuration();
         this.tags = workshop.getTags();
-        this.logo = WorkshopDefinition.randomItem(images); //workshop.getLogo();
+        this.logo = (workshop.getLogo()==null || "".equals(workshop.getLogo()))? new Logo(WorkshopDefinition.randomItem(images), false): new Logo(workshop.getLogo(), true);
         this.url = workshop.getUrl();
         this.image = workshop.getImage();
         this.content = workshop.getContent();
@@ -68,7 +68,8 @@ public class WorkshopDefinition {
         this.difficulty = difficulty;
         this.duration = duration;
         this.tags = tags;
-        this.logo = logo;
+        // TODO: Verify the logo
+        this.logo = new Logo(logo, true);
         this.url = url;
         this.image = image;
         this.content = content;
@@ -143,11 +144,11 @@ public class WorkshopDefinition {
         this.tags = tags;
     }
 
-    public String getLogo() {
+    public Logo getLogo() {
         return this.logo;
     }
 
-    public void setLogo(String logo) {
+    public void setLogo(Logo logo) {
         this.logo = logo;
     }
 
@@ -223,7 +224,7 @@ public class WorkshopDefinition {
         return this;
     }
 
-    public WorkshopDefinition logo(String logo) {
+    public WorkshopDefinition logo(Logo logo) {
         this.logo = logo;
         return this;
     }
