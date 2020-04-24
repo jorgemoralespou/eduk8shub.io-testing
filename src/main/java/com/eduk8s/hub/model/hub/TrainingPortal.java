@@ -2,9 +2,11 @@ package com.eduk8s.hub.model.hub;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import com.eduk8s.hub.config.Eduk8sPortalConfig;
 import com.eduk8s.hub.exception.PortalAuthenticationException;
@@ -115,17 +117,17 @@ public class TrainingPortal {
                    .uri(Eduk8sPortalConfig.CATALOG_ENDPOINT)
                    .headers(headers -> headers.setBearerAuth(portalAuth.getAccessToken()))
                    .retrieve().bodyToMono(Eduk8sCatalog.class).block();
-        logger.debug("TrainingPortal: {}", this);
-        logger.debug("eduk8sCatalog: {}", eduk8sCatalog);
+//        logger.debug("TrainingPortal: {}", this);
+//        logger.debug("eduk8sCatalog: {}", eduk8sCatalog);
         if ( eduk8sCatalog != null){
             eduk8sCatalog.getEnvironments().forEach(eduk8sEnv -> {
-                logger.info("eduk8senv: {}",eduk8sEnv);
+//                logger.info("eduk8senv: {}",eduk8sEnv);
                 WorkshopEnvironment we = new WorkshopEnvironment(eduk8sEnv);
-                logger.info("WorkshopEnvironment: {}", we);
+//                logger.info("WorkshopEnvironment: {}", we);
                 environments.put(we.getName(), we);
             });
         }
-        logger.debug("TrainingPortal: {}", this);
+//        logger.debug("TrainingPortal: {}", this);
     }
 
     public String startWorkshop(String workshopName, String callbackUrl) {
@@ -141,6 +143,28 @@ public class TrainingPortal {
 
         logger.info("Started session '{}' at url '{}'", response.getSession(), response.getUrl());
         return this.getUrl() + response.getUrl();
+    }
+    
+
+	public void getWorkshopUIDInfo(Map<WorkshopUID,List<WorkshopLocation>> workshops) {
+        environments.values().forEach(env -> {
+            WorkshopUID uid = new WorkshopUID(env.getWorkshop());
+            WorkshopLocation location = new WorkshopLocation(this, env);
+
+            // If there's an entry ADDITION to it
+            if (workshops.containsKey(uid)){
+                List<WorkshopLocation> locs = workshops.get(uid);
+                locs.add(location);
+                workshops.put(uid, locs);
+            }
+            // If there's NO entry, ADD it
+            else{
+                List<WorkshopLocation> locs = new ArrayList<WorkshopLocation>();
+                locs.add(location);
+                workshops.put(uid, locs);
+            }
+            
+        });
 	}
 
     public String getName() {

@@ -52,10 +52,10 @@ public class WebController implements ErrorController {
     }
 
     @GetMapping("/workshops/{workshop}/launch/")
-    public ModelAndView launchWorkshop(@PathVariable String workshop, HttpServletRequest request, Map<String, Object> model) {
-        logger.info("Requesting {} workshop", workshop);
+    public ModelAndView launchWorkshop(@PathVariable(name="workshop") String workshopUID, HttpServletRequest request, Map<String, Object> model) {
+        logger.info("Requesting {} workshop", workshopUID);
         final String callbackUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-        String url = service.startWorkshop(workshop, callbackUrl);
+        String url = service.startWorkshop(workshopUID, callbackUrl);
         if (url != null){
             request.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.TEMPORARY_REDIRECT);
             return new ModelAndView("redirect:" + url);
@@ -68,9 +68,9 @@ public class WebController implements ErrorController {
     }
 
     @GetMapping("/workshops/{workshop}/")
-    public ModelAndView workshopInfo(@PathVariable String workshop, HttpServletRequest request, Map<String, Object> model) {
-        logger.info("Requesting info for workshop {}", workshop);
-        WorkshopDefinition workshopDef = service.getWorkshop(workshop);
+    public ModelAndView workshopInfo(@PathVariable(name="workshop") String workshopUID, HttpServletRequest request, Map<String, Object> model) {
+        logger.info("Requesting info for workshop {}", workshopUID);
+        WorkshopDefinition workshopDef = service.getWorkshop(workshopUID);
         model.put("workshop", workshopDef);
         model.put("no-search", "true");
         return new ModelAndView("/workshop");

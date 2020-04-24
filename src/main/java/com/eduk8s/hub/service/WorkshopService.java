@@ -1,10 +1,12 @@
 package com.eduk8s.hub.service;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -13,6 +15,8 @@ import com.eduk8s.hub.config.HubConfig;
 import com.eduk8s.hub.model.hub.TrainingPortal;
 import com.eduk8s.hub.model.hub.WorkshopDefinition;
 import com.eduk8s.hub.model.hub.WorkshopEnvironment;
+import com.eduk8s.hub.model.hub.WorkshopLocation;
+import com.eduk8s.hub.model.hub.WorkshopUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +38,8 @@ public class WorkshopService {
     private LocalTime lastQueryTime;
 
 //    private Map<String, WorkshopDefinition> workshops;
-    private Set<WorkshopDefinition> workshops;
+//    private Set<WorkshopDefinition> workshops;
+    private Map<WorkshopUID, List<WorkshopLocation>> workshops;
 
 
     public WorkshopService(Eduk8sPortalConfig config, HubConfig hubConfig){
@@ -70,6 +75,11 @@ public class WorkshopService {
                 tp.updateInfo();
             });
         }
+        // Update workshops Map
+        workshops = new HashMap<WorkshopUID, List<WorkshopLocation>>();
+        trainingPortals.values().forEach(tp -> {
+            tp.getWorkshopUIDInfo(workshops);
+        });
     }
 
     public List<TrainingPortal> getTrainingPortals(){
@@ -82,6 +92,7 @@ public class WorkshopService {
         return trainingPortals.get(name);
     }
 
+    /*
     public WorkshopDefinition getWorkshop(String workshopName){
         updatePortalInfo();
         for (TrainingPortal trainingPortal: trainingPortals.values()){
@@ -92,11 +103,22 @@ public class WorkshopService {
             }
         }
         return null;
-    }
+    }*/
 
-    public String startWorkshop(String workshopName, String callbackUrl){
-        logger.info("Start Workshop {}", workshopName);
-        
+    public WorkshopDefinition getWorkshop(String workshopUID){
+        updatePortalInfo();
+        Random rand = new Random();
+        WorkshopUID wid = WorkshopUID.fromString(workshopUID);
+        logger.debug("wid: {}", wid);
+        List<WorkshopLocation> wsl = workshops.get(wid);
+        WorkshopLocation loc = wsl.get(rand.nextInt(wsl.size()));
+
+        return trainingPortals.get(loc.getTrainingPortal()).getEnvironments().get(loc.getEnvironment()).getWorkshop();
+    }
+    
+    /*
+    public String startWorkshop(String workshopUID, String callbackUrl){
+        logger.info("Start Workshop {}", workshopUID);
         // Find which training portal has the workshop
         for (TrainingPortal trainingPortal: trainingPortals.values()){
             for (WorkshopEnvironment environment: trainingPortal.getEnvironments().values()){
@@ -111,14 +133,32 @@ public class WorkshopService {
         }
         return null;
     }
+    */
+    public String startWorkshop(String workshopUID, String callbackUrl){
+        logger.info("Start Workshop {}", workshopUID);
+
+        Random rand = new Random();
+        WorkshopUID wid = WorkshopUID.fromString(workshopUID);
+        List<WorkshopLocation> wsl = workshops.get(wid);
+        WorkshopLocation loc = wsl.get(rand.nextInt(wsl.size()));
+        TrainingPortal tp = trainingPortals.get(loc.getTrainingPortal());
+
+        String workshopLaunchUrl = tp.startWorkshop(loc.getEnvironment(), callbackUrl);
+        return workshopLaunchUrl;
+    }
 
     public Set<WorkshopDefinition> getWorkshops(){
         updatePortalInfo();
-        workshops = new HashSet<WorkshopDefinition>();
+        Set<WorkshopDefinition> workshopsDef = new HashSet<WorkshopDefinition>();
         trainingPortals.values().forEach(tp -> {
-            workshops.addAll(tp.getWorkshops());
+            workshopsDef.addAll(tp.getWorkshops());
         });
-        logger.info("We just got {} workshops to show", workshops.size());
+        logger.info("We just got {} workshops to show", workshopsDef.size());
+        return workshopsDef;
+    }
+
+    public Map<WorkshopUID, List<WorkshopLocation>> getWorkshopsUID(){
+        updatePortalInfo();
         return workshops;
     }
 

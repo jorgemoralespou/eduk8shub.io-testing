@@ -1,10 +1,13 @@
 package com.eduk8s.hub.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.eduk8s.hub.model.hub.TrainingPortal;
 import com.eduk8s.hub.model.hub.WorkshopDefinition;
+import com.eduk8s.hub.model.hub.WorkshopLocation;
+import com.eduk8s.hub.model.hub.WorkshopUID;
 import com.eduk8s.hub.service.WorkshopService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,12 @@ public class ApiController {
     @Autowired
     private WorkshopService service;
 
+
+    @RequestMapping("/uids")
+    public ResponseEntity<Map<WorkshopUID, List<WorkshopLocation>>> getWorkshopUIDs(){
+        Map<WorkshopUID, List<WorkshopLocation>> workshops = service.getWorkshopsUID();
+        return new ResponseEntity<Map<WorkshopUID, List<WorkshopLocation>>>(workshops, HttpStatus.OK);
+    }
 
     @RequestMapping("/workshops")
     public ResponseEntity<Set<WorkshopDefinition>> getWorkshops(){

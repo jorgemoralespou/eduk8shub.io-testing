@@ -8,6 +8,7 @@ import java.util.Random;
 import com.eduk8s.hub.model.eduk8s.Eduk8sWorkshop;
 
 public class WorkshopDefinition {
+    private WorkshopUID uid;
     private String name;
     private String title;
     private String description;
@@ -41,6 +42,7 @@ public class WorkshopDefinition {
     }
 
     public WorkshopDefinition(Eduk8sWorkshop workshop){
+        uid = new WorkshopUID(workshop.getImage(), workshop.getContent());
         this.name = workshop.getName();
         this.title = workshop.getTitle();
         this.description = workshop.getDescription();
@@ -57,6 +59,7 @@ public class WorkshopDefinition {
     }
 
     public WorkshopDefinition(String name, String title, String description, String vendor, String[] authors, String difficulty, String duration, String[] tags, String logo, String url, String image, String content, String longDescription) {
+        this.uid = new WorkshopUID(image, content);
         this.name = name;
         this.title = title;
         this.description = description;
@@ -70,6 +73,10 @@ public class WorkshopDefinition {
         this.image = image;
         this.content = content;
         this.longDescription = longDescription;
+    }
+
+    public WorkshopUID getUid() {
+        return this.uid;
     }
 
     public String getName() {
@@ -248,6 +255,7 @@ public class WorkshopDefinition {
         if (!(o instanceof WorkshopDefinition)) {
             return false;
         }
+        // TODO: Should workshops only be the same on same UID?
         WorkshopDefinition workshopDefinition = (WorkshopDefinition) o;
         return Objects.equals(name, workshopDefinition.name) && 
                Objects.equals(title, workshopDefinition.title) && 
@@ -267,6 +275,7 @@ public class WorkshopDefinition {
 
     @Override
     public int hashCode() {
+        // TODO: Should workshops only be the same on same UID?
         return Objects.hash(name, title, url, content);
 //        return Objects.hash(name, title, description, vendor, authors, difficulty, duration, tags, logo, url, image, content, longDescription);
     }
