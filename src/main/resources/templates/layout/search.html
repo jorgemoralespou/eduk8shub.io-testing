@@ -19,7 +19,7 @@
           weight: 0.3
         },
         {
-          name: 'categories',
+          name: 'difficulty',
           weight: 0.3
         },
         {
@@ -106,15 +106,15 @@
       }
     });
 
-    // computeCategories
-    var categoryString = "";
+    // computeTags
+    var tagString = "";
     $(".oh-category-item__select").each(function (index, element) {
       if ($(element).hasClass("selected")) {
         // Exclusive operation
         // lunr Below
-        categoryString = $(element).attr('id').replace('_category_', ' +categories:');
+        tagString = $(element).attr('id').replace('_tags_', ' +tags:');
         // fuse below
-        // categoryString = $(element).attr('id').replace('_category_', ' ');
+        // tagString = $(element).attr('id').replace('_tags_', ' ');
       }
     });
 
@@ -126,7 +126,7 @@
       searchFieldValue.split(" ").forEach(token => searchString += "+" + token);
     }
 
-    var filter = difficultyString + " " + categoryString + " " + searchString;
+    var filter = difficultyString + " " + tagString + " " + searchString;
 //    console.log("Doing search for: [" + filter + "]");
     var results = search(filter);
 //    console.log("results", results);
@@ -235,7 +235,7 @@
 
     function addTags(item, occurences) {
         $tags = $("#tags");
-        $tags.append('<div class="oh-category-item"><button type="button" class="oh-category-item__select" id="_category_' + item + '" onclick="clickTag(this); doSearch();">' + item + '&nbsp;&nbsp;&nbsp;<span class="item-count">(' + occurences + ')</span></button></div>');
+        $tags.append('<div class="oh-category-item"><button type="button" class="oh-category-item__select" id="_tags_' + item + '" onclick="clickTags(this); doSearch();">' + item + '&nbsp;&nbsp;&nbsp;<span class="item-count">(' + occurences + ')</span></button></div>');
     }
 
     function clickTags(element) {
