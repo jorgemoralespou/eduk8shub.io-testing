@@ -15,6 +15,30 @@ metadata:
   name: #@ data.values.namespace.name
 #@ end
 ---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: eduk8shub
+  namespace: #@ data.values.namespace.name
+data:
+  application.yaml: |-
+    catalog:
+      portals:
+        - name: eduk8s-training-portal-ui-failk8s-dev
+          url: https://eduk8s-training-portal-ui.training.failk8s.dev
+          robot:
+            client_id: grumpy-old-man
+            client_secret: what-a-looser
+            username: robot@eduk8s
+            password: jorge-is-awesome
+        - name: eduk8s-training-portal-ui-failk8s-com
+          url: https://eduk8s-training-portal-ui.training.failk8s.com
+          robot:
+            client_id: grumpy-old-man
+            client_secret: what-a-looser
+            username: robot@eduk8s
+            password: jorge-is-awesome
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -63,6 +87,13 @@ spec:
             path: /actuator/health/liveness
             port: 8080
             scheme: HTTP
+        volumeMounts:
+          - name: eduk8shub-config
+            mountPath: /application/config/hub/
+      volumes:
+        - name: eduk8shub-config
+          configMap:
+            name: eduk8shub
 ---
 
 apiVersion: v1
@@ -81,21 +112,6 @@ spec:
   selector:
     app: eduk8shub
 
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: wild-west-role
-  #@ if/end data.values.namespace.create:
-  namespace: #@ data.values.namespace.name
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: #@ destructive_role(data.values.destructive)
-subjects:
-  - kind: ServiceAccount
-    name: default
-    
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress

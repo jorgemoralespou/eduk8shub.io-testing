@@ -1,34 +1,17 @@
 {{#workshop}}
 <div class="row">
-    <div class="col-md-3 mt10">
-        <div>
-            <ul class="nav navbar-nav navbar-left">
-                <li>
-                    <a href="/workshops/{{name}}/launch/">
-                        <img width="200" src='{{web.site.baseUrl}}/images/launch_button.png' alt="Launch Workshop"></img>
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <div class="post-img">
-            {{ #logo }}
-            <img width="600" src="{{web.site.baseUrl}}/images/{{ logo }}" alt="{{ name }}">
-            {{ /logo }}
-            {{ ^logo }}
-            <img width="600" src="{{web.site.baseUrl}}/images/{{ web.page.defaultImage }}" alt="webjeda">
-            {{ /logo }}
-        </div>
-
-        <div class="mt10">
-            {{ #url }}
-            <i class="fa fa-github" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<a href="{{ url }}">{{ url }}</a>
-            {{ /url }}
-        </div>
-    </div>
-
     <div class="col-md-8">
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+            <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/workshops/{{name}}/launch/">
+                            <i class='fa fa-bolt'></i>
+                            <span>Launch workshop</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
             <header class="post-header">
                 <h1 class="post-title" itemprop="name headline">{{ title }}</h1>
                 <p class="post-meta"><time datetime='January 2, 2006' itemprop="datePublished">January 2, 2006</time>
@@ -74,6 +57,23 @@
                 </div>
             </div>
         </article>
+    </div>
+
+    <div class="col-md-4 mt20">
+        <div class="post-img">
+            {{ #logo }}
+            <img width="600" src="{{web.site.baseUrl}}/images/{{ logo }}" alt="{{ name }}">
+            {{ /logo }}
+            {{ ^logo }}
+            <img width="600" src="{{web.site.baseUrl}}/images/{{ web.page.defaultImage }}" alt="webjeda">
+            {{ /logo }}
+        </div>
+
+        <div class="mt10">
+            {{ #url }}
+            <i class="fa fa-github" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<a href="{{ url }}">{{ url }}</a>
+            {{ /url }}
+        </div>
     </div>
 </div>
 {{/workshop}}

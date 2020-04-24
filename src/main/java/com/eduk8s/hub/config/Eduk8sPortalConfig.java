@@ -5,20 +5,17 @@ import java.util.Objects;
 
 import com.eduk8s.hub.model.config.PortalConfig;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 //import org.springframework.boot.context.properties.ConstructorBinding;
 
 
 @ConfigurationProperties(prefix = "catalog")
-// @ConstructorBinding
 public class Eduk8sPortalConfig {
 
     public static final String OAUTH_ENDPOINT = "/oauth2/token/";
 
     public static final String CATALOG_ENDPOINT = "/workshops/catalog/environments/";
 
-    //@Value("${catalog.portals}")
     private List<PortalConfig> portals;
 
     public Eduk8sPortalConfig() {

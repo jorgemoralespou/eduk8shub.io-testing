@@ -3,8 +3,6 @@ package com.eduk8s.hub.controller;
 import java.util.List;
 import java.util.Set;
 
-import com.eduk8s.hub.model.eduk8s.AuthResponse;
-import com.eduk8s.hub.model.eduk8s.Eduk8sCatalog;
 import com.eduk8s.hub.model.eduk8s.Eduk8sEnvironment;
 import com.eduk8s.hub.model.hub.WorkshopDefinition;
 import com.eduk8s.hub.model.HubWorkshop;

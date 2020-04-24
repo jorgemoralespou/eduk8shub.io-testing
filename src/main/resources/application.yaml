@@ -12,6 +12,11 @@ json:
     environments: mock-data/environments.json
     hub: mock-data/hub.json
 ##########
+# HUB CONFIGURATION
+##########
+hub:
+  refreshTimeout: 15
+##########
 # WEBSITE CONFIGURATION
 ##########
 web:

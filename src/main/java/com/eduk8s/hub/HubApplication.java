@@ -4,12 +4,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.eduk8s.hub.config.Eduk8sPortalConfig;
 import com.eduk8s.hub.mustache.HubMustacheEnvironmentCollector;
 import com.samskivert.mustache.Mustache;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
@@ -20,7 +17,7 @@ import org.springframework.core.env.Environment;
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.eduk8s.hub"})
 @ConfigurationPropertiesScan("com.eduk8s.hub.config")
-public class HubApplication /*implements CommandLineRunner */{
+public class HubApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(HubApplication.class, args);
@@ -44,14 +41,4 @@ public class HubApplication /*implements CommandLineRunner */{
           });
 
     }
-
-/*
-    @Autowired
-    private Eduk8sPortalConfig properties;
-    
-    @Override
-    public void run(String... args) throws Exception {
-        System.out.println("Properties: " + properties);
-    }
-*/
 }

@@ -1,14 +1,14 @@
 @hostname=https://eduk8s-training-portal-ui.training.failk8s.dev
 # Robot client:
 # id: kubectl get trainingportal/eduk8s-training-portal -o jsonpath='{.status.eduk8s.clients.robot.id}'
-@robot_client_id=AmZTf7C1zxs3bjJ84Wg0IvyPGkpDXYw2
+@robot_client_id=grumpy-old-man
 # secret: kubectl get trainingportal/eduk8s-training-portal -o jsonpath='{.status.eduk8s.clients.robot.secret}'
-@robot_client_secret=EbM5Vs6nSQcBTKvLgefIUqAHtd3rZiyX
+@robot_client_secret=what-a-looser
 # Robot credentials:
 # Username: kubectl get trainingportal/eduk8s-training-portal -o jsonpath='{.status.eduk8s.credentials.robot.username}'
 @robot_username=robot@eduk8s
 # Password: kubectl get trainingportal/eduk8s-training-portal -o jsonpath='{.status.eduk8s.credentials.robot.password}'
-@robot_password=pmgM06nDFNYb8xXP5ctSvl9us4Eyakz1
+@robot_password=jorge-is-awesome
 
 
 ###

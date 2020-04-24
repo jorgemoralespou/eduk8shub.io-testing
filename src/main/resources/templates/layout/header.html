@@ -11,14 +11,16 @@
         </button>
         <div>
           <img height="64" src="{{web.site.baseUrl}}/images/{{web.site.img}}" alt="">
-          <a class="navbar-brand" href="{{web.site.baseUrl}}">{{web.site.title}}</a>
+          <a class="navbar-brand" href="{{web.site.baseUrl}}/">{{web.site.title}}</a>
         </div>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
         <!-- Search form -->
+        {{^no-search}}
         {{>layout/search}}
+        {{/no-search}}
 
         <ul class="nav navbar-nav navbar-right">
           <li>

@@ -53,7 +53,7 @@
           this.field("tags", {
             boost: 10
           });
-          this.field("categories", {
+          this.field("difficulty", {
             boost: 10
           });
           this.field("description", {
@@ -66,6 +66,9 @@
           pagesIndex.forEach(function (doc) {
             this.add(doc)
           }, this)
+
+          // Initialize filters:
+          initFilters(pagesIndex);
         });
       })
       .fail(function (jqxhr, textStatus, error) {
@@ -91,15 +94,15 @@
    *
    */
   function doSearch() {
-    var tagString = "";
-    // computeTags
-    $("._filter_tags_checkboxes").each(function (idx, element) {
+    var difficultyString = "";
+    // difficulty
+    $("._filter_difficulty_checkboxes").each(function (idx, element) {
       if (element.checked) {
         // Do an OR operation
         // lunr Below
-        // tagString += element.id.replace('_tag_', ' +tags:');
+        difficultyString += element.id.replace('_difficulty_', ' +difficulty:');
         // fuse below
-        tagString += element.id.replace('_tag_', ' ');
+        // difficultyString += element.id.replace('_difficulty_', ' ');
       }
     });
 
@@ -109,26 +112,24 @@
       if ($(element).hasClass("selected")) {
         // Exclusive operation
         // lunr Below
-        // categoryString = $(element).attr('id').replace('_category_', ' +categories:');
+        categoryString = $(element).attr('id').replace('_category_', ' +categories:');
         // fuse below
-        categoryString = $(element).attr('id').replace('_category_', ' ');
+        // categoryString = $(element).attr('id').replace('_category_', ' ');
       }
     });
 
     // compute Search
     var searchString = "";
     var searchFieldValue = $("#search").val();
-    console.log("Search for: " + searchFieldValue);
     if (searchFieldValue != null && searchFieldValue.length > 0) {
       // Do an AND operation
-      //searchFieldValue.split(" ").forEach(token => searchString += "'" + token);
-      searchFieldValue.split(" ").forEach(token => searchString += " " + token);
+      searchFieldValue.split(" ").forEach(token => searchString += "+" + token);
     }
 
-    var filter = tagString + " " + categoryString + " " + searchString;
-    console.log("Doing search for: [" + filter + "]");
+    var filter = difficultyString + " " + categoryString + " " + searchString;
+//    console.log("Doing search for: [" + filter + "]");
     var results = search(filter);
-    console.log("results", results);
+//    console.log("results", results);
     // Show the results that have been returned, hide all others
     renderResults(results, searchString);
   }
@@ -181,9 +182,74 @@
     return;
   }
 
+    // Reducer function to count occurrences of a string in an array
+    var toOcurrencesMap = function (array) {
+        var elements = new Map();
+        array.forEach(function aggregate(element, index) {
+            val = elements.get(element);
+            if (val) {
+                val = val + 1;
+            } else {
+                val = 1;
+            }
+            elements.set(element, val);
+        });
+        return elements;
+    }
+
+    function initFilters(data) {
+        var categoriesArr = [];
+        var tagsArr = [];
+        var categories = [];
+        var tags = [];
+
+        //console.log("data", data);
+        data.forEach(function addToFilters(element, index) {
+                // if (element.categories) {
+                //     element.categories.forEach(category => categoriesArr.push(category));
+                // }
+                if (element.tags) {
+                    element.tags.forEach(tag => tagsArr.push(tag));
+                }
+            });
+
+            // var categories = categoriesArr.reduce(function (acc, curr) {
+            //     if (typeof acc[curr] == 'undefined') {
+            //         acc[curr] = 1;
+            //     } else {
+            //         acc[curr] += 1;
+            //     }
+            //     return acc;
+            // }, {});
+            // var categories = toOcurrencesMap(categoriesArr);
+            var tags = toOcurrencesMap(tagsArr);
+
+//          categories.forEach(function (occurences, category) { addCategory(category, occurences) });
+            tags.forEach(function (occurences, tag) { addTags(tag, occurences) });
+    }
+
+    // function addCategory(item, occurences) {
+    //     $categories = $("#categories");
+    //     $categories.append('<div class="filter-panel-pf-category-item"><div class="checkbox"><label title="Altinity"><input type="checkbox" class="_filter_tags_checkboxes" id="_tag_' + item + '" onclick="doSearch()">' + item + '<span class="item-count">(' + occurences + ')</span></label></div></div>');
+    // }
+
+    function addTags(item, occurences) {
+        $tags = $("#tags");
+        $tags.append('<div class="oh-category-item"><button type="button" class="oh-category-item__select" id="_category_' + item + '" onclick="clickTag(this); doSearch();">' + item + '&nbsp;&nbsp;&nbsp;<span class="item-count">(' + occurences + ')</span></button></div>');
+    }
+
+    function clickTags(element) {
+        // Remove all previous selected
+        $(".oh-category-item").each(function (index, element) { $(element).removeClass("selected") });
+        $(".oh-category-item__select").each(function (index, element) { $(element).removeClass("selected") });
+        // Mark selected element
+        $(element).addClass("selected");
+        $(element).parent().addClass("selected");
+    }
+
   // Let's get started
   initLunr();
-  initFuse();
+//  initFuse();
 
   $(document).ready(function () {
     initUI();

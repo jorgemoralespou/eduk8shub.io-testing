@@ -1,15 +1,11 @@
 package com.eduk8s.hub.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
-import com.eduk8s.hub.model.HubWorkshop;
 import com.eduk8s.hub.model.hub.WorkshopDefinition;
-import com.eduk8s.hub.service.MockDataService;
 import com.eduk8s.hub.service.WorkshopService;
 
 import org.slf4j.Logger;
@@ -21,12 +17,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class WebController implements ErrorController {
@@ -39,7 +32,6 @@ public class WebController implements ErrorController {
 
     @GetMapping("/")
     public ModelAndView mainsite(Map<String, Object> model) {
-//        addSitePropertiesToModel(model);
         model.put("workshops", service.getWorkshops());
         return new ModelAndView("index", model);
     }
@@ -80,11 +72,8 @@ public class WebController implements ErrorController {
         logger.info("Requesting info for workshop {}", workshop);
         WorkshopDefinition workshopDef = service.getWorkshop(workshop);
         model.put("workshop", workshopDef);
+        model.put("no-search", "true");
         return new ModelAndView("/workshop");
-    }
-
-    public void addSitePropertiesToModel(Map<String, Object> model){
-        model.put("web.site.title", "eduk8s hub");
     }
 
     @RequestMapping("/error")

@@ -73,6 +73,9 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<profiles>
+						<profile>dev</profile>
+					</profiles>
 					<layers>
 						<enabled>true</enabled>
 					</layers>

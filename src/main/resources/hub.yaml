@@ -1,19 +1,16 @@
-##########
-# PORTAL CONFIGURATION
-##########
 catalog:
   portals:
     - name: eduk8s-training-portal-ui-failk8s-dev
       url: https://eduk8s-training-portal-ui.training.failk8s.dev
       robot:
-        client_id: AmZTf7C1zxs3bjJ84Wg0IvyPGkpDXYw2
-        client_secret: EbM5Vs6nSQcBTKvLgefIUqAHtd3rZiyX
+        client_id: grumpy-old-man
+        client_secret: what-a-looser
         username: robot@eduk8s
-        password: pmgM06nDFNYb8xXP5ctSvl9us4Eyakz1
+        password: jorge-is-awesome
     - name: eduk8s-training-portal-ui-failk8s-com
       url: https://eduk8s-training-portal-ui.training.failk8s.com
       robot:
-        client_id: 1pvrufdeGNLBIElZTJxwHbVKm4y67Dg2
-        client_secret: TEhq2A5RGLr8VckUwDYiej6luFWCSPKQ
+        client_id: grumpy-old-man
+        client_secret: what-a-looser
         username: robot@eduk8s
-        password: 2Gt7Q86RDdrJuXjYEMUbOgwvkpBWmyif
+        password: jorge-is-awesome

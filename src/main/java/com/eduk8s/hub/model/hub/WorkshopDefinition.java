@@ -9,24 +9,26 @@ import com.eduk8s.hub.model.eduk8s.Eduk8sWorkshop;
 
 public class WorkshopDefinition {
     private String name;
-    private String vendor;
     private String title;
     private String description;
-    private String url;
+
+    public String vendor;
+    public String[] authors;
+    public String difficulty;
+    public String duration;
+    public String[] tags;
+    public String logo;
+    public String url;
+    public String image;
+    public String content;
+
+    private String longDescription = "This is a long description";
 
     // I made these up
-    private String id = "_id_";
-    private String githuburl = "https://github.com/eduk8s-labs/lab-container-basics";
-    private String[] tags = {"basic","intermediate"};
-    private String[] categories = {"containers","jypyter", "ide"};
-    private String img = randomItem(images);
-    private String duration =  randomItem(durations);
-    private String author = randomItem(authors);
-    private String content = "Example workshop";
+//    private String[] tags = {"basic","intermediate"};
+//    private String[] categories = {"containers","jypyter", "ide"};
 
     private static final List<String> images = Arrays.asList("oci.png", "buildpacks.png", "jupyter.png", "eduk8s.png", "k14s.png");
-    private static final List<String> durations = Arrays.asList("1 hour", "30 minutes", "45 minutes", "10 minutes");
-    private static final List<String> authors = Arrays.asList("Jorge", "Graham", "Daniel");
 
 
     private static String randomItem(List<String> list) {
@@ -34,32 +36,40 @@ public class WorkshopDefinition {
         return list.get(rand.nextInt(list.size()));
     }
 
+
     public WorkshopDefinition() {
     }
 
     public WorkshopDefinition(Eduk8sWorkshop workshop){
-        // Change this to getters, once available
-        this.name = workshop.name;
-        this.vendor = workshop.vendor;
-        this.title = workshop.title;
-        this.description = workshop.description;
-        this.url = workshop.url;
+        this.name = workshop.getName();
+        this.title = workshop.getTitle();
+        this.description = workshop.getDescription();
+        this.vendor = workshop.getVendor();
+        this.authors = workshop.getAuthors();
+        this.difficulty = workshop.getDifficulty();
+        this.duration = workshop.getDuration();
+        this.tags = workshop.getTags();
+        this.logo = WorkshopDefinition.randomItem(images); //workshop.getLogo();
+        this.url = workshop.getUrl();
+        this.image = workshop.getImage();
+        this.content = workshop.getContent();
+        this.longDescription = "This is the long description of the content that has to come from the backend. (WIP). " + workshop.getDescription();
     }
 
-    public WorkshopDefinition(String name, String vendor, String title, String description, String url, String id, String githuburl, String[] tags, String[] categories, String img, String duration, String author, String content) {
+    public WorkshopDefinition(String name, String title, String description, String vendor, String[] authors, String difficulty, String duration, String[] tags, String logo, String url, String image, String content, String longDescription) {
         this.name = name;
-        this.vendor = vendor;
         this.title = title;
         this.description = description;
-        this.url = url;
-        this.id = id;
-        this.githuburl = githuburl;
-        this.tags = tags;
-        this.categories = categories;
-        this.img = img;
+        this.vendor = vendor;
+        this.authors = authors;
+        this.difficulty = difficulty;
         this.duration = duration;
-        this.author = author;
+        this.tags = tags;
+        this.logo = logo;
+        this.url = url;
+        this.image = image;
         this.content = content;
+        this.longDescription = longDescription;
     }
 
     public String getName() {
@@ -68,14 +78,6 @@ public class WorkshopDefinition {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getVendor() {
-        return this.vendor;
-    }
-
-    public void setVendor(String vendor) {
-        this.vendor = vendor;
     }
 
     public String getTitle() {
@@ -94,52 +96,28 @@ public class WorkshopDefinition {
         this.description = description;
     }
 
-    public String getUrl() {
-        return this.url;
+    public String getVendor() {
+        return this.vendor;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setVendor(String vendor) {
+        this.vendor = vendor;
     }
 
-    public String getId() {
-        return this.id;
+    public String[] getAuthors() {
+        return this.authors;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setAuthors(String[] authors) {
+        this.authors = authors;
     }
 
-    public String getGithuburl() {
-        return this.githuburl;
+    public String getDifficulty() {
+        return this.difficulty;
     }
 
-    public void setGithuburl(String githuburl) {
-        this.githuburl = githuburl;
-    }
-
-    public String[] getTags() {
-        return this.tags;
-    }
-
-    public void setTags(String[] tags) {
-        this.tags = tags;
-    }
-
-    public String[] getCategories() {
-        return this.categories;
-    }
-
-    public void setCategories(String[] categories) {
-        this.categories = categories;
-    }
-
-    public String getImg() {
-        return this.img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
     }
 
     public String getDuration() {
@@ -150,12 +128,36 @@ public class WorkshopDefinition {
         this.duration = duration;
     }
 
-    public String getAuthor() {
-        return this.author;
+    public String[] getTags() {
+        return this.tags;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setTags(String[] tags) {
+        this.tags = tags;
+    }
+
+    public String getLogo() {
+        return this.logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    public String getUrl() {
+        return this.url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getImage() {
+        return this.image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getContent() {
@@ -166,13 +168,16 @@ public class WorkshopDefinition {
         this.content = content;
     }
 
-    public WorkshopDefinition name(String name) {
-        this.name = name;
-        return this;
+    public String getLongDescription() {
+        return this.longDescription;
     }
 
-    public WorkshopDefinition vendor(String vendor) {
-        this.vendor = vendor;
+    public void setLongDescription(String longDescription) {
+        this.longDescription = longDescription;
+    }
+
+    public WorkshopDefinition name(String name) {
+        this.name = name;
         return this;
     }
 
@@ -186,33 +191,18 @@ public class WorkshopDefinition {
         return this;
     }
 
-    public WorkshopDefinition url(String url) {
-        this.url = url;
+    public WorkshopDefinition vendor(String vendor) {
+        this.vendor = vendor;
         return this;
     }
 
-    public WorkshopDefinition id(String id) {
-        this.id = id;
+    public WorkshopDefinition authors(String[] authors) {
+        this.authors = authors;
         return this;
     }
 
-    public WorkshopDefinition githuburl(String githuburl) {
-        this.githuburl = githuburl;
-        return this;
-    }
-
-    public WorkshopDefinition tags(String[] tags) {
-        this.tags = tags;
-        return this;
-    }
-
-    public WorkshopDefinition categories(String[] categories) {
-        this.categories = categories;
-        return this;
-    }
-
-    public WorkshopDefinition img(String img) {
-        this.img = img;
+    public WorkshopDefinition difficulty(String difficulty) {
+        this.difficulty = difficulty;
         return this;
     }
 
@@ -221,13 +211,33 @@ public class WorkshopDefinition {
         return this;
     }
 
-    public WorkshopDefinition author(String author) {
-        this.author = author;
+    public WorkshopDefinition tags(String[] tags) {
+        this.tags = tags;
+        return this;
+    }
+
+    public WorkshopDefinition logo(String logo) {
+        this.logo = logo;
+        return this;
+    }
+
+    public WorkshopDefinition url(String url) {
+        this.url = url;
+        return this;
+    }
+
+    public WorkshopDefinition image(String image) {
+        this.image = image;
         return this;
     }
 
     public WorkshopDefinition content(String content) {
         this.content = content;
+        return this;
+    }
+
+    public WorkshopDefinition longDescription(String longDescription) {
+        this.longDescription = longDescription;
         return this;
     }
 
@@ -240,32 +250,43 @@ public class WorkshopDefinition {
         }
         WorkshopDefinition workshopDefinition = (WorkshopDefinition) o;
         return Objects.equals(name, workshopDefinition.name) && 
-               Objects.equals(vendor, workshopDefinition.vendor) && 
                Objects.equals(title, workshopDefinition.title) && 
-               Objects.equals(description, workshopDefinition.description);
+//               Objects.equals(description, workshopDefinition.description) && 
+//               Objects.equals(vendor, workshopDefinition.vendor) && 
+//               Objects.equals(authors, workshopDefinition.authors) && 
+//               Objects.equals(difficulty, workshopDefinition.difficulty) && 
+//               Objects.equals(duration, workshopDefinition.duration) && 
+//               Objects.equals(tags, workshopDefinition.tags) && 
+//               Objects.equals(logo, workshopDefinition.logo) && 
+               Objects.equals(url, workshopDefinition.url) && 
+//               Objects.equals(image, workshopDefinition.image) && 
+               Objects.equals(content, workshopDefinition.content) // && 
+//               Objects.equals(longDescription, workshopDefinition.longDescription)
+;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, vendor, title, description, url);
+        return Objects.hash(name, title, url, content);
+//        return Objects.hash(name, title, description, vendor, authors, difficulty, duration, tags, logo, url, image, content, longDescription);
     }
 
     @Override
     public String toString() {
         return "{" +
             " name='" + getName() + "'" +
-            ", vendor='" + getVendor() + "'" +
             ", title='" + getTitle() + "'" +
             ", description='" + getDescription() + "'" +
-            ", url='" + getUrl() + "'" +
-            ", id='" + getId() + "'" +
-            ", githuburl='" + getGithuburl() + "'" +
-            ", tags='" + getTags() + "'" +
-            ", categories='" + getCategories() + "'" +
-            ", img='" + getImg() + "'" +
+            ", vendor='" + getVendor() + "'" +
+            ", authors='" + getAuthors() + "'" +
+            ", difficulty='" + getDifficulty() + "'" +
             ", duration='" + getDuration() + "'" +
-            ", author='" + getAuthor() + "'" +
+            ", tags='" + getTags() + "'" +
+            ", logo='" + getLogo() + "'" +
+            ", url='" + getUrl() + "'" +
+            ", image='" + getImage() + "'" +
             ", content='" + getContent() + "'" +
+            ", longDescription='" + getLongDescription() + "'" +
             "}";
     }
 
