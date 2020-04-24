@@ -47,7 +47,7 @@
                 <p>To deploy the workshop, <a href="/pages/install/">install the eduk8s operator</a>, then run:</p>
                 <div class="highlight">
                     <pre
-                        style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">.Params.install</code></pre>
+                        style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f {{url}}</code></pre>
                 </div>
 
                 <!--                
@@ -62,14 +62,26 @@
                 <h2 id="delete-the-workshop">Delete the workshop</h2>
                 <p>To delete the workshop when finished, run:</p>
                 <div class="highlight">
-                    <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-bash" data-lang="bash">{ { .Params.delete } }
+                    <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-bash" data-lang="bash">kubectl delete -f {{url}}
             </code></pre>
                 </div>
                 <h2 id="example-workshop">Example workshop</h2>
                 <p>If you want to manually create an instance of the workshop, just create an instance of this CRD with
                     the following content:</p>
                 <div class="highlight">
-                    <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-yaml" data-lang="yaml">{ { .Params.example } }
+                    <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-yaml" data-lang="yaml">
+kind: Workshop
+metadata:
+  name: {{name}}
+spec:
+  vendor: {{vendor}}
+  title: {{title}}
+  description: {{description}}
+  url: {{url}}
+  image: {{image}}
+  duration: {{duration}}
+  session:
+    budget: medium
             </code></pre>
                 </div>
             </div>
