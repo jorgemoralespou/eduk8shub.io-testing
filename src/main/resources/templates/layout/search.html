@@ -42,7 +42,7 @@
   // Initialize lunrjs using our generated index file
   function initLunr() {
     // First retrieve the index file
-    $.getJSON("/api/catalog")
+    $.getJSON("/api/workshops")
       .done(function (index) {
         pagesIndex = index;
 
