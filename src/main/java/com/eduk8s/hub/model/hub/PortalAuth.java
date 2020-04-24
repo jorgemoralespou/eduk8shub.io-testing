@@ -11,7 +11,7 @@ public class PortalAuth {
 
     private LocalTime authReponseTime;
 
-    // 60 seconds
+    // 30 seconds
     private static final int overteadTime = 30;
 
     public PortalAuth(AuthResponse authResp){
@@ -24,7 +24,7 @@ public class PortalAuth {
      * @return
      */
     public Boolean isValid(){
-        return authReponseTime.plusSeconds(authResponse.expires_in).plusSeconds(overteadTime).isBefore(LocalTime.now());
+        return authReponseTime.plusSeconds(authResponse.expires_in - overteadTime).isBefore(LocalTime.now());
     }
 
     public String getAccessToken(){

@@ -65,10 +65,10 @@ public class TrainingPortal {
     }
 
     public void updateInfo(){
-        internalUpdateInfo();
+        internalUpdateInfo(1);
     }
 
-    private void internalUpdateInfo(){
+    private void internalUpdateInfo(int retries){
         // authenticate
         if (portalAuth == null){
             MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
@@ -91,7 +91,6 @@ public class TrainingPortal {
             }
         }
         // refresh
-        /*
         if ( ! portalAuth.isValid()){
             logger.info("Token is no longer valid. Let's ask for a new one");
             MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
@@ -111,12 +110,21 @@ public class TrainingPortal {
                 throw new PortalAuthenticationException("Have you verified if the robot credentials are correct?", e);
             }
         }
-        */
-        // If we have a valid Token
-        Eduk8sCatalog eduk8sCatalog = this.webClient.get()
-                   .uri(Eduk8sPortalConfig.CATALOG_ENDPOINT)
-                   .headers(headers -> headers.setBearerAuth(portalAuth.getAccessToken()))
-                   .retrieve().bodyToMono(Eduk8sCatalog.class).block();
+        Eduk8sCatalog eduk8sCatalog = null;
+        try{
+            // If we have a valid Token
+            eduk8sCatalog = this.webClient.get()
+                    .uri(Eduk8sPortalConfig.CATALOG_ENDPOINT)
+                    .headers(headers -> headers.setBearerAuth(portalAuth.getAccessToken()))
+                    .retrieve().bodyToMono(Eduk8sCatalog.class).block();
+        }catch(WebClientResponseException e){
+            portalAuth = null;
+            // TODO: If it's because it's invalid we should retry once
+            if (retries>0){
+              internalUpdateInfo(0);
+            }
+            return;
+        }
 //        logger.debug("TrainingPortal: {}", this);
 //        logger.debug("eduk8sCatalog: {}", eduk8sCatalog);
         if ( eduk8sCatalog != null){

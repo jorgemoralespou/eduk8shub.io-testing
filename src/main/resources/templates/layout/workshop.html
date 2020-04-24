@@ -11,13 +11,18 @@
             </ul>
         </div>
 
-        <div class="post-img">
-            {{ #logo }}
-            <img width="600" src="{{web.site.baseUrl}}/images/{{ logo }}" alt="{{ name }}">
-            {{ /logo }}
-            {{ ^logo }}
-            <img width="600" src="{{web.site.baseUrl}}/images/{{ web.page.defaultImage }}" alt="webjeda">
-            {{ /logo }}
+        <div>
+            {{#logo.logo}}
+            {{#logo.dataUri}}
+            <img width="200" src="{{logo.logo}}" alt="{{title}}">
+            {{/logo.dataUri}}
+            {{^logo.dataUri}}
+            <img width="200" src="{{web.site.baseUrl}}/images/{{logo.logo}}" alt="{{title}}">
+            {{/logo.dataUri}}
+            {{/logo.logo}}
+            {{^logo.logo}}
+            <img width="200" src="{{web.site.baseUrl}}/images/{{web.page.defaultImage}}" alt="{{title}}">
+            {{/logo.logo}}
         </div>
 
         <div class="mt10">
