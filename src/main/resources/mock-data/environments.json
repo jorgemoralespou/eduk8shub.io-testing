@@ -1,169 +1,256 @@
 {
-    "environments": [
-      {
-        "name": "eduk8s-training-portal-w01",
-        "workshop": {
-          "name": "lab-k8s-fundamentals",
-          "vendor": "eduk8s.io",
-          "title": "Kubernetes Fundamentals",
-          "description": "Workshop on getting started with Kubernetes",
-          "url": "https://github.com/eduk8s-labs/lab-k8s-fundamentals"
-        },
-        "duration": 3600,
-        "capacity": 5,
-        "reserved": 1,
-        "allocated": 0,
-        "available": 1
+  "portal": {
+    "name": "eduk8s-training-portal",
+    "url": "https://eduk8s-training-portal-ui.training.failk8s.dev"
+  },
+  "environments": [
+    {
+      "name": "eduk8s-training-portal-w01",
+      "workshop": {
+        "name": "lab-k8s-fundamentals",
+        "title": "Kubernetes Fundamentals",
+        "description": "Workshop on getting started with Kubernetes",
+        "vendor": "eduk8s.io",
+        "authors": [
+          "Graham Dumpleton"
+        ],
+        "difficulty": "intermediate",
+        "duration": "1h",
+        "tags": [
+          "kubernetes"
+        ],
+        "logo": "",
+        "url": "https://github.com/eduk8s-labs/lab-k8s-fundamentals",
+        "image": "quay.io/eduk8s-labs/lab-k8s-fundamentals:master",
+        "content": ""
       },
-      {
-        "name": "eduk8s-training-portal-w02",
-        "workshop": {
-          "name": "lab-octant-testing",
-          "vendor": "eduk8s.io",
-          "title": "Octant Testing",
-          "description": "An introduction to Octant and play area for testing it",
-          "url": "https://github.com/eduk8s-labs/lab-octant-testing"
-        },
-        "duration": 1800,
-        "capacity": 3,
-        "reserved": 1,
-        "allocated": 0,
-        "available": 1
+      "duration": 3600,
+      "capacity": 5,
+      "reserved": 1,
+      "allocated": 0,
+      "available": 1
+    },
+    {
+      "name": "eduk8s-training-portal-w02",
+      "workshop": {
+        "name": "lab-octant-testing",
+        "title": "Octant Testing",
+        "description": "An introduction to Octant and play area for testing it",
+        "vendor": "eduk8s.io",
+        "authors": [
+          "Graham Dumpleton"
+        ],
+        "difficulty": "beginner",
+        "duration": "30m",
+        "tags": [],
+        "logo": "",
+        "url": "https://github.com/eduk8s-labs/lab-octant-testing",
+        "image": "quay.io/eduk8s-labs/lab-octant-testing:master",
+        "content": ""
       },
-      {
-        "name": "eduk8s-training-portal-w03",
-        "workshop": {
-          "name": "lab-kpack-testing",
-          "vendor": "eduk8s.io",
-          "title": "Kpack Testing",
-          "description": "Play area for testing kpack",
-          "url": "https://github.com/eduk8s-tests/lab-kpack-testing"
-        },
-        "duration": 1800,
-        "capacity": 3,
-        "reserved": 0,
-        "allocated": 0,
-        "available": 0
+      "duration": 1800,
+      "capacity": 3,
+      "reserved": 1,
+      "allocated": 0,
+      "available": 1
+    },
+    {
+      "name": "eduk8s-training-portal-w03",
+      "workshop": {
+        "name": "lab-kpack-testing",
+        "title": "Kpack Testing",
+        "description": "Play area for testing kpack",
+        "vendor": "eduk8s.io",
+        "authors": [],
+        "difficulty": "",
+        "duration": "1h",
+        "tags": [],
+        "logo": "",
+        "url": "https://github.com/eduk8s-tests/lab-kpack-testing",
+        "image": "quay.io/eduk8s-tests/lab-kpack-testing:master",
+        "content": ""
       },
-      {
-        "name": "eduk8s-training-portal-w04",
-        "workshop": {
-          "name": "lab-container-basics",
-          "vendor": "eduk8s.io",
-          "title": "Container Basics",
-          "description": "An interactive workshop on running applications in containers.",
-          "url": "https://github.com/eduk8s-labs/lab-container-basics"
-        },
-        "duration": 1800,
-        "capacity": 3,
-        "reserved": 0,
-        "allocated": 0,
-        "available": 0
+      "duration": 1800,
+      "capacity": 3,
+      "reserved": 0,
+      "allocated": 0,
+      "available": 0
+    },
+    {
+      "name": "eduk8s-training-portal-w04",
+      "workshop": {
+        "name": "lab-container-basics",
+        "title": "Container Basics",
+        "description": "An interactive workshop on running applications in containers.",
+        "vendor": "eduk8s.io",
+        "authors": [],
+        "difficulty": "",
+        "duration": "60m",
+        "tags": [],
+        "logo": "",
+        "url": "https://github.com/eduk8s-labs/lab-container-basics",
+        "image": "",
+        "content": "github.com/eduk8s-labs/lab-container-basics"
       },
-      {
-        "name": "eduk8s-training-portal-w05",
-        "workshop": {
-          "name": "lab-image-security",
-          "vendor": "eduk8s.io",
-          "title": "Image Security",
-          "description": "An interactive workshop on constructing secure images.",
-          "url": "https://github.com/eduk8s-labs/lab-image-security"
-        },
-        "duration": 2700,
-        "capacity": 3,
-        "reserved": 0,
-        "allocated": 0,
-        "available": 0
+      "duration": 1800,
+      "capacity": 3,
+      "reserved": 0,
+      "allocated": 0,
+      "available": 0
+    },
+    {
+      "name": "eduk8s-training-portal-w05",
+      "workshop": {
+        "name": "lab-image-security",
+        "title": "Image Security",
+        "description": "An interactive workshop on constructing secure images.",
+        "vendor": "eduk8s.io",
+        "authors": [],
+        "difficulty": "",
+        "duration": "60m",
+        "tags": [],
+        "logo": "",
+        "url": "https://github.com/eduk8s-labs/lab-image-security",
+        "image": "",
+        "content": "github.com/eduk8s-labs/lab-image-security"
       },
-      {
-        "name": "eduk8s-training-portal-w06",
-        "workshop": {
-          "name": "lab-docker-testing",
-          "vendor": "eduk8s.io",
-          "title": "Docker Testing",
-          "description": "Play area for testing docker",
-          "url": "https://github.com/eduk8s/lab-docker-testing"
-        },
-        "duration": 1800,
-        "capacity": 3,
-        "reserved": 0,
-        "allocated": 0,
-        "available": 0
+      "duration": 2700,
+      "capacity": 3,
+      "reserved": 0,
+      "allocated": 0,
+      "available": 0
+    },
+    {
+      "name": "eduk8s-training-portal-w06",
+      "workshop": {
+        "name": "lab-docker-testing",
+        "title": "Docker Testing",
+        "description": "Play area for testing docker",
+        "vendor": "eduk8s.io",
+        "authors": [],
+        "difficulty": "",
+        "duration": "60m",
+        "tags": [],
+        "logo": "",
+        "url": "https://github.com/eduk8s/lab-docker-testing",
+        "image": "",
+        "content": "github.com/eduk8s-tests/lab-docker-testing"
       },
-      {
-        "name": "eduk8s-training-portal-w07",
-        "workshop": {
-          "name": "lab-podman-testing",
-          "vendor": "eduk8s.io",
-          "title": "Podman Testing",
-          "description": "Play area for testing podman",
-          "url": "https://github.com/eduk8s-tests/lab-podman-testing"
-        },
-        "duration": 1800,
-        "capacity": 3,
-        "reserved": 0,
-        "allocated": 0,
-        "available": 0
+      "duration": 1800,
+      "capacity": 3,
+      "reserved": 0,
+      "allocated": 0,
+      "available": 0
+    },
+    {
+      "name": "eduk8s-training-portal-w07",
+      "workshop": {
+        "name": "lab-podman-testing",
+        "title": "Podman Testing",
+        "description": "Play area for testing podman",
+        "vendor": "eduk8s.io",
+        "authors": [],
+        "difficulty": "",
+        "duration": "1h",
+        "tags": [],
+        "logo": "",
+        "url": "https://github.com/eduk8s-tests/lab-podman-testing",
+        "image": "quay.io/eduk8s-tests/lab-podman-testing:master",
+        "content": ""
       },
-      {
-        "name": "eduk8s-training-portal-w08",
-        "workshop": {
-          "name": "lab-jupyter-on-k8s-01",
-          "vendor": "eduk8s.io",
-          "title": "Jupyter on Kubernetes #1",
-          "description": "A workshop exploring deployment of Jupyter notebooks locally and to Kubernetes",
-          "url": "https://github.com/jupyter-on-kubernetes/lab-jupyter-on-k8s-01"
-        },
-        "duration": 1800,
-        "capacity": 3,
-        "reserved": 0,
-        "allocated": 0,
-        "available": 0
+      "duration": 1800,
+      "capacity": 3,
+      "reserved": 0,
+      "allocated": 0,
+      "available": 0
+    },
+    {
+      "name": "eduk8s-training-portal-w08",
+      "workshop": {
+        "name": "lab-jupyter-on-k8s-01",
+        "title": "Jupyter on Kubernetes #1",
+        "description": "A workshop exploring deployment of Jupyter notebooks locally and to Kubernetes",
+        "vendor": "eduk8s.io",
+        "authors": [],
+        "difficulty": "",
+        "duration": "30m",
+        "tags": [],
+        "logo": "",
+        "url": "https://github.com/jupyter-on-kubernetes/lab-jupyter-on-k8s-01",
+        "image": "",
+        "content": "github.com/jupyter-on-kubernetes/lab-jupyter-on-k8s-01"
       },
-      {
-        "name": "eduk8s-training-portal-w09",
-        "workshop": {
-          "name": "lab-jupyter-on-k8s-02",
-          "vendor": "eduk8s.io",
-          "title": "Jupyter on Kubernetes #2",
-          "description": "A workshop exploring use of operators to deploy Jupyter notebooks to Kubernetes",
-          "url": "https://github.com/jupyter-on-kubernetes/lab-jupyter-on-k8s-02"
-        },
-        "duration": 1800,
-        "capacity": 3,
-        "reserved": 0,
-        "allocated": 0,
-        "available": 0
+      "duration": 1800,
+      "capacity": 3,
+      "reserved": 0,
+      "allocated": 0,
+      "available": 0
+    },
+    {
+      "name": "eduk8s-training-portal-w09",
+      "workshop": {
+        "name": "lab-jupyter-on-k8s-02",
+        "title": "Jupyter on Kubernetes #2",
+        "description": "A workshop exploring use of operators to deploy Jupyter notebooks to Kubernetes",
+        "vendor": "eduk8s.io",
+        "authors": [],
+        "difficulty": "",
+        "duration": "30m",
+        "tags": [],
+        "logo": "",
+        "url": "https://github.com/jupyter-on-kubernetes/lab-jupyter-on-k8s-02",
+        "image": "",
+        "content": "github.com/jupyter-on-kubernetes/lab-jupyter-on-k8s-02"
       },
-      {
-        "name": "eduk8s-training-portal-w10",
-        "workshop": {
-          "name": "lab-jupyter-testing",
-          "vendor": "eduk8s.io",
-          "title": "Jupyter Testing",
-          "description": "Play area for testing JupyterLab.",
-          "url": "https://github.com/jupyter-on-kubernetes/lab-jupyter-testing"
-        },
-        "duration": 1800,
-        "capacity": 3,
-        "reserved": 0,
-        "allocated": 0,
-        "available": 0
+      "duration": 1800,
+      "capacity": 3,
+      "reserved": 0,
+      "allocated": 0,
+      "available": 0
+    },
+    {
+      "name": "eduk8s-training-portal-w10",
+      "workshop": {
+        "name": "lab-jupyter-testing",
+        "title": "Jupyter Testing",
+        "description": "Play area for testing JupyterLab.",
+        "vendor": "eduk8s.io",
+        "authors": [],
+        "difficulty": "",
+        "duration": "30m",
+        "tags": [],
+        "logo": "",
+        "url": "https://github.com/jupyter-on-kubernetes/lab-jupyter-testing",
+        "image": "quay.io/eduk8s/workshop-dashboard:master",
+        "content": "github.com/jupyter-on-kubernetes/lab-jupyter-testing"
       },
-      {
-        "name": "eduk8s-training-portal-w11",
-        "workshop": {
-          "name": "lab-browser-testing",
-          "vendor": "eduk8s.io",
-          "title": "Browser Testing",
-          "description": "A workshop to help test browser compatibility",
-          "url": "https://github.com/eduk8s/workshop-dashboard"
-        },
-        "duration": 600,
-        "capacity": 3,
-        "reserved": 0,
-        "allocated": 0,
-        "available": 0
-      }
-    ]
-  }
+      "duration": 1800,
+      "capacity": 3,
+      "reserved": 0,
+      "allocated": 0,
+      "available": 0
+    },
+    {
+      "name": "eduk8s-training-portal-w11",
+      "workshop": {
+        "name": "lab-browser-testing",
+        "title": "Browser Testing",
+        "description": "A workshop to help test browser compatibility",
+        "vendor": "eduk8s.io",
+        "authors": [],
+        "difficulty": "",
+        "duration": "",
+        "tags": [],
+        "logo": "",
+        "url": "https://github.com/eduk8s/workshop-dashboard",
+        "image": "",
+        "content": ""
+      },
+      "duration": 600,
+      "capacity": 3,
+      "reserved": 0,
+      "allocated": 0,
+      "available": 0
+    }
+  ]
+}

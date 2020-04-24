@@ -10,7 +10,6 @@ logging:
 json:
   mock:
     environments: mock-data/environments.json
-    hub: mock-data/hub.json
 ##########
 # PORTAL CONFIGURATION
 ##########
