@@ -1,0 +1,89 @@
+{{#workshop}}
+<div class="content-area workshop-container">
+        <div class="workshop-sidebar">
+            <div class="logo">
+                {{#logo.logo}}
+                {{#logo.dataUri}}
+                <img class="logo" src="{{logo.logo}}" alt="{{title}}">
+                {{/logo.dataUri}}
+                {{^logo.dataUri}}
+                <img class="logo" src="{{web.site.baseUrl}}/images/{{logo.logo}}" alt="{{title}}">
+                {{/logo.dataUri}}
+                {{/logo.logo}}
+                {{^logo.logo}}
+                <img class="logo" src="{{web.site.baseUrl}}/images/{{web.page.defaultImage}}" alt="{{title}}">
+                {{/logo.logo}}
+            </div>
+            <div>
+                {{ #url }}
+                <i class="fa fa-github fa-3x" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<a href="{{ url }}">{{ url }}</a>
+                {{ /url }}
+            </div>
+            <button class="btn btn-success btn-block">Launch</button>
+        </div>
+        <div class="workshop-main">
+            <div>
+                <div>
+                    <h1>{{ title }}</h1>
+                    <p>
+                        <time datetime='January 2, 2006' itemprop="datePublished">January 2, 2006</time>
+                        {{#author}}
+                        <span>{{author}}</span>
+                        {{/author}}
+                    </p>
+                </div>
+                <div>
+                    <p>If you want to review the workshop content, you can browse the files and subdirectories under <a
+                            href="{{ url }}/tree/master/workshop/content">workshop/content</a>.</p>
+    
+                    <h2 id="install-the-workshop">Install the workshop</h2>
+                    <p>To deploy the workshop, <a href="/pages/install/">install the eduk8s operator</a>, then run:</p>
+                    <div class="card">
+                        <div class="card-block">
+                            <code class="language-bash" data-lang="bash">kubectl apply -f {{url}}</code>
+                        </div>
+                    </div>
+    
+                    <!--                
+                    { { if .Params.install_notes } }
+                    <aside class="box">
+                        <div>
+                            <p>{ { .Params.install_notes } }</p>
+                        </div>
+                    </aside>
+                    { { end } }
+                    -->
+                    <h2 id="delete-the-workshop">Delete the workshop</h2>
+                    <p>To delete the workshop when finished, run:</p>
+                    <div class="card">
+                        <div class="card-block">
+                            <code class="language-bash" data-lang="bash">kubectl delete -f {{url}}</code>
+                        </div>
+                    </div>
+                    <h2 id="example-workshop">Example workshop</h2>
+                    <p>If you want to manually create an instance of the workshop, just create an instance of this CRD with
+                        the following content:</p>
+                        <div class="card">
+                            <div class="card-block"><pre>
+                                <code class="language-yaml" data-lang="yaml">
+    kind: Workshop
+    metadata:
+      name: {{name}}
+    spec:
+      vendor: {{vendor}}
+      title: {{title}}
+      description: {{description}}
+      url: {{url}}
+      image: {{image}}
+      duration: {{duration}}
+      session:
+        budget: medium
+                                </code>
+                                </pre>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+</div>
+{{/workshop}}

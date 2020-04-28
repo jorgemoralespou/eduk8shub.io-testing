@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+{{>layout/head}}
+
+<body>
+
+  {{>layout/header}}
+
+  <div class="page_contents">
+    <div class="page_contents_inner">
+      <div class="hub_page">
+        <div class="hub_page_filters">
+          <div class="filter_panel">
+            {{>layout/filters}}
+          </div>
+        </div>
+
+        <div class="hub_page_content">
+          <div class="hub_page_content_tiles">
+            {{>layout/tiles}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{>layout/footer}}
+  <!--
+  {{>layout/analytics}}
+  -->
+</body>
+
+</html>

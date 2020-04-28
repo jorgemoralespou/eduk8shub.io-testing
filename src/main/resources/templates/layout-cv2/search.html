@@ -1,0 +1,274 @@
+<script type="text/javascript">
+    var lunrIndex,
+        $results,
+        pagesIndex,
+        fuse;
+
+    function initFuse() {
+        const options = {
+            includeScore: true,
+            includeMatches: true,
+            threshold: 0.3,
+            keys: [
+                {
+                    name: 'title',
+                    weight: 0.1
+                },
+                {
+                    name: 'tags',
+                    weight: 0.3
+                },
+                {
+                    name: 'difficulty',
+                    weight: 0.3
+                },
+                {
+                    name: 'description',
+                    weight: 0.5
+                }
+            ]
+        }
+
+        $.getJSON("/api/workshops")
+            .done(function (index) {
+                fuse = new Fuse(index, options);
+            })
+            .fail(function (jqxhr, textStatus, error) {
+                var err = textStatus + ", " + error;
+                console.error("Error getting catalog:", err);
+            });
+    }
+
+    // Initialize lunrjs using our generated index file
+    function initLunr() {
+        // First retrieve the index file
+        $.getJSON("/api/workshops")
+            .done(function (index) {
+                pagesIndex = index;
+
+                lunrIndex = lunr(function () {
+                    this.field("title", {
+                        boost: 20
+                    });
+                    this.field("tags", {
+                        boost: 10
+                    });
+                    this.field("difficulty", {
+                        boost: 10
+                    });
+                    this.field("description", {
+                        boost: 5
+                    });
+
+                    // ref is the result item identifier (I chose the page id)
+                    this.ref("name");
+
+                    pagesIndex.forEach(function (doc) {
+                        this.add(doc)
+                        console.log("adding doc: " + doc); 
+                    }, this)
+
+                    // Initialize filters:
+                    initFilters(pagesIndex);
+                    console.log("search filters created");
+
+                });
+                console.log("search index created")
+            })
+            .fail(function (jqxhr, textStatus, error) {
+                var err = textStatus + ", " + error;
+                console.error("Error getting catalog:", err);
+            });
+    }
+
+    // Nothing crazy here, just hook up a listener on the input field
+    function initUI() {
+//        $("#clear_search").hide();
+//        $("#clear_search").click(function () {
+//            $("#search").val("");
+//            doSearch();
+//        });
+        $("#search").keyup(function () {
+            doSearch();
+        });
+    }
+
+    /*
+     * When this issue will be solved we can safely use fuse to search in tags/categories: https://github.com/krisk/Fuse/issues/378
+     *
+     */
+    function doSearch() {
+        console.log("doSearch()");
+        var difficultyString = "";
+        // difficulty
+        $(".difficulty_filter").each(function (idx, element) {
+            if (element.checked) {
+              // Do an OR operation
+              // lunr Below
+              difficultyString += element.id.replace('_difficulty_', ' +difficulty:');
+              // fuse below
+              // difficultyString += element.id.replace('_difficulty_', ' ');
+            }
+        });
+
+        // computeTags
+        var tagString = "";
+        $(".tags_filter").each(function (index, element) {
+            if (element.checked) {
+                // Exclusive operation
+                // lunr Below
+                tagString = $(element).attr('id').replace('_tags_', ' +tags:');
+                // fuse below
+                // tagString = $(element).attr('id').replace('_tags_', ' ');
+            }
+        });
+
+        // compute Search
+        var searchString = "";
+        var searchFieldValue = $("#search").val();
+        if (searchFieldValue != null && searchFieldValue.length > 0) {
+            // Do an AND operation
+            searchFieldValue.split(" ").forEach(token => searchString += "+" + token);
+        }
+
+        var filter = difficultyString + " " + tagString + " " + searchString;
+        console.log("Doing search for: [" + filter + "]");
+        var results = search(filter);
+        console.log("results", results);
+        // Show the results that have been returned, hide all others
+        renderResults(results, searchString);
+    }
+
+    function search(query) {
+        /*
+            return fuse.search(query);
+        */
+        console.log("query: " + query);
+        console.log("lunrIndex: " + lunrIndex);
+        return lunrIndex.search(query).map(function (result) {
+            return pagesIndex.filter(function (page) {
+                console.log("Filtering: " + page);
+                return page.name === result.ref;
+            })[0];
+        });
+    }
+
+    function renderResults(results, query) {
+        if (query.length == 0) {
+            visibleAll(true);
+//            $("#clear_search").hide();
+        } else {
+//            $("#clear_search").show();
+        }
+        if (!results.length) {
+            visibleAll(false);
+        }
+
+        $(".tile").each(function (idx, element) {
+            var toshow = false;
+            results.forEach(function (result) {
+                if (result.name === element.id) {
+                    toshow = true;
+                }
+            });
+            if (toshow) {
+                $(element).show();
+            } else {
+                $(element).hide();
+            }
+        });
+    }
+
+    function visibleAll(show) {
+        $(".index-anchor").each(function (idx, element) {
+            if (show) {
+                $(element).show();
+            } else {
+                $(element).hide();
+            }
+        });
+        return;
+    }
+
+    // Reducer function to count occurrences of a string in an array
+    var toOcurrencesMap = function (array) {
+        var elements = new Map();
+        array.forEach(function aggregate(element, index) {
+            val = elements.get(element);
+            if (val) {
+                val = val + 1;
+            } else {
+                val = 1;
+            }
+            elements.set(element, val);
+        });
+        return elements;
+    }
+
+    function initFilters(data) {
+        var categoriesArr = [];
+        var tagsArr = [];
+        var categories = [];
+        var tags = [];
+
+        //console.log("data", data);
+        data.forEach(function addToFilters(element, index) {
+            // if (element.categories) {
+            //     element.categories.forEach(category => categoriesArr.push(category));
+            // }
+            if (element.tags) {
+                element.tags.forEach(tag => tagsArr.push(tag));
+            }
+        });
+
+        // var categories = categoriesArr.reduce(function (acc, curr) {
+        //     if (typeof acc[curr] == 'undefined') {
+        //         acc[curr] = 1;
+        //     } else {
+        //         acc[curr] += 1;
+        //     }
+        //     return acc;
+        // }, {});
+        // var categories = toOcurrencesMap(categoriesArr);
+        var tags = toOcurrencesMap(tagsArr);
+
+        //          categories.forEach(function (occurences, category) { addCategory(category, occurences) });
+        tags.forEach(function (occurences, tag) { 
+            addTags(tag, occurences);
+        });
+    }
+
+    // function addCategory(item, occurences) {
+    //     $categories = $("#categories");
+    //     $categories.append('<div class="filter-panel-pf-category-item"><div class="checkbox"><label title="Altinity"><input type="checkbox" class="_filter_tags_checkboxes" id="_tag_' + item + '" onclick="doSearch()">' + item + '<span class="item-count">(' + occurences + ')</span></label></div></div>');
+    // }
+
+    function addTags(item, occurences) {
+        $tags = $("#tags");
+//        $tags.append('<div class="oh-category-item"><button type="button" class="oh-category-item__select" id="_tags_' + item + '" onclick="clickTags(this); doSearch();">' + item + '&nbsp;&nbsp;&nbsp;<span class="item-count">(' + occurences + ')</span></button></div>');
+        $tags.append('<div class="clr-toggle-wrapper"><input type="checkbox" id="_tags_' + item + '" class="clr-toggle tags_filter" onclick="clickTags(this); doSearch();"><label for="_tags_' + item + '">' + item + ' (' + occurences + ')</label></div>');
+    }
+
+    function clickTags(element) {
+        // Remove all previous selected
+        $(".oh-category-item").each(function (index, element) { $(element).removeClass("selected") });
+        $(".oh-category-item__select").each(function (index, element) { $(element).removeClass("selected") });
+        // Mark selected element
+        $(element).addClass("selected");
+        $(element).parent().addClass("selected");
+    }
+
+    // Let's get started
+    initLunr();
+    //  initFuse();
+
+    $(document).ready(function () {
+        initUI();
+    });
+</script>
+
+<form class="search">
+    <label for="search">
+        <input id="search" type="text" placeholder="Search for keywords...">
+    </label>
+</form>

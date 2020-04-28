@@ -1,0 +1,43 @@
+<div class="content-area index-container">
+    <div class="index-sidebar">
+        <form class="clr-form">
+            <div class="clr-form-control">
+                <label class="clr-control-label">Tags</label>
+                <div class="clr-control-container" id="tags">
+                    <!--
+                    <div class="clr-toggle-wrapper">
+                        <input type="checkbox" id="_tags_kubernetes" class="clr-toggle tags_filter"><label
+                            for="_tags_kubernetes">Kubernetes</label>
+                    </div>
+                    -->
+                </div>
+            </div>
+        </form>
+        <form class="clr-form">
+            <div class="clr-form-control">
+                <label class="clr-control-label">Difficulty</label>
+                <div class="clr-control-container" id="categories">
+                    <div class="clr-checkbox-wrapper">
+                        <input name="_difficulty_beginner" class="difficulty_filter" type="checkbox" id="_difficulty_beginner" onclick="doSearch()"><label
+                            class="clr-control-label" for="_difficulty_beginner">Basic</label>
+                    </div>
+                    <div class="clr-checkbox-wrapper">
+                        <input name="_difficulty_intermediate" class="difficulty_filter" type="checkbox" id="_difficulty_intermediate" onclick="doSearch()"><label
+                            class="clr-control-label" for="_difficulty_intermediate">Intermediate</label>
+                    </div>
+                    <div class="clr-checkbox-wrapper">
+                        <input name="_difficulty_advanced" class="difficulty_filter" type="checkbox" id="_difficulty_advanced" onclick="doSearch()"><label
+                            class="clr-control-label" for="_difficulty_advanced">Advanced</label>
+                    </div>
+                    <div class="clr-checkbox-wrapper">
+                        <input name="_difficulty_extreme" class="difficulty_filter" type="checkbox" id="_difficulty_extreme" onclick="doSearch()"><label
+                            class="clr-control-label" for="_difficulty_extreme">Extreme</label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="clr-row index-main hub-tiles-container">
+        {{>layout-cv2/tile}}
+    </div>
+</div>

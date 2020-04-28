@@ -1,0 +1,32 @@
+<header class="header-4">
+    <div class="branding">
+        <a href="{{web.site.baseUrl}}/" class="nav-link">
+            <img height="64" src="{{web.site.baseUrl}}/images/{{web.site.img}}" alt="">
+            <!--<clr-icon shape="vm-bug"></clr-icon>-->
+            <span class="title">{{web.site.title}}</span>
+        </a>
+    </div>
+    <div class="header-nav">
+        <a href="/pages/install/" class="nav-link nav-text">Install</a>
+        <a href="/pages/about/" class="nav-link nav-text">About</a>
+        <a target="_blank" href="https://eduk8s.readthedocs.io/" class="nav-link nav-text">Read the docs</a>
+        <a href="/pages/contact/" class="nav-link nav-text">Contact</a>
+    </div>
+    <!-- Search partial here -->
+    {{>layout-cv2/search}}
+
+    <div class="header-actions">
+        <div class="dropdown">
+            <button class="nav-text dropdown-toggle" data-toggle="dropdown" role="button" aria-label="toggle menu">
+                <span>Contribute</span>
+                <clr-icon shape="caret down"></clr-icon>
+            </button>
+            <div class="dropdown-menu">
+                <a target="_blank" href="https://github.com/eduk8s">Project</a>
+                <a target="_blank" href="https://github.com/eduk8s/eduk8s-operator">Operator</a>
+                <a target="_blank" href="https://github.com/eduk8s-labs">Labs</a>
+                <a target="_blank" href="https://github.com/eduk8s-tests">Tests</a>
+            </div>
+        </div>
+    </div>
+</header>

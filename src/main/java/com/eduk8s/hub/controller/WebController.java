@@ -76,6 +76,13 @@ public class WebController implements ErrorController {
         return new ModelAndView("/workshop");
     }
 
+    // TODO: Remember to delete
+    @GetMapping("/workshops-cv2")
+    public ModelAndView workshopCV2( Map<String, Object> model) {
+        model.put("no-search", "true");
+        return new ModelAndView("/workshop");
+    }
+
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);

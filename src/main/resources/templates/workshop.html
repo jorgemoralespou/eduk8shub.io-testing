@@ -1,26 +1,18 @@
 <!DOCTYPE html>
 <html>
-
-{{>layout/head}}
-
+{{>layout-cv2/head}}
 <body>
-
-    {{>layout/header}}
-
-    <div class="page_contents">
-        <div class="page_contents_inner">
-            <div class="hub_page">
-                <div class="hub_page_content">
-                    {{>layout/workshop}}
-                </div>
-            </div>
+    <div class="main-container">
+        <!--
+        <div class="alert alert-app-level">
+            Alert
         </div>
+        -->
+        {{>layout-cv2/header}}
+        <div class="content-container">
+            {{>layout-cv2/workshop}}
+        </div>
+        {{>layout-cv2/footer}}
     </div>
-
-    {{>layout/footer}}
-    <!--
-      {{>layout/analytics}}
-    -->
 </body>
-
 </html>
