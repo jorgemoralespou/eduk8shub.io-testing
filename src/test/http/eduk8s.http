@@ -1,4 +1,5 @@
 @hostname=https://eduk8s-training-portal-ui.training.failk8s.dev
+#@hostname=https://lab-spring-boot-ui.training.failk8s.dev
 # Robot client:
 # id: kubectl get trainingportal/eduk8s-training-portal -o jsonpath='{.status.eduk8s.clients.robot.id}'
 @robot_client_id=grumpy-old-man

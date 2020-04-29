@@ -1,8 +1,7 @@
 <header class="header-4">
     <div class="branding">
         <a href="{{web.site.baseUrl}}/" class="nav-link">
-            <img height="64" src="{{web.site.baseUrl}}/images/{{web.site.img}}" alt="">
-            <!--<clr-icon shape="vm-bug"></clr-icon>-->
+            <img height="64" src="{{web.site.baseUrl}}/images/{{web.site.img}}" alt="" />
             <span class="title">{{web.site.title}}</span>
         </a>
     </div>
@@ -16,16 +15,17 @@
     {{>layout-cv2/search}}
 
     <div class="header-actions">
-        <div class="dropdown">
-            <button class="nav-text dropdown-toggle" data-toggle="dropdown" role="button" aria-label="toggle menu">
-                <span>Contribute</span>
+        <div class="dropdown bottom-right" id="dropdown">
+            <button class="dropdown-toggle btn btn-link" type="button" id="dropdown-button">
+                Contribute
                 <clr-icon shape="caret down"></clr-icon>
             </button>
             <div class="dropdown-menu">
-                <a target="_blank" href="https://github.com/eduk8s">Project</a>
-                <a target="_blank" href="https://github.com/eduk8s/eduk8s-operator">Operator</a>
-                <a target="_blank" href="https://github.com/eduk8s-labs">Labs</a>
-                <a target="_blank" href="https://github.com/eduk8s-tests">Tests</a>
+                <a target="_blank" class="dropdown-item" href="https://github.com/eduk8s">Project</a>
+                <a target="_blank" class="dropdown-item" href="https://github.com/eduk8s/eduk8s-operator">Operator</a>
+                <div class="dropdown-divider" role="separator"></div>
+                <a target="_blank" class="dropdown-item" href="https://github.com/eduk8s-labs">Labs</a>
+                <a target="_blank" class="dropdown-item" href="https://github.com/eduk8s-tests">Tests</a>
             </div>
         </div>
     </div>

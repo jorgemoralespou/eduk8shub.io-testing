@@ -2,14 +2,11 @@ package com.eduk8s.hub.model.hub;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 import com.eduk8s.hub.config.Eduk8sPortalConfig;
-import com.eduk8s.hub.exception.PortalAuthenticationException;
 import com.eduk8s.hub.model.config.PortalConfig;
 import com.eduk8s.hub.model.eduk8s.AuthResponse;
 import com.eduk8s.hub.model.eduk8s.Eduk8sCatalog;
@@ -87,11 +84,13 @@ public class TrainingPortal {
                         .block();
                 portalAuth = new PortalAuth(response);
             }catch(WebClientResponseException e){
-                throw new PortalAuthenticationException("Have you verified if the robot credentials are correct?", e);
+                logger.error("Error while Initial authentication");
+                logger.error("Have you verified if the robot credentials are correct for this portal({}) at ({})", name, url);
+                return;
             }
         }
         // refresh
-        if ( ! portalAuth.isValid()){
+        if ( !portalAuth.isValid()){
             logger.info("Token is no longer valid. Let's ask for a new one");
             MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
             map.add("grant_type", "refresh_token");
@@ -107,7 +106,9 @@ public class TrainingPortal {
                         .block();
                 portalAuth = new PortalAuth(response);
             }catch(WebClientResponseException e){
-                throw new PortalAuthenticationException("Have you verified if the robot credentials are correct?", e);
+                logger.error("Error while Refreshing token");
+                logger.error("Have you verified if the robot credentials are correct for this portal({}) at ({})", name, url);
+                return;
             }
         }
         Eduk8sCatalog eduk8sCatalog = null;
@@ -117,25 +118,26 @@ public class TrainingPortal {
                     .uri(Eduk8sPortalConfig.CATALOG_ENDPOINT)
                     .headers(headers -> headers.setBearerAuth(portalAuth.getAccessToken()))
                     .retrieve().bodyToMono(Eduk8sCatalog.class).block();
+            // logger.debug("TrainingPortal: {}", this);
+            // logger.debug("eduk8sCatalog: {}", eduk8sCatalog);
+            if ( eduk8sCatalog != null){
+                eduk8sCatalog.getEnvironments().forEach(eduk8sEnv -> {
+            // logger.info("eduk8senv: {}",eduk8sEnv);
+                    WorkshopEnvironment we = new WorkshopEnvironment(eduk8sEnv);
+            // logger.info("WorkshopEnvironment: {}", we);
+                    environments.put(we.getName(), we);
+                });
+            }
+            //        logger.debug("TrainingPortal: {}", this);
         }catch(WebClientResponseException e){
             portalAuth = null;
-            // TODO: If it's because it's invalid we should retry once
-            if (retries>0){
-              internalUpdateInfo(0);
+            logger.error("Error while Querying portal({}) at ({})", name, url);
+            if (retries-- > 0){
+                logger.info("Retrying to query portal({}) at ({}) with new Authentication", name, url);
+              internalUpdateInfo(retries);
             }
             return;
         }
-//        logger.debug("TrainingPortal: {}", this);
-//        logger.debug("eduk8sCatalog: {}", eduk8sCatalog);
-        if ( eduk8sCatalog != null){
-            eduk8sCatalog.getEnvironments().forEach(eduk8sEnv -> {
-//                logger.info("eduk8senv: {}",eduk8sEnv);
-                WorkshopEnvironment we = new WorkshopEnvironment(eduk8sEnv);
-//                logger.info("WorkshopEnvironment: {}", we);
-                environments.put(we.getName(), we);
-            });
-        }
-//        logger.debug("TrainingPortal: {}", this);
     }
 
     public String startWorkshop(String workshopName, String callbackUrl) {

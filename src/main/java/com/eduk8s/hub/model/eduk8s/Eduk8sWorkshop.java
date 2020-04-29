@@ -14,12 +14,12 @@ public class Eduk8sWorkshop {
     public String logo;
     public String url;
     public String image;
-    public String content;
+    public Eduk8sContent content;
 
     public Eduk8sWorkshop() {
     }
 
-    public Eduk8sWorkshop(String name, String title, String description, String vendor, String[] authors, String difficulty, String duration, String[] tags, String logo, String url, String image, String content) {
+    public Eduk8sWorkshop(String name, String title, String description, String vendor, String[] authors, String difficulty, String duration, String[] tags, String logo, String url, String image, Eduk8sContent content) {
         this.name = name;
         this.title = title;
         this.description = description;
@@ -122,11 +122,11 @@ public class Eduk8sWorkshop {
         this.image = image;
     }
 
-    public String getContent() {
+    public Eduk8sContent getContent() {
         return this.content;
     }
 
-    public void setContent(String content) {
+    public void setContent(Eduk8sContent content) {
         this.content = content;
     }
 
@@ -185,7 +185,7 @@ public class Eduk8sWorkshop {
         return this;
     }
 
-    public Eduk8sWorkshop content(String content) {
+    public Eduk8sWorkshop content(Eduk8sContent content) {
         this.content = content;
         return this;
     }

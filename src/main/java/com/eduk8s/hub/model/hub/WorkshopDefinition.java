@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
+import com.eduk8s.hub.model.eduk8s.Eduk8sContent;
 import com.eduk8s.hub.model.eduk8s.Eduk8sWorkshop;
 
 public class WorkshopDefinition {
@@ -20,8 +21,7 @@ public class WorkshopDefinition {
     public String[] tags;
     public Logo logo;
     public String url;
-    public String image;
-    public String content;
+    public WorkshopContents content;
 
     private String longDescription = "This is a long description";
 
@@ -42,7 +42,7 @@ public class WorkshopDefinition {
     }
 
     public WorkshopDefinition(Eduk8sWorkshop workshop){
-        uid = new WorkshopUID(workshop.getImage(), workshop.getContent());
+        uid = new WorkshopUID(workshop.getContent());
         this.name = workshop.getName();
         this.title = workshop.getTitle();
         this.description = workshop.getDescription();
@@ -53,13 +53,12 @@ public class WorkshopDefinition {
         this.tags = workshop.getTags();
         this.logo = (workshop.getLogo()==null || "".equals(workshop.getLogo()))? new Logo(WorkshopDefinition.randomItem(images), false): new Logo(workshop.getLogo(), true);
         this.url = workshop.getUrl();
-        this.image = workshop.getImage();
-        this.content = workshop.getContent();
+        this.content = new WorkshopContents(workshop.getContent());
         this.longDescription = "This is the long description of the content that has to come from the backend. (WIP). " + workshop.getDescription();
     }
 
-    public WorkshopDefinition(String name, String title, String description, String vendor, String[] authors, String difficulty, String duration, String[] tags, String logo, String url, String image, String content, String longDescription) {
-        this.uid = new WorkshopUID(image, content);
+    public WorkshopDefinition(String name, String title, String description, String vendor, String[] authors, String difficulty, String duration, String[] tags, String logo, String url, Eduk8sContent content, String longDescription) {
+        this.uid = new WorkshopUID(content);
         this.name = name;
         this.title = title;
         this.description = description;
@@ -71,8 +70,7 @@ public class WorkshopDefinition {
         // TODO: Verify the logo
         this.logo = new Logo(logo, true);
         this.url = url;
-        this.image = image;
-        this.content = content;
+        this.content = new WorkshopContents(content);
         this.longDescription = longDescription;
     }
 
@@ -160,19 +158,11 @@ public class WorkshopDefinition {
         this.url = url;
     }
 
-    public String getImage() {
-        return this.image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getContent() {
+    public WorkshopContents getContent() {
         return this.content;
     }
 
-    public void setContent(String content) {
+    public void setContent(WorkshopContents content) {
         this.content = content;
     }
 
@@ -234,12 +224,7 @@ public class WorkshopDefinition {
         return this;
     }
 
-    public WorkshopDefinition image(String image) {
-        this.image = image;
-        return this;
-    }
-
-    public WorkshopDefinition content(String content) {
+    public WorkshopDefinition content(WorkshopContents content) {
         this.content = content;
         return this;
     }
@@ -267,7 +252,7 @@ public class WorkshopDefinition {
 //               Objects.equals(duration, workshopDefinition.duration) && 
 //               Objects.equals(tags, workshopDefinition.tags) && 
 //               Objects.equals(logo, workshopDefinition.logo) && 
-               Objects.equals(url, workshopDefinition.url) && 
+//               Objects.equals(url, workshopDefinition.url) && 
 //               Objects.equals(image, workshopDefinition.image) && 
                Objects.equals(content, workshopDefinition.content) // && 
 //               Objects.equals(longDescription, workshopDefinition.longDescription)
@@ -277,7 +262,7 @@ public class WorkshopDefinition {
     @Override
     public int hashCode() {
         // TODO: Should workshops only be the same on same UID?
-        return Objects.hash(name, title, url, content);
+        return Objects.hash(name, title, content);
 //        return Objects.hash(name, title, description, vendor, authors, difficulty, duration, tags, logo, url, image, content, longDescription);
     }
 
@@ -294,7 +279,6 @@ public class WorkshopDefinition {
             ", tags='" + getTags() + "'" +
             ", logo='" + getLogo() + "'" +
             ", url='" + getUrl() + "'" +
-            ", image='" + getImage() + "'" +
             ", content='" + getContent() + "'" +
             ", longDescription='" + getLongDescription() + "'" +
             "}";

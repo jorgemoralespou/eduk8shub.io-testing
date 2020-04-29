@@ -1,7 +1,6 @@
 package com.eduk8s.hub.service;
 
-import java.time.LocalTime;
-import java.util.ArrayList;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -14,7 +13,6 @@ import com.eduk8s.hub.config.Eduk8sPortalConfig;
 import com.eduk8s.hub.config.HubConfig;
 import com.eduk8s.hub.model.hub.TrainingPortal;
 import com.eduk8s.hub.model.hub.WorkshopDefinition;
-import com.eduk8s.hub.model.hub.WorkshopEnvironment;
 import com.eduk8s.hub.model.hub.WorkshopLocation;
 import com.eduk8s.hub.model.hub.WorkshopUID;
 
@@ -35,12 +33,9 @@ public class WorkshopService {
 
     private HubConfig hubConfig;
 
-    private LocalTime lastQueryTime;
+    private Instant lastQueryTime;
 
-//    private Map<String, WorkshopDefinition> workshops;
-//    private Set<WorkshopDefinition> workshops;
     private Map<WorkshopUID, List<WorkshopLocation>> workshops;
-
 
     public WorkshopService(Eduk8sPortalConfig config, HubConfig hubConfig){
         this.hubConfig = hubConfig;
@@ -59,12 +54,17 @@ public class WorkshopService {
     }
 
     public void updatePortalInfo(String portalName){
-        LocalTime now = LocalTime.now();
+        Instant now = Instant.now();
+        int refreshTimeout = hubConfig.getRefreshTimeout();
+        logger.debug("refreshTimeout: {}", refreshTimeout);
         // If NOT refreshTime seconds have elapsed since last query, do not update
-        if (lastQueryTime!=null && now.isBefore(lastQueryTime.plusSeconds(hubConfig.getRefreshTimeout()))){
+        if (this.lastQueryTime!=null && now.isBefore(lastQueryTime.plusSeconds(refreshTimeout))){
+            logger.info("We will not refresh info from backends as not enough time has passed since last query");
             return;
+        }else{
+            logger.info("Update info from backends");
+            this.lastQueryTime = now;
         }
-        this.lastQueryTime = now;
         if (portalName!=null){
             TrainingPortal tp = trainingPortals.get(portalName);
             if (tp != null){

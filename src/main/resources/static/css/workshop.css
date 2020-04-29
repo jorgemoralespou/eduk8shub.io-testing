@@ -70,6 +70,10 @@ img.logo {
     max-height: 128px;
 }
 
+.tile {
+    min-width: 240px;
+}
+
 /*
  * Filters
  */

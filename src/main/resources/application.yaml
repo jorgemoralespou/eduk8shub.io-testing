@@ -14,7 +14,7 @@ json:
 # HUB CONFIGURATION
 ##########
 hub:
-  refreshTimeout: 15
+  refreshTimeout: 600
 ##########
 # WEBSITE CONFIGURATION
 ##########

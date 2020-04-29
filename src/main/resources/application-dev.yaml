@@ -11,19 +11,17 @@ json:
   mock:
     environments: mock-data/environments.json
 ##########
+# HUB CONFIGURATION
+##########
+hub:
+  refreshTimeout: 60
+##########
 # PORTAL CONFIGURATION
 ##########
 catalog:
   portals:
     - name: eduk8s-training-portal-ui-failk8s-dev
       url: https://eduk8s-training-portal-ui.training.failk8s.dev
-      robot:
-        client_id: grumpy-old-man
-        client_secret: what-a-looser
-        username: robot@eduk8s
-        password: jorge-is-awesome
-    - name: eduk8s-training-portal-ui-failk8s-com
-      url: https://eduk8s-training-portal-ui.training.failk8s.com
       robot:
         client_id: grumpy-old-man
         client_secret: what-a-looser

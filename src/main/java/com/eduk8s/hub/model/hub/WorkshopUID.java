@@ -3,10 +3,12 @@ package com.eduk8s.hub.model.hub;
 import java.util.Base64;
 import java.util.Objects;
 
+import com.eduk8s.hub.model.eduk8s.Eduk8sContent;
+
 public class WorkshopUID {
 
     private String image;
-    private String content;
+    private String files;
 
     private String encodedUID;
 
@@ -14,10 +16,24 @@ public class WorkshopUID {
         this.encodedUID = workshopUID;
     }
 
-    public WorkshopUID(String image, String content) {
+    public WorkshopUID(Eduk8sContent content) {
+        this.image = content.getImage();
+        this.files = content.getFiles();
+        String compound = this.image + this.files;
+        this.encodedUID = Base64.getEncoder().encodeToString(compound.getBytes());
+    }
+
+    public WorkshopUID(String image, String files) {
         this.image = image;
-        this.content = content;
-        String compound = image + content;
+        this.files = files;
+        String compound = this.image + this.files;
+        this.encodedUID = Base64.getEncoder().encodeToString(compound.getBytes());
+    }
+
+    public WorkshopUID(WorkshopDefinition workshopDef) {
+        this.image = workshopDef.getContent().getImage();
+        this.files = workshopDef.getContent().getFiles();
+        String compound = this.image + this.files;
         this.encodedUID = Base64.getEncoder().encodeToString(compound.getBytes());
     }
 
@@ -25,19 +41,12 @@ public class WorkshopUID {
         return new WorkshopUID(workshopUID);
     }
 
-    public WorkshopUID(WorkshopDefinition workshopDef) {
-        this.image = workshopDef.getImage();
-        this.content = workshopDef.getContent();
-        String compound = this.image + this.content;
-        this.encodedUID = Base64.getEncoder().encodeToString(compound.getBytes());
-    }
-
     public String getImage() {
         return image;
     }
 
-    public String getContent() {
-        return content;
+    public String getFiles() {
+        return files;
     }
 
     public String getEncodedUID() {
@@ -65,7 +74,7 @@ public class WorkshopUID {
         return "{" +
             " uid='" + encodedUID + "'" +
             ", image='" + image + "'" +
-            ", content='" + content + "'" +
+            ", files='" + files + "'" +
             "}";
     }
 
