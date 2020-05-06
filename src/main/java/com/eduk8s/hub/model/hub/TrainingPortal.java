@@ -67,92 +67,120 @@ public class TrainingPortal {
 
     private void internalUpdateInfo(int retries){
         // authenticate
-        if (portalAuth == null){
-            MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
-            map.add("grant_type", "password");
-            map.add("username",robot.getUsername());
-            map.add("password",robot.getPassword());
-    
+        authenticate();
+        if (portalAuth!=null){
+            Eduk8sCatalog eduk8sCatalog = null;
             try{
-                AuthResponse response = this.webClient.post()
-                        .uri(Eduk8sPortalConfig.OAUTH_ENDPOINT)
-                        .headers(headers -> headers.setBasicAuth(robot.getClientId(), robot.getClientSecret()))
-                        .bodyValue(map)
-                        .retrieve()
-                        .bodyToMono(AuthResponse.class)
-                        .onErrorResume(WebClientResponseException.class, ex -> Mono.error(ex))
-                        .block();
-                portalAuth = new PortalAuth(response);
+                // If we have a valid Token
+                eduk8sCatalog = this.webClient.get()
+                        .uri(Eduk8sPortalConfig.CATALOG_ENDPOINT)
+                        .headers(headers -> headers.setBearerAuth(portalAuth.getAccessToken()))
+                        .retrieve().bodyToMono(Eduk8sCatalog.class).block();
+                if ( eduk8sCatalog != null){
+                    eduk8sCatalog.getEnvironments().forEach(eduk8sEnv -> {
+                        WorkshopEnvironment we = new WorkshopEnvironment(eduk8sEnv);
+                        environments.put(we.getName(), we);
+                    });
+                }
             }catch(WebClientResponseException e){
-                logger.error("Error while Initial authentication");
-                logger.error("Have you verified if the robot credentials are correct for this portal({}) at ({})", name, url);
+                portalAuth = null;
+                logger.error("Error while Querying portal({}) at ({})", name, url);
+                if (retries-- > 0){
+                    logger.info("Retrying to query portal({}) at ({}) with new Authentication", name, url);
+                internalUpdateInfo(retries);
+                }
                 return;
             }
-        }
-        // refresh
-        if ( !portalAuth.isValid()){
-            logger.info("Token is no longer valid. Let's ask for a new one");
-            MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
-            map.add("grant_type", "refresh_token");
-            map.add("refresh_token",portalAuth.getAuthResponse().refresh_token);
-    
-            try{
-                AuthResponse response = this.webClient.post()
-                        .uri(Eduk8sPortalConfig.OAUTH_ENDPOINT)
-                        .bodyValue(map)
-                        .retrieve()
-                        .bodyToMono(AuthResponse.class)
-                        .onErrorResume(WebClientResponseException.class, ex -> Mono.error(ex))
-                        .block();
-                portalAuth = new PortalAuth(response);
-            }catch(WebClientResponseException e){
-                logger.error("Error while Refreshing token");
-                logger.error("Have you verified if the robot credentials are correct for this portal({}) at ({})", name, url);
-                return;
-            }
-        }
-        Eduk8sCatalog eduk8sCatalog = null;
-        try{
-            // If we have a valid Token
-            eduk8sCatalog = this.webClient.get()
-                    .uri(Eduk8sPortalConfig.CATALOG_ENDPOINT)
-                    .headers(headers -> headers.setBearerAuth(portalAuth.getAccessToken()))
-                    .retrieve().bodyToMono(Eduk8sCatalog.class).block();
-            // logger.debug("TrainingPortal: {}", this);
-            // logger.debug("eduk8sCatalog: {}", eduk8sCatalog);
-            if ( eduk8sCatalog != null){
-                eduk8sCatalog.getEnvironments().forEach(eduk8sEnv -> {
-            // logger.info("eduk8senv: {}",eduk8sEnv);
-                    WorkshopEnvironment we = new WorkshopEnvironment(eduk8sEnv);
-            // logger.info("WorkshopEnvironment: {}", we);
-                    environments.put(we.getName(), we);
-                });
-            }
-            //        logger.debug("TrainingPortal: {}", this);
-        }catch(WebClientResponseException e){
-            portalAuth = null;
-            logger.error("Error while Querying portal({}) at ({})", name, url);
-            if (retries-- > 0){
-                logger.info("Retrying to query portal({}) at ({}) with new Authentication", name, url);
-              internalUpdateInfo(retries);
-            }
+        }else{
+            logger.error("Not possible tp query portal({}) at ({}) due to lack of authentication credentials", name, url);
             return;
         }
     }
 
-    public String startWorkshop(String workshopName, String callbackUrl) {
-        // TODO: Verify the token is still valid and if not, refresh
-        // If we have a valid Token
-        logger.debug("Using token: {}", portalAuth);
-        Eduk8sSessionResponse response = this.webClient.get()
-                .uri(uriBuilder -> uriBuilder.path("/workshops/environment/{workshopName}/request/")
-                .queryParam("redirect_url", callbackUrl)
-                .build(workshopName))
-                .headers(headers -> headers.setBearerAuth(portalAuth.getAccessToken()))
-                .retrieve().bodyToMono(Eduk8sSessionResponse.class).block();
+    private void authenticate(){
+        if (portalAuth == null){
+            authenticateNew();
+        } else {
+            if ( !portalAuth.isValid()){
+                logger.info("Token is no longer valid. Let's ask for a new one");
+                if (portalAuth.canBeRefreshed()){
+                    authenticateRefresh();
+                }else{
+                    authenticateNew();
+                }
+            }
+        }
+    }
 
-        logger.info("Started session '{}' at url '{}'", response.getSession(), response.getUrl());
-        return this.getUrl() + response.getUrl();
+    private void authenticateNew(){
+        MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
+        map.add("grant_type", "password");
+        map.add("username",robot.getUsername());
+        map.add("password",robot.getPassword());
+
+        try{
+            logger.info("New authentication request");
+            AuthResponse response = this.webClient.post()
+                    .uri(Eduk8sPortalConfig.OAUTH_ENDPOINT)
+                    .headers(headers -> headers.setBasicAuth(robot.getClientId(), robot.getClientSecret()))
+                    .bodyValue(map)
+                    .retrieve()
+                    .bodyToMono(AuthResponse.class)
+                    .onErrorResume(WebClientResponseException.class, ex -> Mono.error(ex))
+                    .block();
+            portalAuth = new PortalAuth(response);
+        }catch(WebClientResponseException e){
+            logger.error("Error while Initial authentication");
+            logger.error("Have you verified if the robot credentials are correct for this portal({}) at ({})", name, url);
+        }
+    }
+
+    private void authenticateRefresh(){
+        MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
+        map.add("grant_type", "refresh_token");
+        map.add("refresh_token",portalAuth.getAuthResponse().refresh_token);
+
+        try{
+            AuthResponse response = this.webClient.post()
+                    .uri(Eduk8sPortalConfig.OAUTH_ENDPOINT)
+                    .bodyValue(map)
+                    .retrieve()
+                    .bodyToMono(AuthResponse.class)
+                    .onErrorResume(WebClientResponseException.class, ex -> Mono.error(ex))
+                    .block();
+            portalAuth = new PortalAuth(response);
+        }catch(WebClientResponseException e){
+            logger.error("Error while Refreshing token");
+            logger.error("Have you verified if the robot credentials are correct for this portal({}) at ({})", name, url);
+        }
+    }
+
+    public String startWorkshop(String workshopName, String callbackUrl, int retries) {
+        authenticate();
+        if (portalAuth!=null){
+            logger.debug("Using token: {}", portalAuth);
+            try{
+                Eduk8sSessionResponse response = this.webClient.get()
+                        .uri(uriBuilder -> uriBuilder.path("/workshops/environment/{workshopName}/request/")
+                        .queryParam("redirect_url", callbackUrl)
+                        .build(workshopName))
+                        .headers(headers -> headers.setBearerAuth(portalAuth.getAccessToken()))
+                        .retrieve().bodyToMono(Eduk8sSessionResponse.class).block();
+
+                logger.info("Started session '{}' at url '{}'", response.getSession(), response.getUrl());
+                return this.getUrl() + response.getUrl();
+            }catch(WebClientResponseException e){
+                portalAuth = null;
+                logger.error("Error ({} - {}) while starting workshop({})", e.getRawStatusCode(), e.getStatusText(), workshopName);
+                if (retries-- > 0){
+                    return startWorkshop(workshopName, callbackUrl, retries);
+                }
+                return null;
+            }
+        }else{
+            logger.error("Not possible to execute startWorksho action as we don't have valid credentials for workshop {}", workshopName);
+            return null;
+        }
     }
     
 

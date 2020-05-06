@@ -143,7 +143,8 @@ public class WorkshopService {
         WorkshopLocation loc = wsl.get(rand.nextInt(wsl.size()));
         TrainingPortal tp = trainingPortals.get(loc.getTrainingPortal());
 
-        String workshopLaunchUrl = tp.startWorkshop(loc.getEnvironment(), callbackUrl);
+        int retries = 1;
+        String workshopLaunchUrl = tp.startWorkshop(loc.getEnvironment(), callbackUrl, retries);
         return workshopLaunchUrl;
     }
 

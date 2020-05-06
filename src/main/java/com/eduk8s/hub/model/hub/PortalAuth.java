@@ -2,7 +2,6 @@ package com.eduk8s.hub.model.hub;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalTime;
 import java.util.Objects;
 
 import com.eduk8s.hub.model.eduk8s.AuthResponse;
@@ -13,8 +12,8 @@ public class PortalAuth {
 
     private Instant authReponseTime;
 
-    // 30 seconds
-    private static final int overteadTime = 30;
+    // 600 seconds (10 minutes)
+    private static final int overteadTime = 600;
 
     public PortalAuth(AuthResponse authResp){
         this.authResponse = authResp;
@@ -22,14 +21,22 @@ public class PortalAuth {
     }
 
     /**
-     * PortalAuth is still valid if it hasn't reached 60 seconds before the expiration time
+     * PortalAuth is still valid if it hasn't reached 300 seconds before the expiration time
      * @return
      */
     public Boolean isValid(){
-        Duration expiryDuration = Duration.ofSeconds(authResponse.expires_in - overteadTime);
-        Duration.between(Instant.now(), authReponseTime);
-        return Duration.between(authReponseTime, Instant.now()).compareTo(expiryDuration)<0;
+        Duration validityPeriod = Duration.ofSeconds(authResponse.expires_in - overteadTime);
+        return Duration.between(authReponseTime, Instant.now()).compareTo(validityPeriod)<0;
     }
+
+    /**
+     * PortalAuth can be refreshed if it hasn't reached the expiration time (minus 2 seconds)
+     * @return
+     */
+    public Boolean canBeRefreshed() {
+        Duration expiryDuration = Duration.ofSeconds(authResponse.expires_in - 2);
+        return Duration.between(authReponseTime, Instant.now()).compareTo(expiryDuration)<0;
+	}
 
     public String getAccessToken(){
         return authResponse.access_token;
@@ -82,5 +89,4 @@ public class PortalAuth {
         System.out.println("[t] p4 is valid: " + p4.isValid());
         System.out.println("[t] p5 is valid: " + p5.isValid());
     }
-
 }

@@ -8,7 +8,6 @@ RUN mvn -e -B package
 FROM adoptopenjdk:11-jre-hotspot as layers
 WORKDIR /application
 ARG JAR_FILE=/usr/src/app/target/*.jar
-RUN mkdir dependencies snapshot-dependencies resources application
 COPY --from=builder ${JAR_FILE} application.jar
 RUN java -Djarmode=layertools -jar application.jar extract
 
