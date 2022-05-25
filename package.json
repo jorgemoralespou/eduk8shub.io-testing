@@ -4,7 +4,7 @@
   "description": "Site for eduk8s hub.",
   "main": "Gruntfile.js",
   "dependencies": {
-    "grunt": "^1.1.0",
+    "grunt": "^1.5.3",
     "string": "^3.3.3",
     "yamljs": "^0.3.0"
   },
